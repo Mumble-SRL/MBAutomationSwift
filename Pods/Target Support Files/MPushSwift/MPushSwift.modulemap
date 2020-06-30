@@ -1,0 +1,6 @@
+framework module MPushSwift {
+  umbrella header "MPushSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module MBurgerSwift {
+  umbrella header "MBurgerSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}

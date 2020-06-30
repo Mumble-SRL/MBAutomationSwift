@@ -1,0 +1,6 @@
+framework module MBMessagesSwift {
+  umbrella header "MBMessagesSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}
