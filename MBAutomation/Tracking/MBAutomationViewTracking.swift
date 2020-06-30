@@ -25,10 +25,24 @@ class MBAutomationViewTracking: NSObject {
     }
     
     static func trackViewForViewController(viewController: UIViewController) {
-        if let viewName = viewController.mbTrackingName {
-            print(viewName)
+        let metadata = viewController.mbaTrackingMetadata
+        
+        if let viewName = viewController.mbaTrackingName {
+            let view = MBAutomationView(view: viewName,
+                                        metadata: metadata)
+            MBAutomationTrackingManager.shared.trackView(view)
         } else {
-            print(String(describing: viewController.self))
+            let appBundle = Bundle.main
+            let classBundle = Bundle(for: type(of: viewController).self)
+            let isAppClass = classBundle.bundlePath.hasPrefix(appBundle.bundlePath)
+            guard isAppClass else {
+                return
+            }
+            
+            let className = String(describing: type(of: viewController).self)
+            let view = MBAutomationView(view: className,
+                                        metadata: metadata)
+            MBAutomationTrackingManager.shared.trackView(view)
         }
     }
 }

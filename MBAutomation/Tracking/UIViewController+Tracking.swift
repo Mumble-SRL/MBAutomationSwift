@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 private var _trackingNameKey: UInt8 = 181
+private var _trackingMetadataKey: UInt8 = 182
 
 extension UIViewController {
     // MARK: - Method Swizzling
@@ -20,12 +21,22 @@ extension UIViewController {
     }
     
     /// Name that will be sent to MBurger automation instead of the class name
-    public var mbTrackingName: String? {
+    public var mbaTrackingName: String? {
         get {
             return objc_getAssociatedObject(self, &_trackingNameKey) as? String
         }
         set {
             objc_setAssociatedObject(self, &_trackingNameKey, newValue, .OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+
+    /// Metdata that will be sent to MBurger automation for this viewController, you need to set this before `viewDidAppear` is called
+    public var mbaTrackingMetadata: [String: Any]? {
+        get {
+            return objc_getAssociatedObject(self, &_trackingMetadataKey) as? [String: Any]
+        }
+        set {
+            objc_setAssociatedObject(self, &_trackingMetadataKey, newValue, .OBJC_ASSOCIATION_RETAIN)
         }
     }
 

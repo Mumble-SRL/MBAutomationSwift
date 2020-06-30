@@ -107,7 +107,7 @@ Pod::Spec.new do |s|
   #  the lib prefix of their name.
   #
   s.frameworks = "SafariServices"
-  # s.library   = "iconv"
+  s.library   = "sqlite3"
   # s.libraries = "iconv", "xml2"
 
 
