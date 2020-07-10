@@ -154,7 +154,7 @@ class MBAutomationDatabase: NSObject {
                         eventName = stringForCString(eventNameString)
                     }
                     var metadata: [String: Any]?
-                    if let metadataString = sqlite3_column_text(queryStatement, 2) {
+                    if let metadataString = sqlite3_column_text(queryStatement, 3) {
                         metadata = jsonDictionaryForCString(metadataString)
                     }
                     let timeStamp = sqlite3_column_double(queryStatement, 4)
@@ -175,6 +175,70 @@ class MBAutomationDatabase: NSObject {
         }
     }
     
+    // MARK: - Deletion
+
+    static func deleteViews(_ views: [MBAutomationView],
+                            completion: (() -> Void)? = nil) {
+        guard views.count != 0 else {
+            if let completion = completion {
+                completion()
+            }
+            return
+        }
+        dbQueue.async {
+            guard let db = openDatabase() else {
+                return
+            }
+            
+            let viewIds = views.compactMap({ String($0.id ?? 0) })
+            let query = String(format: "DELETE FROM view WHERE id IN (%@)", viewIds.joined(separator: ","))
+            
+            var deleteStatement: OpaquePointer? = nil
+            if sqlite3_prepare_v2(db, query, -1, &deleteStatement, nil) == SQLITE_OK {
+                sqlite3_step(deleteStatement)
+            }
+
+            sqlite3_finalize(deleteStatement)
+
+            sqlite3_close(db)
+            
+            if let completion = completion {
+                completion()
+            }
+        }
+    }
+    
+    static func deleteEvents(_ events: [MBAutomationEvent],
+                             completion: (() -> Void)? = nil) {
+        guard events.count != 0 else {
+            if let completion = completion {
+                completion()
+            }
+            return
+        }
+        
+        dbQueue.async {
+            guard let db = openDatabase() else {
+                return
+            }
+            
+            let eventsIds = events.compactMap({ String($0.id ?? 0) })
+            let query = String(format: "DELETE FROM event WHERE id IN (%@)", eventsIds.joined(separator: ","))
+            
+            var deleteStatement: OpaquePointer? = nil
+            if sqlite3_prepare_v2(db, query, -1, &deleteStatement, nil) == SQLITE_OK {
+                sqlite3_step(deleteStatement)
+            }
+
+            sqlite3_finalize(deleteStatement)
+            sqlite3_close(db)
+            
+            if let completion = completion {
+                completion()
+            }
+        }
+    }
+
     // MARK: - DB Utilities
     
     private static func openDatabase() -> OpaquePointer? {

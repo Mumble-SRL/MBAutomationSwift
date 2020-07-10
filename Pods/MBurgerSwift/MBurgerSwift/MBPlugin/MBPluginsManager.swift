@@ -8,8 +8,10 @@
 
 import UIKit
 
-/// The main class that manages the plugins
-class MBPluginsManager {
+/// The main class that manages and synchronize MBurger plugins
+public class MBPluginsManager {
+    
+    /// Function called at startup by MBurger to do startup jobs
     static func handlePluginStartup(plugins: [MBPlugin],
                                     launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         guard plugins.count != 0 else {
@@ -50,4 +52,22 @@ class MBPluginsManager {
         })
     }
 
+    /// Syncronize location data coming from the plugins, this function is used by audience plugin to tell other plugins that new data is available.
+    /// - Parameters:
+    ///   - latitude: The new latitude.
+    ///   - longitude: The new longitude.
+    public static func locationDataUpdated(latitude: Double, longitude: Double) {
+        for plugin in MBManager.shared.plugins {
+            plugin.locationDataUpdated(latitude: latitude, longitude: longitude)
+        }
+    }
+    
+    /// Used to pass campaigns from MBMessages & MBAutomation in order to display automation campaigns based on the triggers
+    /// - Parameters:
+    ///   - campaigns: The campaigns fetched, tipically `MBCampaign` objects
+    public static func campaignsReceived(campaigns: [Any]) {
+        for plugin in MBManager.shared.plugins {
+            plugin.campaignsReceived(campaings: campaigns)
+        }
+    }
 }

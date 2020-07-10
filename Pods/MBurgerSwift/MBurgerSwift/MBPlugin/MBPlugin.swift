@@ -18,7 +18,8 @@ public protocol MBPlugin {
     var userKey: String? { get }
     
     /// Returns a object that will be inserted in the pluginsObjects property of the user.
-    /// - Parameter response: The response to read data from.
+    /// - Parameters:
+    ///   - response: The response to read data from.
     func object(forUserResponse response: [String: Any]) -> Any?
     
     /// Order of the application startup block
@@ -26,6 +27,17 @@ public protocol MBPlugin {
     
     /// Application startup block
     func applicationStartupBlock() -> ApplicationStartupBlock?
+    
+    /// Function called by MBurger when new location data is available, used to synchronize audience location with automated messages
+    /// - Parameters:
+    ///   - latitude: The new latitude.
+    ///   - longitude: The new longitude.
+    func locationDataUpdated(latitude: Double, longitude: Double)
+    
+    /// Function called by MBurger when campaigns are received, used to sync MBMessages with MBAutomation
+    /// - Parameters:
+    ///   - campaigns: Campaigns received.
+    func campaignsReceived(campaings: [Any])
 }
 
 /// Default values for plugin protocol
@@ -50,4 +62,10 @@ public extension MBPlugin {
     func applicationStartupBlock() -> ApplicationStartupBlock? {
         return nil
     }
+    
+    /// Default implementation for locationDataUpdated: empty, no action needed
+    func locationDataUpdated(latitude: Double, longitude: Double) { }
+    
+    /// Default implementation for campaigns retreival: empty, no action needed
+    func campaignsReceived(campaings: [Any]) { }
 }

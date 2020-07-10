@@ -15,6 +15,8 @@ class MBAutomationTrackingManager: NSObject {
     let timerTime = TimeInterval(10)
     var checkQueueTimer: Timer?
     
+    var sendingData: Bool = false
+    
     func trackView(_ view: MBAutomationView) {
         saveViewInDb(view)
     }
@@ -31,7 +33,7 @@ class MBAutomationTrackingManager: NSObject {
         }
         MBAutomationDatabase.saveView(view)
     }
-
+    
     private func saveEventInDb(_ event: MBAutomationEvent) {
         guard trackingEnabled() else {
             return
@@ -62,9 +64,18 @@ class MBAutomationTrackingManager: NSObject {
     }
     
     @objc func checkQueue() {
+        // If already sending data skip this cycle and do the task on next
+        if sendingData {
+            return
+        }
+        sendingData = true
         checkViewsQueue { [weak self] in
             if let strongSelf = self {
-                strongSelf.checkEventsQueue()
+                strongSelf.checkEventsQueue{ [weak self] in
+                    if let strongSelf = self {
+                        strongSelf.sendingData = false
+                    }
+                }
             }
         }
     }
@@ -83,12 +94,25 @@ class MBAutomationTrackingManager: NSObject {
                 }
                 return
             }
-
-            print(views)
             
-            if let completion = completion {
-                completion()
-            }
+            let viewsDictionaries = views.compactMap({ $0.apiDictionary() })
+            MBApiManager.request(withToken: MBManager.shared.apiToken,
+                                 locale: MBManager.shared.localeString,
+                                 apiName: "project/client-views",
+                                 method: .post,
+                                 parameters: ["views": viewsDictionaries],
+                                 development: MBManager.shared.development,
+                                 success: { _ in
+                                    MBAutomationDatabase.deleteViews(views, completion: {
+                                        if let completion = completion {
+                                            completion()
+                                        }
+                                    })
+            }, failure: { _ in
+                if let completion = completion {
+                    completion()
+                }
+            })
         }
     }
     
@@ -107,8 +131,24 @@ class MBAutomationTrackingManager: NSObject {
                 return
             }
             
-            print(events)
+            let eventsDictionaries = events.compactMap({ $0.apiDictionary() })
+            MBApiManager.request(withToken: MBManager.shared.apiToken,
+                                 locale: MBManager.shared.localeString,
+                                 apiName: "project/client-events",
+                                 method: .post,
+                                 parameters: ["events": eventsDictionaries],
+                                 development: MBManager.shared.development,
+                                 success: { _ in
+                                    MBAutomationDatabase.deleteEvents(events, completion: {
+                                        if let completion = completion {
+                                            completion()
+                                        }
+                                    })
+            }, failure: { _ in
+                if let completion = completion {
+                    completion()
+                }
+            })
         }
     }
-
 }

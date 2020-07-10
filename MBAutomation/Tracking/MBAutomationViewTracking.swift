@@ -30,6 +30,7 @@ class MBAutomationViewTracking: NSObject {
         if let viewName = viewController.mbaTrackingName {
             let view = MBAutomationView(view: viewName,
                                         metadata: metadata)
+            MBAutomationMessagesManager.screenViewed(view: view)
             MBAutomationTrackingManager.shared.trackView(view)
         } else {
             let appBundle = Bundle.main
@@ -42,6 +43,7 @@ class MBAutomationViewTracking: NSObject {
             let className = String(describing: type(of: viewController).self)
             let view = MBAutomationView(view: className,
                                         metadata: metadata)
+            MBAutomationMessagesManager.screenViewed(view: view)
             MBAutomationTrackingManager.shared.trackView(view)
         }
     }

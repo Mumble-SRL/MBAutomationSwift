@@ -8,6 +8,7 @@
 
 import UIKit
 import MBurgerSwift
+import MBMessagesSwift
 
 public class MBAutomation: NSObject, MBPlugin {
     
@@ -23,6 +24,7 @@ public class MBAutomation: NSObject, MBPlugin {
         }
         self.trackingEnabled = trackingEnabled
         MBAutomationDatabase.setupTables()
+        MBAutomationMessagesManager.startMessagesTimer(time: 30.0)
     }
     
     /// Sets the current view controller, this can be used if automatic view tracking is disabled or to force a particular screen
@@ -36,9 +38,10 @@ public class MBAutomation: NSObject, MBPlugin {
         let event = MBAutomationEvent(event: event,
                                       name: name,
                                       metadata: metadata)
+        MBAutomationMessagesManager.eventHappened(event: event)
         MBAutomationTrackingManager.shared.trackEvent(event)
     }
-
+    
     public var applicationStartupOrder: Int {
         return 3
     }
@@ -50,5 +53,19 @@ public class MBAutomation: NSObject, MBPlugin {
                 completionBlock()
             }
         }
+    }
+    
+    public func messagesReceived(messages: inout [AnyObject], fromStartup: Bool) {
+        MBAutomationMessagesManager.setTriggers(toMessages: &messages)
+        
+        guard let messages = messages as? [MBMessage] else {
+            return
+        }
+
+        let automationMessages = messages.filter({ $0.automationIsOn })
+
+        //TODO save messages and check triggers
+        MBAutomationMessagesManager.saveMessages(automationMessages, fromFetch: true)
+        MBAutomationMessagesManager.checkMessages(fromStartup: fromStartup)
     }
 }

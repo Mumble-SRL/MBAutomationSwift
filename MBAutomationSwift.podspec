@@ -123,5 +123,6 @@ Pod::Spec.new do |s|
 
   s.dependency "MBurgerSwift"
   s.dependency "MBMessagesSwift"
+  s.dependency "MBAudienceSwift"
 
 end

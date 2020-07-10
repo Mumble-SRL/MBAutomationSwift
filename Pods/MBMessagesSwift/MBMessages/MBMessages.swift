@@ -88,8 +88,7 @@ public class MBMessages: NSObject, MBPlugin {
                                 }
                                 
                                 let campaigns = body.map({ MBCampaign(dictionary: $0)})
-                                
-                                //TODO: send campaigns to MBurger to dispatch to automation
+                                MBPluginsManager.campaignsReceived(campaigns: campaigns)
                                 
                                 let delay = self?.messagesDelay ?? 0
                                 let messagesCampaigns = campaigns.filter({ $0.type == .inAppMessage })

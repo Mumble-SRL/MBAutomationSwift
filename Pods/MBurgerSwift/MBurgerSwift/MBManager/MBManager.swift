@@ -52,6 +52,9 @@ public final class MBManager {
         return String(localeIdentifier.prefix(upTo: index))
     }
     
+    // MARK: - Plugins handling
+    
+    /// Tells to MBurger and plugins that the app has started, used to do some startup work for audience and automation plugins.
     public func applicationDidFinishLaunchingWithOptions(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         
         MBPluginsManager.handlePluginStartup(plugins: plugins,

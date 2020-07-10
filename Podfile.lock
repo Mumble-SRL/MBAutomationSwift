@@ -11,8 +11,8 @@ PODS:
   - SAMKeychain (1.5.3)
 
 DEPENDENCIES:
-  - MBMessagesSwift (from `https://github.com/Mumble-SRL/MBMessagesSwift.git`, branch `develop`)
-  - "MBurgerSwift (from `git@github.com:Mumble-SRL/MBurgerSwift.git`, branch `develop`)"
+  - MBMessagesSwift (from `../MBMessages`)
+  - MBurgerSwift (from `../MBurgerSwift`)
 
 SPEC REPOS:
   trunk:
@@ -22,19 +22,9 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   MBMessagesSwift:
-    :branch: develop
-    :git: https://github.com/Mumble-SRL/MBMessagesSwift.git
+    :path: "../MBMessages"
   MBurgerSwift:
-    :branch: develop
-    :git: "git@github.com:Mumble-SRL/MBurgerSwift.git"
-
-CHECKOUT OPTIONS:
-  MBMessagesSwift:
-    :commit: f3203199c71d18f6ba76320fdb2349e7c2063a59
-    :git: https://github.com/Mumble-SRL/MBMessagesSwift.git
-  MBurgerSwift:
-    :commit: fd06a327fbcd7303c2d8ac253bba221e9a7c86ab
-    :git: "git@github.com:Mumble-SRL/MBurgerSwift.git"
+    :path: "../MBurgerSwift"
 
 SPEC CHECKSUMS:
   MBMessagesSwift: 447d84393cdd9e18b2de2cb20a72327278ec8254
@@ -43,6 +33,6 @@ SPEC CHECKSUMS:
   MPushSwift: 57b2dce59e51a17ae8f10d7863cbab8386eee485
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
 
-PODFILE CHECKSUM: 1f32f7868f53143f883679abf33e5bc405dad0d4
+PODFILE CHECKSUM: 59d872dae8474d558ba6538dec4176934e49435e
 
 COCOAPODS: 1.9.3
