@@ -25,6 +25,7 @@ public class MBAutomation: NSObject, MBPlugin {
         self.trackingEnabled = trackingEnabled
         MBAutomationDatabase.setupTables()
         MBAutomationMessagesManager.startMessagesTimer(time: 30.0)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     /// Sets the current view controller, this can be used if automatic view tracking is disabled or to force a particular screen
@@ -64,8 +65,15 @@ public class MBAutomation: NSObject, MBPlugin {
 
         let automationMessages = messages.filter({ $0.automationIsOn })
 
-        //TODO save messages and check triggers
         MBAutomationMessagesManager.saveMessages(automationMessages, fromFetch: true)
         MBAutomationMessagesManager.checkMessages(fromStartup: fromStartup)
+    }
+    
+    public func tagChanged(tag: String, value: String?) {
+        MBAutomationMessagesManager.tagChanged(tag: tag, value: value)
+    }
+    
+    @objc private func applicationDidBecomeActive() {
+        MBAutomationMessagesManager.checkMessages(fromStartup: false)
     }
 }

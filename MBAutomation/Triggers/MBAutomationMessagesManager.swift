@@ -10,9 +10,9 @@ import UIKit
 import MBMessagesSwift
 import MBurgerSwift
 
-class MBAutomationMessagesManager: MBTrigger {
+class MBAutomationMessagesManager {
     static var timer: Timer?
-    
+        
     //MARK: - Set triggers
     
     static func setTriggers(toMessages messages: inout [AnyObject]) {
@@ -124,7 +124,7 @@ class MBAutomationMessagesManager: MBTrigger {
         }
         if messagesToShow.count != 0 {
             let inAppMessages = messagesToShow.filter({ $0.type == .inAppMessage && $0.inAppMessage != nil })
-            if inAppMessages.count != 0 {
+            if inAppMessages.count != 0 && UIApplication.shared.applicationState == .background {
                 if let plugin = MBManager.shared.plugins.first(where: { $0 is MBMessages }) as? MBMessages {
                     MBInAppMessageManager.presentMessages(inAppMessages,
                                                           delegate: plugin.viewDelegate,
@@ -135,6 +135,30 @@ class MBAutomationMessagesManager: MBTrigger {
         }
     }
         
+    static func tagChanged(tag: String, value: String?) {
+        let savedMessages = self.savedMessages()
+        guard savedMessages.count != 0 else {
+            return
+        }
+        
+        var somethingChanged = false
+        for message in savedMessages {
+            if let trigger = message.triggers as? MBMessageTriggers,
+                let tagTriggers = trigger.triggers.filter({ $0 is MBTagChangeTrigger }) as? [MBTagChangeTrigger] {
+                for tagTrigger in tagTriggers {
+                    let triggerChanged = tagTrigger.tagChanged(tag: tag, value: value)
+                    if triggerChanged {
+                        somethingChanged = true
+                    }
+                }
+            }
+        }
+        if somethingChanged {
+            saveMessages(savedMessages, fromFetch: false)
+        }
+        checkMessages(fromStartup: false)
+    }
+
     //MARK: - Message saving
     
     static func saveMessages(_ messages: [MBMessage], fromFetch: Bool) {

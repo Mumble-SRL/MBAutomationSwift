@@ -38,6 +38,7 @@ public class MBEventTrigger: MBTrigger {
                   metadata: metadata)
     }
 
+    // Called when an evens happen, returns if the ttag has changed
     func eventHappened(event: MBAutomationEvent) -> Bool {
         var isTriggerEvent = false
         if event.event == self.event {

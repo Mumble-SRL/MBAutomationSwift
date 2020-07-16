@@ -19,6 +19,8 @@ public class MBTagChangeTrigger: MBTrigger {
     
     public let tagChangeOperator: MBTagChangeOperator
     
+    public var completionDate: Date? // The date this trigger becomes true
+
     init(id: String,
          tag: String,
          value: String,
@@ -41,8 +43,29 @@ public class MBTagChangeTrigger: MBTrigger {
                   tagChangeOperator: tagChangeOperator)
     }
 
+    func tagChanged(tag: String, value: String?) -> Bool {
+        guard tag == self.tag else {
+            return false
+        }
+        
+        let newValue = value ?? ""
+        if tagChangeOperator == .equal {
+            if newValue == self.value {
+                completionDate = Date()
+                return true
+            }
+        } else if tagChangeOperator == .notEqual {
+            if newValue != self.value {
+                completionDate = Date()
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     override func isValid(fromAppStartup: Bool) -> Bool {
-        return true
+        return completionDate != nil
     }
 
     //MARK: - Save & retrieve
@@ -52,10 +75,15 @@ public class MBTagChangeTrigger: MBTrigger {
         let tag = dictionary["tag"] as? String ?? ""
         let value = dictionary["value"] as? String ?? ""
         let tagChangeOperatorInt = dictionary["tagChangeOperator"] as? Int ?? 0
+
         self.init(id: id,
                   tag: tag,
                   value: value,
                   tagChangeOperator: MBTagChangeOperator(rawValue: tagChangeOperatorInt) ?? .equal)
+        
+        if let completionDate = dictionary["completionDate"] as? TimeInterval {
+            self.completionDate = Date(timeIntervalSince1970: completionDate)
+        }
     }
 
     override func toJsonDictionary() -> [String : Any] {
@@ -63,7 +91,10 @@ public class MBTagChangeTrigger: MBTrigger {
         dictionary["tag"] = tag
         dictionary["value"] = value
         dictionary["tagChangeOperator"] = tagChangeOperator.rawValue
-        
+        if let completionDate = completionDate {
+            dictionary["completionDate"] = completionDate.timeIntervalSince1970
+        }
+
         return dictionary
     }
 

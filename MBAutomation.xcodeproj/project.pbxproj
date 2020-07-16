@@ -24,7 +24,7 @@
 		EC83B0D324AB3D4100F4AC2D /* MBAutomationViewTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC83B0D224AB3D4100F4AC2D /* MBAutomationViewTracking.swift */; };
 		EC83B0D624AB609D00F4AC2D /* MBAutomationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC83B0D524AB609D00F4AC2D /* MBAutomationView.swift */; };
 		EC83B0D824AB60AD00F4AC2D /* MBAutomationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC83B0D724AB60AD00F4AC2D /* MBAutomationEvent.swift */; };
-		ECA385D324B4650500075EA2 /* MBMessagesTriggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA385D224B4650500075EA2 /* MBMessagesTriggers.swift */; };
+		ECA385D324B4650500075EA2 /* MBMessageTriggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA385D224B4650500075EA2 /* MBMessageTriggers.swift */; };
 		ECA385D924B4715000075EA2 /* MBMessage+Saving.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA385D824B4715000075EA2 /* MBMessage+Saving.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,7 +51,7 @@
 		EC83B0D224AB3D4100F4AC2D /* MBAutomationViewTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBAutomationViewTracking.swift; sourceTree = "<group>"; };
 		EC83B0D524AB609D00F4AC2D /* MBAutomationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBAutomationView.swift; sourceTree = "<group>"; };
 		EC83B0D724AB60AD00F4AC2D /* MBAutomationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBAutomationEvent.swift; sourceTree = "<group>"; };
-		ECA385D224B4650500075EA2 /* MBMessagesTriggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBMessagesTriggers.swift; sourceTree = "<group>"; };
+		ECA385D224B4650500075EA2 /* MBMessageTriggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBMessageTriggers.swift; sourceTree = "<group>"; };
 		ECA385D824B4715000075EA2 /* MBMessage+Saving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MBMessage+Saving.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,7 +103,7 @@
 				EC59169824B372760035310A /* MBTagChangeTrigger.swift */,
 				EC59169924B372760035310A /* MBTrigger.swift */,
 				EC59169E24B372770035310A /* MBViewTrigger.swift */,
-				ECA385D224B4650500075EA2 /* MBMessagesTriggers.swift */,
+				ECA385D224B4650500075EA2 /* MBMessageTriggers.swift */,
 				EC5916A624B372950035310A /* MBAutomationMessagesManager.swift */,
 				ECA385D824B4715000075EA2 /* MBMessage+Saving.swift */,
 			);
@@ -268,7 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EC5916A224B372770035310A /* MBLocationTrigger.swift in Sources */,
-				ECA385D324B4650500075EA2 /* MBMessagesTriggers.swift in Sources */,
+				ECA385D324B4650500075EA2 /* MBMessageTriggers.swift in Sources */,
 				EC5916A024B372770035310A /* MBTrigger.swift in Sources */,
 				EC59169F24B372770035310A /* MBTagChangeTrigger.swift in Sources */,
 				ECA385D924B4715000075EA2 /* MBMessage+Saving.swift in Sources */,
