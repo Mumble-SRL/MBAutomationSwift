@@ -1,0 +1,18 @@
+disabled_rules: # rule identifiers to exclude from running
+  - todo
+  - trailing_whitespace
+  - line_length
+  - function_body_length
+  - function_parameter_count
+  - file_length
+  - type_body_length
+  - cyclomatic_complexity
+  - discarded_notification_center_observer
+  - identifier_name
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - Carthage
+  - Pods
+  - CocoaMarkdown
+
+
+

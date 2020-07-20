@@ -41,7 +41,7 @@ public class MBTrigger: NSObject {
         return false
     }
     
-    //MARK: - Save & retrieve
+    // MARK: - Save & retrieve
     
     func toJsonDictionary() -> [String: Any] {
         return ["id": id,

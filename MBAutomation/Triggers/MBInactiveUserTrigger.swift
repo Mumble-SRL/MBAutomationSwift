@@ -39,7 +39,7 @@ public class MBInactiveUserTrigger: MBTrigger {
         return days >= self.days
     }
 
-    //MARK: - Save & retrieve
+    // MARK: - Save & retrieve
 
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
@@ -47,7 +47,7 @@ public class MBInactiveUserTrigger: MBTrigger {
         self.init(id: id, days: days)
     }
 
-    override func toJsonDictionary() -> [String : Any] {
+    override func toJsonDictionary() -> [String: Any] {
         var dictionary = super.toJsonDictionary()
         dictionary["days"] = days
         return dictionary

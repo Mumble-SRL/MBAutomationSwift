@@ -71,7 +71,7 @@ public class MBEventTrigger: MBTrigger {
         return completionDate != nil
     }
 
-    //MARK: - Save & retrieve
+    // MARK: - Save & retrieve
 
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
@@ -87,7 +87,7 @@ public class MBEventTrigger: MBTrigger {
         self.numberOfTimes = dictionary["numberOfTimes"] as? Int
     }
 
-    override func toJsonDictionary() -> [String : Any] {
+    override func toJsonDictionary() -> [String: Any] {
         var dictionary = super.toJsonDictionary()
         dictionary["event"] = event
         dictionary["times"] = times

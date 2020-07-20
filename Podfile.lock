@@ -1,4 +1,6 @@
 PODS:
+  - MBAudienceSwift (0.1):
+    - MBurgerSwift
   - MBMessagesSwift (0.1):
     - MBurgerSwift
     - MPushSwift
@@ -11,6 +13,7 @@ PODS:
   - SAMKeychain (1.5.3)
 
 DEPENDENCIES:
+  - MBAudienceSwift (from `../MBAudience`)
   - MBMessagesSwift (from `../MBMessages`)
   - MBurgerSwift (from `../MBurgerSwift`)
 
@@ -21,18 +24,21 @@ SPEC REPOS:
     - SAMKeychain
 
 EXTERNAL SOURCES:
+  MBAudienceSwift:
+    :path: "../MBAudience"
   MBMessagesSwift:
     :path: "../MBMessages"
   MBurgerSwift:
     :path: "../MBurgerSwift"
 
 SPEC CHECKSUMS:
+  MBAudienceSwift: cdd98970cee6e62b47eacf424ac60f045b8e678b
   MBMessagesSwift: 447d84393cdd9e18b2de2cb20a72327278ec8254
   MBNetworkingSwift: 293afd6c2a20e9d242204ad3a868f44fa7d8e23f
   MBurgerSwift: 9da24875a175995993a9658f68e7d40c87d7a3bc
   MPushSwift: 57b2dce59e51a17ae8f10d7863cbab8386eee485
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
 
-PODFILE CHECKSUM: 59d872dae8474d558ba6538dec4176934e49435e
+PODFILE CHECKSUM: 9659fddf422fbe4a85e5c309bdaaff69c28a11a1
 
 COCOAPODS: 1.9.3

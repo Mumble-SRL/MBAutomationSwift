@@ -26,6 +26,7 @@
 		EC83B0D824AB60AD00F4AC2D /* MBAutomationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC83B0D724AB60AD00F4AC2D /* MBAutomationEvent.swift */; };
 		ECA385D324B4650500075EA2 /* MBMessageTriggers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA385D224B4650500075EA2 /* MBMessageTriggers.swift */; };
 		ECA385D924B4715000075EA2 /* MBMessage+Saving.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA385D824B4715000075EA2 /* MBMessage+Saving.swift */; };
+		ECB838F024C5A70E004E174D /* MBAutomationPushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB838EF24C5A70E004E174D /* MBAutomationPushNotificationsManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		EC83B0D724AB60AD00F4AC2D /* MBAutomationEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBAutomationEvent.swift; sourceTree = "<group>"; };
 		ECA385D224B4650500075EA2 /* MBMessageTriggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBMessageTriggers.swift; sourceTree = "<group>"; };
 		ECA385D824B4715000075EA2 /* MBMessage+Saving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MBMessage+Saving.swift"; sourceTree = "<group>"; };
+		ECB838EF24C5A70E004E174D /* MBAutomationPushNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBAutomationPushNotificationsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				EC59169E24B372770035310A /* MBViewTrigger.swift */,
 				ECA385D224B4650500075EA2 /* MBMessageTriggers.swift */,
 				EC5916A624B372950035310A /* MBAutomationMessagesManager.swift */,
+				ECB838EF24C5A70E004E174D /* MBAutomationPushNotificationsManager.swift */,
 				ECA385D824B4715000075EA2 /* MBMessage+Saving.swift */,
 			);
 			path = Triggers;
@@ -184,6 +187,7 @@
 				EC83B0BF24AB35FC00F4AC2D /* Sources */,
 				EC83B0C024AB35FC00F4AC2D /* Frameworks */,
 				EC83B0C124AB35FC00F4AC2D /* Resources */,
+				ECB838F324C5C8A3004E174D /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -260,6 +264,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		ECB838F324C5C8A3004E174D /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -281,6 +303,7 @@
 				EC83B0D124AB39C300F4AC2D /* UIViewController+Tracking.swift in Sources */,
 				EC5916A124B372770035310A /* MBInactiveUserTrigger.swift in Sources */,
 				EC5916A424B372770035310A /* MBAppOpeningTrigger.swift in Sources */,
+				ECB838F024C5A70E004E174D /* MBAutomationPushNotificationsManager.swift in Sources */,
 				EC2BCC2124AB657100FFBB21 /* MBAutomationDatabase.swift in Sources */,
 				EC83B0CF24AB36EF00F4AC2D /* MBAutomation.swift in Sources */,
 				EC5916A724B372950035310A /* MBAutomationMessagesManager.swift in Sources */,

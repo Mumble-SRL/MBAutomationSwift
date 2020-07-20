@@ -60,7 +60,7 @@ class MBMessageTriggers: NSObject {
         return true
     }
         
-    //MARK: - Save & retrieve
+    // MARK: - Save & retrieve
 
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let methodInt = dictionary["method"] as? Int ?? 0

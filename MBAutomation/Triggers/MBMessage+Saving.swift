@@ -184,10 +184,24 @@ extension MBInAppMessageButton {
 
 extension MBPushMessage {
     func toJsonDictionary() -> [String: Any] {
-        return ["id": id,
-                "title": title,
-                "body": body,
-                "sent": sent]
+        var jsonDictionary: [String: Any] = ["id": id,
+                                             "title": title,
+                                             "body": body,
+                                             "sent": sent]
+        if let badge = badge {
+            jsonDictionary["badge"] = badge
+        }
+        if let sound = sound {
+            jsonDictionary["sound"] = sound
+        }
+        if let launchImage = launchImage {
+            jsonDictionary["launchImage"] = launchImage
+        }
+        if let userInfo = userInfo {
+            jsonDictionary["userInfo"] = userInfo
+        }
+
+        return jsonDictionary
     }
     
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
@@ -195,9 +209,17 @@ extension MBPushMessage {
         let title = dictionary["title"] as? String ?? ""
         let body = dictionary["body"] as? String ?? ""
         let sent = dictionary["sentt"] as? Bool ?? false
+        let badge = dictionary["badge"] as? Int
+        let sound = dictionary["sound"] as? String
+        let launchImage = dictionary["launchImage"] as? String
+        let userInfo = dictionary["userInfo"] as? [String: Any]
         self.init(id: id,
                   title: title,
                   body: body,
+                  badge: badge,
+                  sound: sound,
+                  launchImage: launchImage,
+                  userInfo: userInfo,
                   sent: sent)
     }
 }
@@ -213,19 +235,29 @@ private extension UIColor {
         
         let rgb: Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
         
-        return String(format:"#%06x", rgb)
+        return String(format: "#%06x", rgb)
     }
     
-    convenience init(hexString:String) {
+    convenience init(hexString: String) {
         let hexString = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let scanner = Scanner(string: hexString)
         
-        if (hexString.hasPrefix("#")) {
-            scanner.scanLocation = 1
+        if hexString.hasPrefix("#") {
+            if #available(iOS 13, *) {
+                scanner.currentIndex = hexString.index(after: hexString.startIndex)
+            } else {
+                scanner.scanLocation = 1
+            }
         }
         
-        var color:UInt32 = 0
-        scanner.scanHexInt32(&color)
+        var color: UInt32 = 0
+        if #available(iOS 13, *) {
+            var color64: UInt64 = 0
+            scanner.scanHexInt64(&color64)
+            color = UInt32(color64)
+        } else {
+            scanner.scanHexInt32(&color)
+        }
 
         let mask = 0x000000FF
         let r = Int(color >> 16) & mask
@@ -236,7 +268,7 @@ private extension UIColor {
         let green = CGFloat(g) / 255.0
         let blue  = CGFloat(b) / 255.0
 
-        self.init(red:red, green:green, blue:blue, alpha:1)
+        self.init(red: red, green: green, blue: blue, alpha: 1)
     }
 
 }

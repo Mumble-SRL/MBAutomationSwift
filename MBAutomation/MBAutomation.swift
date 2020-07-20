@@ -19,7 +19,7 @@ public class MBAutomation: NSObject, MBPlugin {
     public init(trackingEnabled: Bool = true,
                 trackViewsAutomatically: Bool = true) {
         super.init()
-        if (trackViewsAutomatically) {
+        if trackViewsAutomatically {
             MBAutomationViewTracking.swizzleViewControllerDidAppear()
         }
         self.trackingEnabled = trackingEnabled
@@ -73,6 +73,10 @@ public class MBAutomation: NSObject, MBPlugin {
         MBAutomationMessagesManager.tagChanged(tag: tag, value: value)
     }
     
+    public func locationDataUpdated(latitude: Double, longitude: Double) {
+        MBAutomationMessagesManager.locationDataUpdated(latitude: latitude, longitude: longitude)
+    }
+
     @objc private func applicationDidBecomeActive() {
         MBAutomationMessagesManager.checkMessages(fromStartup: false)
     }

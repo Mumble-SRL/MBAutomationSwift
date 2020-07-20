@@ -21,14 +21,14 @@ class MBAutomationDatabase: NSObject {
         }
         
         let createViewTableString = "CREATE TABLE IF NOT EXISTS view (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, view TEXT, metadata TEXT, timestamp REAL);"
-        var createViewTableStatement: OpaquePointer? = nil
+        var createViewTableStatement: OpaquePointer?
         if sqlite3_prepare_v2(db, createViewTableString, -1, &createViewTableStatement, nil) == SQLITE_OK {
             sqlite3_step(createViewTableStatement)
         }
         sqlite3_finalize(createViewTableStatement)
         
         let createEventTableString = "CREATE TABLE IF NOT EXISTS event (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, event TEXT, name TEXT, metadata TEXT, timestamp REAL);"
-        var createEventTableStatement: OpaquePointer? = nil
+        var createEventTableStatement: OpaquePointer?
         if sqlite3_prepare_v2(db, createEventTableString, -1, &createEventTableStatement, nil) == SQLITE_OK {
             sqlite3_step(createEventTableStatement)
         }
@@ -48,7 +48,7 @@ class MBAutomationDatabase: NSObject {
             let metadataString = jsonString(fromDictionary: view.metadata)
             
             let insertStatementString = "INSERT INTO view (view, metadata, timestamp) VALUES (?, ?, ?);"
-            var insertStatement: OpaquePointer? = nil
+            var insertStatement: OpaquePointer?
             if sqlite3_prepare_v2(db, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
                 sqlite3_bind_text(insertStatement, 1, (view.view as NSString?)?.utf8String, -1, nil)
                 sqlite3_bind_text(insertStatement, 2, (metadataString as NSString?)?.utf8String, -1, nil)
@@ -71,7 +71,7 @@ class MBAutomationDatabase: NSObject {
             let metadataString = jsonString(fromDictionary: event.metadata)
             
             let insertStatementString = "INSERT INTO event (event, name, metadata, timestamp) VALUES (?, ?, ?, ?);"
-            var insertStatement: OpaquePointer? = nil
+            var insertStatement: OpaquePointer?
             if sqlite3_prepare_v2(db, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
                 sqlite3_bind_text(insertStatement, 1, (event.event as NSString?)?.utf8String, -1, nil)
                 sqlite3_bind_text(insertStatement, 2, (event.name as NSString?)?.utf8String, -1, nil)
@@ -109,7 +109,7 @@ class MBAutomationDatabase: NSObject {
             var views = [MBAutomationView]()
             
             let query = "SELECT id, view, metadata, timestamp FROM view ORDER BY timestamp ASC"
-            var queryStatement: OpaquePointer? = nil
+            var queryStatement: OpaquePointer?
             if sqlite3_prepare_v2(db, query, -1, &queryStatement, nil) == SQLITE_OK {
                 while sqlite3_step(queryStatement) == SQLITE_ROW {
                     let viewId = sqlite3_column_int(queryStatement, 0)
@@ -144,7 +144,7 @@ class MBAutomationDatabase: NSObject {
             var events = [MBAutomationEvent]()
             
             let query = "SELECT id, event, name, metadata, timestamp FROM event ORDER BY timestamp ASC"
-            var queryStatement: OpaquePointer? = nil
+            var queryStatement: OpaquePointer?
             if sqlite3_prepare_v2(db, query, -1, &queryStatement, nil) == SQLITE_OK {
                 while sqlite3_step(queryStatement) == SQLITE_ROW {
                     let eventId = sqlite3_column_int(queryStatement, 0)
@@ -193,7 +193,7 @@ class MBAutomationDatabase: NSObject {
             let viewIds = views.compactMap({ String($0.id ?? 0) })
             let query = String(format: "DELETE FROM view WHERE id IN (%@)", viewIds.joined(separator: ","))
             
-            var deleteStatement: OpaquePointer? = nil
+            var deleteStatement: OpaquePointer?
             if sqlite3_prepare_v2(db, query, -1, &deleteStatement, nil) == SQLITE_OK {
                 sqlite3_step(deleteStatement)
             }
@@ -225,7 +225,7 @@ class MBAutomationDatabase: NSObject {
             let eventsIds = events.compactMap({ String($0.id ?? 0) })
             let query = String(format: "DELETE FROM event WHERE id IN (%@)", eventsIds.joined(separator: ","))
             
-            var deleteStatement: OpaquePointer? = nil
+            var deleteStatement: OpaquePointer?
             if sqlite3_prepare_v2(db, query, -1, &deleteStatement, nil) == SQLITE_OK {
                 sqlite3_step(deleteStatement)
             }

@@ -5,4 +5,5 @@ target 'MBAutomation' do
     
     pod 'MBurgerSwift', path: '../MBurgerSwift'
     pod 'MBMessagesSwift', path: '../MBMessages'
+    pod 'MBAudienceSwift', path: '../MBAudience'
 end

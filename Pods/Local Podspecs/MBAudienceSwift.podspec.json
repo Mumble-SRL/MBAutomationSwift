@@ -1,0 +1,32 @@
+{
+  "name": "MBAudienceSwift",
+  "version": "0.1",
+  "summary": "MBurger audience plugin.",
+  "description": "MBurger audience plugin used to target messages only to certain audience.",
+  "homepage": "https://github.com/Mumble-SRL/MBAudienceSwift",
+  "license": {
+    "type": "Apache",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "LorenzOliveto": "lorenzo.oliveto@mumbleideas.it"
+  },
+  "platforms": {
+    "ios": "11.0"
+  },
+  "source": {
+    "git": "https://github.com/Mumble-SRL/MBAudienceSwift.git",
+    "tag": "0.1"
+  },
+  "source_files": [
+    "MBAudience/*.{h,m,swift}",
+    "MBAudience/**/*.{h,m,swift}"
+  ],
+  "frameworks": "CoreLocation",
+  "requires_arc": true,
+  "dependencies": {
+    "MBurgerSwift": [
+
+    ]
+  }
+}

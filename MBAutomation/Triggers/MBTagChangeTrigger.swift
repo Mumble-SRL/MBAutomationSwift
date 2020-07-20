@@ -68,7 +68,7 @@ public class MBTagChangeTrigger: MBTrigger {
         return completionDate != nil
     }
 
-    //MARK: - Save & retrieve
+    // MARK: - Save & retrieve
 
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
@@ -86,7 +86,7 @@ public class MBTagChangeTrigger: MBTrigger {
         }
     }
 
-    override func toJsonDictionary() -> [String : Any] {
+    override func toJsonDictionary() -> [String: Any] {
         var dictionary = super.toJsonDictionary()
         dictionary["tag"] = tag
         dictionary["value"] = value

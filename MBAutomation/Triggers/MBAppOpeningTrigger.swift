@@ -34,7 +34,7 @@ public class MBAppOpeningTrigger: MBTrigger {
         return currentSession >= times
     }
 
-    //MARK: - Save & retrieve
+    // MARK: - Save & retrieve
 
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
@@ -42,7 +42,7 @@ public class MBAppOpeningTrigger: MBTrigger {
         self.init(id: id, times: times)
     }
     
-    override func toJsonDictionary() -> [String : Any] {
+    override func toJsonDictionary() -> [String: Any] {
         var dictionary = super.toJsonDictionary()
         dictionary["times"] = times
         return dictionary

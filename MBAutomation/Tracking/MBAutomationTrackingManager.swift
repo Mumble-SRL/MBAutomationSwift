@@ -71,7 +71,7 @@ class MBAutomationTrackingManager: NSObject {
         sendingData = true
         checkViewsQueue { [weak self] in
             if let strongSelf = self {
-                strongSelf.checkEventsQueue{ [weak self] in
+                strongSelf.checkEventsQueue { [weak self] in
                     if let strongSelf = self {
                         strongSelf.sendingData = false
                     }
@@ -82,7 +82,7 @@ class MBAutomationTrackingManager: NSObject {
     
     private func checkViewsQueue(completion: (() -> Void)? = nil) {
         MBAutomationDatabase.views { views in
-            guard let views = views else  {
+            guard let views = views else {
                 if let completion = completion {
                     completion()
                 }
