@@ -81,6 +81,8 @@ class MBAutomationMessagesManager {
         })
     }
     
+    // MARK: - Events
+    
     static func eventHappened(event: MBAutomationEvent) {
         let savedMessages = self.savedMessages()
         guard savedMessages.count != 0 else {
@@ -105,10 +107,14 @@ class MBAutomationMessagesManager {
         checkMessages(fromStartup: false)
     }
     
+    // MARK: - Screen view
+
     static func screenViewed(view: MBAutomationView) {
         MBAutomationMessagesViewManager.shared.screenViewed(view: view)
     }
             
+    // MARK: - Tag change
+
     static func tagChanged(tag: String, value: String?) {
         let savedMessages = self.savedMessages()
         guard savedMessages.count != 0 else {
@@ -132,6 +138,8 @@ class MBAutomationMessagesManager {
         }
         checkMessages(fromStartup: false)
     }
+
+    // MARK: - Location updates
 
     static func locationDataUpdated(latitude: Double, longitude: Double) {
         let savedMessages = self.savedMessages()
@@ -161,6 +169,7 @@ class MBAutomationMessagesManager {
             saveMessages(savedMessages, fromFetch: false)
         }
         checkMessages(fromStartup: false)
+        saveLocationAsLast(location: location)
     }
     
     internal static func lastLocation() -> CLLocationCoordinate2D? {
@@ -174,11 +183,20 @@ class MBAutomationMessagesManager {
         return CLLocationCoordinate2D.init(latitude: lastLat, longitude: lastLng)
     }
     
+    internal static func saveLocationAsLast(location: CLLocationCoordinate2D) {
+        let lastLocationLatKey = "com.mumble.mburger.automation.lastLocation.lat"
+        let lastLocationLngKey = "com.mumble.mburger.automation.lastLocation.lat"
+        UserDefaults.standard.set(location.latitude, forKey: lastLocationLatKey)
+        UserDefaults.standard.set(location.longitude, forKey: lastLocationLngKey)
+    }
+
     internal static func checkMessagesAfterDelay(_ delay: TimeInterval) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay) {
             self.checkMessages(fromStartup: false)
         }
     }
+    
+    // MARK: - Messages check
     
     static func checkMessages(fromStartup: Bool) {
         let savedMessages = self.savedMessages()
@@ -252,10 +270,13 @@ class MBAutomationMessagesManager {
         guard let data = try? Data(contentsOf: URL.init(fileURLWithPath: path)) else {
             return []
         }
-        guard let objects = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [[String: Any]] else {
+        guard let objects = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) else {
             return []
         }
-        return objects.compactMap({ MBMessage(fromJsonDictionary: $0) })
+        guard let dictionaries = objects as? [[String: Any]] else {
+            return []
+        }
+        return dictionaries.compactMap({ MBMessage(fromJsonDictionary: $0) })
     }
     
     static func messagesPath() -> String? {
