@@ -47,7 +47,7 @@ public class MBAutomation: NSObject, MBPlugin {
         return 3
     }
     
-    public func applicationStartupBlock() -> ApplicationStartupBlock? {
+    public func applicationStartupBlock() -> MBApplicationStartupBlock? {
         return { _, completionBlock in
             MBAutomationTrackingManager.shared.startTimer()
             if let completionBlock = completionBlock {
