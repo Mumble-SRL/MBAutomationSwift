@@ -20,7 +20,9 @@ let package = Package(
     targets: [
         .target(
             name: "MBAutomationSwift",
-            dependencies: ["MBurgerSwift", "MBMessagesSwift", "MBAudience"],
+            dependencies: ["MBurgerSwift",
+                           "MBMessagesSwift",
+                           "MBAudienceSwift"],
             path: "MBAutomationSwift"
         )
     ]
