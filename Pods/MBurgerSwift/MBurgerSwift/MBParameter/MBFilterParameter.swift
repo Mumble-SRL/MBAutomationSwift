@@ -35,6 +35,7 @@ public struct MBFilterParameter: MBParameter {
         self.value = name + "|" + value
     }
 
+    /// Returns the `Parameters` rapresentation of the object.
     public func parameterRepresentation() -> [String: Any] {
         let key = "filter[\(field)]"
         return [

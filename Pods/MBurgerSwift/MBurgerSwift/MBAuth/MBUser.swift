@@ -93,6 +93,7 @@ public struct MBUser: Codable, Equatable {
         return lhs.userId == rhs.userId
     }
     
+    // MARK: - Codable protocol
     enum CodingKeys: String, CodingKey {
         case userId
         case name

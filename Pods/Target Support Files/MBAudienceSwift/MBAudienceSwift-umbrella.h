@@ -10,7 +10,7 @@
 #endif
 #endif
 
-#import "MBAudience.h"
+#import "MBAudienceSwift.h"
 
 FOUNDATION_EXPORT double MBAudienceSwiftVersionNumber;
 FOUNDATION_EXPORT const unsigned char MBAudienceSwiftVersionString[];

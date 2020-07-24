@@ -38,6 +38,7 @@ public struct MBGeofenceParameter: MBParameter {
                   SWCoordinate: CLLocationCoordinate2D(latitude: southWestLatitude, longitude: southWestLongitude))
     }
     
+    /// Returns the `Parameters` rapresentation of the object.
     public func parameterRepresentation() -> [String: Any] {
         let key = "filter[elements.geofence]"
         let value = "\(northEastCoordinate.latitude),\(southWestCoordinate.latitude),\(northEastCoordinate.longitude),\(southWestCoordinate.longitude)"

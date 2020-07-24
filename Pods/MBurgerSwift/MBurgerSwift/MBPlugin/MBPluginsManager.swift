@@ -20,7 +20,7 @@ public class MBPluginsManager {
         let sortedPlugins = plugins.sorted(by: { (p1, p2) -> Bool in
             return p1.applicationStartupOrder > p2.applicationStartupOrder
         })
-        var startupBlocks = [ApplicationStartupBlock]()
+        var startupBlocks = [MBApplicationStartupBlock]()
         for plugin in sortedPlugins {
             if let startupBlock = plugin.applicationStartupBlock() {
                 startupBlocks.append(startupBlock)
@@ -37,7 +37,7 @@ public class MBPluginsManager {
     }
     
     private static func executeStartupBlock(index: Int,
-                                            startupBlocks: [ApplicationStartupBlock],
+                                            startupBlocks: [MBApplicationStartupBlock],
                                             launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         guard index < startupBlocks.count else {
             return
@@ -52,6 +52,16 @@ public class MBPluginsManager {
         })
     }
 
+    /// Syncronize tag data coming from the plugins, this function is used by audience plugin to tell other plugins that a ttag has changed.
+    /// - Parameters:
+    ///   - tag: The tag that changed.
+    ///   - value: The new value for the tag, if the tag is removed the value is `nil`.
+    public static func tagChanged(tag: String, value: String?) {
+        for plugin in MBManager.shared.plugins {
+            plugin.tagChanged(tag: tag, value: value)
+        }
+    }
+
     /// Syncronize location data coming from the plugins, this function is used by audience plugin to tell other plugins that new data is available.
     /// - Parameters:
     ///   - latitude: The new latitude.
@@ -62,12 +72,12 @@ public class MBPluginsManager {
         }
     }
     
-    /// Used to pass campaigns from MBMessages & MBAutomation in order to display automation campaigns based on the triggers
+    /// Used to pass messages from MBMessages & MBAutomation in order to display automation messages based on the triggers
     /// - Parameters:
-    ///   - campaigns: The campaigns fetched, tipically `MBCampaign` objects
-    public static func campaignsReceived(campaigns: [Any]) {
+    ///   - messages: The messages fetched, tipically `MBMessage` objects
+    public static func messagesReceived(messages: inout [AnyObject], fromStartup: Bool) {
         for plugin in MBManager.shared.plugins {
-            plugin.campaignsReceived(campaings: campaigns)
+            plugin.messagesReceived(messages: &messages, fromStartup: fromStartup)
         }
     }
 }

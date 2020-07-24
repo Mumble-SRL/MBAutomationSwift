@@ -57,6 +57,7 @@ public class MBImagesElement: MBElement {
         try super.init(from: decoder)
     }
     
+    /// Encodes a `MBImagesElement` to an `Encoder`
     override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeysElement.self)
         

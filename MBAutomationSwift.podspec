@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MBAutomationSwift"
-  s.version      = "0.1"
+  s.version      = "0.1.1"
   s.summary      = "MBurger automation plugin."
 
   # This description is used to generate tags and improve search results.
@@ -77,8 +77,8 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { git: 'https://github.com/Mumble-SRL/MBAutomationSwift.git', tag: '0.1' }
-  s.source_files = "MBAutomation/*.{h,m,swift}", "MBAutomation/**/*.{h,m,swift}"
+  s.source       = { git: 'https://github.com/Mumble-SRL/MBAutomationSwift.git', tag: '0.1.1' }
+  s.source_files = "MBAutomationSwift/*.{h,m,swift}", "MBAutomationSwift/**/*.{h,m,swift}"
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #

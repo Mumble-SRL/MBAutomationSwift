@@ -37,6 +37,7 @@ public class MBTextElement: MBElement {
         case text
     }
     
+    /// Initializes a `MBTextElement` from a `Decoder`
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeysElement.self)
         
@@ -45,6 +46,7 @@ public class MBTextElement: MBElement {
         try super.init(from: decoder)
     }
     
+    /// Encodes a `MBTextElement` to an `Encoder`
     override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeysElement.self)
         

@@ -1,44 +1,35 @@
 PODS:
-  - MBAudienceSwift (0.1):
+  - MBAudienceSwift (0.1.2):
     - MBurgerSwift
-  - MBMessagesSwift (0.1):
+  - MBMessagesSwift (0.1.4):
     - MBurgerSwift
     - MPushSwift
-  - MBNetworkingSwift (1.0.10)
-  - MBurgerSwift (1.0.5):
+  - MBNetworkingSwift (1.0.14)
+  - MBurgerSwift (1.0.8):
     - MBNetworkingSwift
-    - SAMKeychain
-  - MPushSwift (0.2.12):
+  - MPushSwift (0.2.13):
     - MBNetworkingSwift
-  - SAMKeychain (1.5.3)
 
 DEPENDENCIES:
-  - MBAudienceSwift (from `../MBAudience`)
-  - MBMessagesSwift (from `../MBMessages`)
-  - MBurgerSwift (from `../MBurgerSwift`)
+  - MBAudienceSwift
+  - MBMessagesSwift
+  - MBurgerSwift
 
 SPEC REPOS:
   trunk:
+    - MBAudienceSwift
+    - MBMessagesSwift
     - MBNetworkingSwift
+    - MBurgerSwift
     - MPushSwift
-    - SAMKeychain
-
-EXTERNAL SOURCES:
-  MBAudienceSwift:
-    :path: "../MBAudience"
-  MBMessagesSwift:
-    :path: "../MBMessages"
-  MBurgerSwift:
-    :path: "../MBurgerSwift"
 
 SPEC CHECKSUMS:
-  MBAudienceSwift: cdd98970cee6e62b47eacf424ac60f045b8e678b
-  MBMessagesSwift: 447d84393cdd9e18b2de2cb20a72327278ec8254
-  MBNetworkingSwift: 293afd6c2a20e9d242204ad3a868f44fa7d8e23f
-  MBurgerSwift: 9da24875a175995993a9658f68e7d40c87d7a3bc
-  MPushSwift: 57b2dce59e51a17ae8f10d7863cbab8386eee485
-  SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
+  MBAudienceSwift: fd06cdc979d523f0fdc2c0eec58351484eb2656f
+  MBMessagesSwift: 0ba8f473d126db64d5f5fcee4c599ceeaff6e2f7
+  MBNetworkingSwift: e24b93be41ce4fb9247fb902bf5db2877e73a446
+  MBurgerSwift: 106e3302460301b99777ca134698e28f95f932c5
+  MPushSwift: 5ed13b7d640f69f7652b65d82ce0caf91ed068b4
 
-PODFILE CHECKSUM: 9659fddf422fbe4a85e5c309bdaaff69c28a11a1
+PODFILE CHECKSUM: 9157386895fc851c4e345f1f0a0507df1ff5ba0b
 
 COCOAPODS: 1.9.3

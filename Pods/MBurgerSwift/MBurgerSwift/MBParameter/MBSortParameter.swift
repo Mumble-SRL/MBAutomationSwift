@@ -25,6 +25,7 @@ public struct MBSortParameter: MBParameter {
         self.ascending = ascending
     }
     
+    /// Returns the `Parameters` rapresentation of the object.
     public func parameterRepresentation() -> [String: Any] {
         let value = ascending ? field : "-\(field)"
         return [

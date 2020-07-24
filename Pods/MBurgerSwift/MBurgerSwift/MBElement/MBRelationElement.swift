@@ -49,6 +49,7 @@ public class MBRelationElement: MBElement {
         try super.init(from: decoder)
     }
     
+    /// Encodes a `MBRelationElement` to an `Encoder`
     override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeysElement.self)
         
@@ -81,10 +82,12 @@ public class MBRelation: Codable, Equatable {
         self.sectionId = dictionary["section_id"] as? Int ?? 0
     }
         
+    // MARK: - Equatable protocol
     public static func == (lhs: MBRelation, rhs: MBRelation) -> Bool {
         return lhs.blockId == rhs.blockId && lhs.sectionId == rhs.sectionId
     }
 
+    // MARK: - Codable protocol
     enum CodingKeys: String, CodingKey {
         case blockId
         case sectionId
@@ -97,6 +100,7 @@ public class MBRelation: Codable, Equatable {
         sectionId = try container.decode(Int.self, forKey: .sectionId)
     }
     
+    /// Encodes a `MBRelation` to an `Encoder`
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         

@@ -40,6 +40,7 @@ public class MBDateElement: MBElement {
         case date
     }
     
+    /// Intialized a `MBDateElement` from a `Decoder`
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeysElement.self)
         
@@ -48,6 +49,7 @@ public class MBDateElement: MBElement {
         try super.init(from: decoder)
     }
     
+    /// Encodes a `MBDateElement` to an `Encoder`
     override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeysElement.self)
         

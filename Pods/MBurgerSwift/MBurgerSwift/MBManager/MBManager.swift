@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// The manager of the SDK.
 public final class MBManager {

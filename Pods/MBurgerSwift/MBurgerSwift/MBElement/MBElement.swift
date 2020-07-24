@@ -46,6 +46,7 @@ public class MBElement: MBElementProtocol {
         type = MBElementType(string: dictionaryType)
     }
     
+    // MARK: - Equatable protocol
     public static func == (lhs: MBElement, rhs: MBElement) -> Bool {
         return lhs.id == rhs.id
     }

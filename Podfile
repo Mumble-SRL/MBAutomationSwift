@@ -1,6 +1,6 @@
 platform :ios, '11.0'
 
-target 'MBAutomation' do
+target 'MBAutomationSwift' do
     use_frameworks!
     
     pod 'MBurgerSwift'

@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "MBAutomation",
+    name: "MBAutomationSwift",
     platforms: [.iOS(.v11)],
     products: [
         .library(
-            name: "MBAutomation",
-            targets: ["MBAutomation"])
+            name: "MBAutomationSwift",
+            targets: ["MBAutomationSwift"])
 
     ],
     dependencies: [
@@ -19,9 +19,9 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "MBAutomation",
+            name: "MBAutomationSwift",
             dependencies: ["MBurgerSwift", "MBMessagesSwift", "MBAudience"],
-            path: "MBAutomation"
+            path: "MBAutomationSwift"
         ),
     ]
 )

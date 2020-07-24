@@ -144,9 +144,72 @@ extension MBDecoder: Decoder {
         throw MBDecodingErrors.wrongType(expecting: type, reality: value)
     }
     
+    func decode(value: MBElement, ofType type: MBTextElement.Type) throws -> MBTextElement? {
+        if let text = value as? MBTextElement {
+            return text
+        }
+        throw MBDecodingErrors.wrongType(expecting: type, reality: value)
+    }
+    
+    func decode(value: MBElement, ofType type: MBMarkdownElement.Type) throws -> MBMarkdownElement? {
+        if let markdown = value as? MBMarkdownElement {
+            return markdown
+        }
+        throw MBDecodingErrors.wrongType(expecting: type, reality: value)
+    }
+    
+    func decode(value: MBElement, ofType type: MBGeneralElement.Type) throws -> MBGeneralElement? {
+        if let generalElement = value as? MBGeneralElement {
+            return generalElement
+        }
+        throw MBDecodingErrors.wrongType(expecting: type, reality: value)
+    }
+    
+    func decode(value: MBElement, ofType type: MBDateElement.Type) throws -> MBDateElement? {
+        if let dateElement = value as? MBDateElement {
+            return dateElement
+        }
+        throw MBDecodingErrors.wrongType(expecting: type, reality: value)
+    }
+    
+    func decode(value: MBElement, ofType type: MBImagesElement.Type) throws -> MBImagesElement? {
+        if let imagesElement = value as? MBImagesElement {
+            return imagesElement
+        }
+        throw MBDecodingErrors.wrongType(expecting: type, reality: value)
+    }
+    
+    func decode(value: MBElement, ofType type: MBMediaElement.Type) throws -> MBMediaElement? {
+        if let mediaElement = value as? MBMediaElement {
+            return mediaElement
+        }
+        throw MBDecodingErrors.wrongType(expecting: type, reality: value)
+    }
+    
+    func decode(value: MBElement, ofType type: MBCheckboxElement.Type) throws -> MBCheckboxElement? {
+        if let checkboxElement = value as? MBCheckboxElement {
+            return checkboxElement
+        }
+        throw MBDecodingErrors.wrongType(expecting: type, reality: value)
+    }
+
+    func decode(value: MBElement, ofType type: MBColorElement.Type) throws -> MBColorElement? {
+        if let colorElement = value as? MBColorElement {
+            return colorElement
+        }
+        throw MBDecodingErrors.wrongType(expecting: type, reality: value)
+    }
+
     func decode(value: MBElement, ofType type: MBDropdownElement.Type) throws -> MBDropdownElement? {
         if let dropdown = value as? MBDropdownElement {
             return dropdown
+        }
+        throw MBDecodingErrors.wrongType(expecting: type, reality: value)
+    }
+    
+    func decode(value: MBElement, ofType type: MBMultipleElement.Type) throws -> MBMultipleElement? {
+        if let multipleElement = value as? MBMultipleElement {
+            return multipleElement
         }
         throw MBDecodingErrors.wrongType(expecting: type, reality: value)
     }
@@ -213,16 +276,34 @@ extension MBDecoder: Decoder {
             return try self.decode(value: value, ofType: Date.self)
         case is Bool.Type:
             return try self.decode(value: value, ofType: Bool.self)
+        case is MBTextElement.Type:
+            return try self.decode(value: value, ofType: MBTextElement.self) as Any
+        case is MBDropdownElement.Type:
+            return try self.decode(value: value, ofType: MBDropdownElement.self) as Any
         case is MBPollElement.Type:
             return try self.decode(value: value, ofType: MBPollElement.self)
+        case is MBMarkdownElement.Type:
+            return try self.decode(value: value, ofType: MBMarkdownElement.self) as Any
+        case is MBGeneralElement.Type:
+            return try self.decode(value: value, ofType: MBGeneralElement.self) as Any
         case is MBAddressElement.Type:
             return try self.decode(value: value, ofType: MBAddressElement.self)
+        case is MBDateElement.Type:
+            return try self.decode(value: value, ofType: MBDateElement.self) as Any
+        case is MBImagesElement.Type:
+            return try self.decode(value: value, ofType: MBImagesElement.self) as Any
+        case is MBMediaElement.Type:
+            return try self.decode(value: value, ofType: MBMediaElement.self) as Any
+        case is MBCheckboxElement.Type:
+            return try self.decode(value: value, ofType: MBCheckboxElement.self) as Any
+        case is MBColorElement.Type:
+            return try self.decode(value: value, ofType: MBColorElement.self) as Any
+        case is MBMultipleElement.Type:
+            return try self.decode(value: value, ofType: MBMultipleElement.self) as Any
         case is MBRelationElement.Type:
             return try self.decode(value: value, ofType: MBRelationElement.self)
         case is MBFile.Type:
             return try self.decode(value: value, ofType: MBFile.self) as Any
-        case is MBDropdownElement.Type:
-            return try self.decode(value: value, ofType: MBDropdownElement.self) as Any
         default:
             throw MBDecodingErrors.typeNotConformingToMBDecodable(type)
         }
@@ -251,7 +332,7 @@ extension MBDecoder: Decoder {
         var count: Int? { return nil }
         
         var currentIndex: Int { return 0 }
-
+        
         var isAtEnd: Bool { return false }
         
         func decode<T>(_ type: T.Type) throws -> T where T: Decodable {
@@ -283,7 +364,7 @@ extension MBDecoder {
         
         /// Attempted to decode a type which is not `Decodable`.
         case entryNotConformingToDecodable(MBElement)
-    
+        
         /// The given Key wasn't found in the elements.
         case keyNotFoundInElements
         

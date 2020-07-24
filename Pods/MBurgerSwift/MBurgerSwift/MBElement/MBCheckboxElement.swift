@@ -33,6 +33,7 @@ public class MBCheckboxElement: MBElement {
         super.init(dictionary: dictionary)
     }
     
+    // MARK: - Codable protocol
     enum CodingKeysElement: String, CodingKey {
         case checked
     }
@@ -44,6 +45,7 @@ public class MBCheckboxElement: MBElement {
         try super.init(from: decoder)
     }
     
+    /// Encodes a `MBCheckboxElement` to an `Encoder`
     override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeysElement.self)
         

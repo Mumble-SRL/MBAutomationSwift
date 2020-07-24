@@ -9,7 +9,7 @@
 import UIKit
 
 /// This class represents a MBurger color element.
-class MBColorElement: MBElement {
+public class MBColorElement: MBElement {
     /// The value of the element.
     public let colorHex: String
     
@@ -37,10 +37,12 @@ class MBColorElement: MBElement {
         super.init(dictionary: dictionary)
     }
     
+    // MARK: - Codable protocol
     enum CodingKeysElement: String, CodingKey {
         case colorHex
     }
     
+    /// Initializes a `MBColorElement` from a `Decoder`
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeysElement.self)
         
@@ -49,6 +51,7 @@ class MBColorElement: MBElement {
         try super.init(from: decoder)
     }
     
+    /// Encodes a `MBColorElement` to an `Encoder`
     override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeysElement.self)
         
@@ -68,15 +71,21 @@ class MBColorElement: MBElement {
         return color
     }
     
-    private func intFromHexString(hexStr: String) -> UInt32 {
-        var hexInt: UInt32 = 0
+    private func intFromHexString(hexStr: String) -> UInt64 {
         // Create scanner
         let scanner: Scanner = Scanner(string: hexStr)
         // Tell scanner to skip the # character
         scanner.charactersToBeSkipped = CharacterSet(charactersIn: "#")
         // Scan hex value
-        scanner.scanHexInt32(&hexInt)
-        return hexInt
+        var rgbValue: UInt64 = 0
+        if #available(iOS 13.0, *) {
+            scanner.scanHexInt64(&rgbValue)
+        } else {
+            var rgb32: UInt32 = 0
+            scanner.scanHexInt32(&rgb32)
+            rgbValue = UInt64(rgb32)
+        }
+        return rgbValue
     }
     
 }

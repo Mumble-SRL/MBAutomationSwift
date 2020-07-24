@@ -1,5 +1,5 @@
 //
-//  MBPluginProtocol.swift
+//  MBPlugin.swift
 //  MBurgerSwift
 //
 //  Created by Alessandro Viviani on 27/09/2019.
@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import UIKit
 
 /// Block executed at startup
-public typealias ApplicationStartupBlock = (_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?, _ completionBlock: (() -> Void)?) -> Void
+public typealias MBApplicationStartupBlock = (_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?, _ completionBlock: (() -> Void)?) -> Void
 
 /// A plugin that can be attached to add more functionalities to MBurger.
 public protocol MBPlugin {
@@ -26,7 +27,7 @@ public protocol MBPlugin {
     var applicationStartupOrder: Int { get }
     
     /// Application startup block
-    func applicationStartupBlock() -> ApplicationStartupBlock?
+    func applicationStartupBlock() -> MBApplicationStartupBlock?
     
     /// Function called by MBurger when new location data is available, used to synchronize audience location with automated messages
     /// - Parameters:
@@ -34,10 +35,17 @@ public protocol MBPlugin {
     ///   - longitude: The new longitude.
     func locationDataUpdated(latitude: Double, longitude: Double)
     
-    /// Function called by MBurger when campaigns are received, used to sync MBMessages with MBAutomation
+    /// Function called by MBAudience when a tatg changes, used to synchronize audience with automated messages
     /// - Parameters:
-    ///   - campaigns: Campaigns received.
-    func campaignsReceived(campaings: [Any])
+    ///   - tag: The tag that changed.
+    ///   - value: The value that changed.
+    func tagChanged(tag: String, value: String?)
+
+    /// Function called by MBurger when messages are received, used to sync MBMessages with MBAutomation
+    /// - Parameters:
+    ///   - messages: Messages received.
+    ///   - fromStartup: If the messages are being retrieved at startup.
+    func messagesReceived(messages: inout [AnyObject], fromStartup: Bool)
 }
 
 /// Default values for plugin protocol
@@ -59,13 +67,16 @@ public extension MBPlugin {
     }
 
     /// Default value for the startup block = nil
-    func applicationStartupBlock() -> ApplicationStartupBlock? {
+    func applicationStartupBlock() -> MBApplicationStartupBlock? {
         return nil
     }
     
+    /// Default implementation for tag change: empty, no action needed
+    func tagChanged(tag: String, value: String?) {}
+
     /// Default implementation for locationDataUpdated: empty, no action needed
     func locationDataUpdated(latitude: Double, longitude: Double) { }
     
-    /// Default implementation for campaigns retreival: empty, no action needed
-    func campaignsReceived(campaings: [Any]) { }
+    /// Default implementation for messages retreival: empty, no action needed
+    func messagesReceived(messages: inout [AnyObject], fromStartup: Bool) { }
 }

@@ -51,6 +51,7 @@ public struct MBProject: Codable, Equatable {
         return lhs.projectId == rhs.projectId
     }
     
+    // MARK: - Codable protocol
     enum CodingKeys: String, CodingKey {
         case projectId
         case projectName

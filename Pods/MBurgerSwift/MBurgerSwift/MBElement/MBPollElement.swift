@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// This class represents a MBurger poll element, the property ansers contains the answers the user can give to a the poll.
+/// This class represents a MBurger poll element, the property answers contains the answers the user can give to a the poll.
 public class MBPollElement: MBElement {
     /// The possible answers for the poll.
     public let answers: [String]
@@ -96,6 +96,7 @@ public class MBPollElement: MBElement {
         try super.init(from: decoder)
     }
     
+    /// Encodes a `MBPollElement` to an `Encoder`
     override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeysElement.self)
         

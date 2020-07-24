@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "MPush.h"
 
 FOUNDATION_EXPORT double MPushSwiftVersionNumber;
 FOUNDATION_EXPORT const unsigned char MPushSwiftVersionString[];

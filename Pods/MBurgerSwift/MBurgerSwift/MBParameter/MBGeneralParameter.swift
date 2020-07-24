@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// A general parameter that can be sent to MBurger
 public struct MBGeneralParameter: MBParameter {
     /// The key of the parameter.
     let key: String
@@ -24,6 +25,7 @@ public struct MBGeneralParameter: MBParameter {
         self.value = value
     }
     
+    /// Returns the `Parameters` rapresentation of the object.
     public func parameterRepresentation() -> [String: Any] {
         return [key: value]
     }

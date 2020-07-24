@@ -1,6 +1,0 @@
-framework module Pods_MBAutomation {
-  umbrella header "Pods-MBAutomation-umbrella.h"
-
-  export *
-  module * { export * }
-}

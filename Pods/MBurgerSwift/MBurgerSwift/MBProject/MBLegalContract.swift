@@ -74,6 +74,7 @@ public struct MBLegalContract: Codable, Equatable {
                   updateDate: updateDate)
     }
     
+    // MARK: - Equatable protocol
     public static func == (lhs: MBLegalContract, rhs: MBLegalContract) -> Bool {
         return lhs.contractId == rhs.contractId
     }

@@ -48,10 +48,12 @@ public class MBFile: Codable, Equatable {
         self.init(fileId: fileId, url: url, mimeType: mimeType, size: size)
     }
     
+    // MARK: - Equatable protocol
     public static func == (lhs: MBFile, rhs: MBFile) -> Bool {
         return lhs.fileId == rhs.fileId
     }
     
+    // MARK: - Codable protocol
     enum CodingKeys: String, CodingKey {
         case fileId
         case url
