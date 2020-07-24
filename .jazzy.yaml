@@ -1,0 +1,18 @@
+clean: true
+objc: false
+readme: Readme.md
+framework_root: MAutomationSwift
+module_version: 0.1.3
+sdk: iphonesimulator
+
+author: Mumble
+author_url: https://mumbleideas.it/
+github_url: https://github.com/Mumble-SRL/MBAutomationSwift
+
+xcodebuild_arguments:
+    - "-workspace"
+    - "MBAutomationSwift.xcworkspace"
+    - "-scheme"
+    - "MBAutomationSwift"
+
+theme: fullwidth

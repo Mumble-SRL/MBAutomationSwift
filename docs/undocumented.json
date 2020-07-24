@@ -1,0 +1,306 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/MBAutomation.swift",
+      "line": 13,
+      "symbol": "MBAutomation",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/MBAutomation.swift",
+      "line": 36,
+      "symbol": "MBAutomation.sendEvent(_:name:metadata:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBAppOpeningTrigger.swift",
+      "line": 12,
+      "symbol": "MBAppOpeningTrigger",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBAppOpeningTrigger.swift",
+      "line": 13,
+      "symbol": "MBAppOpeningTrigger.times",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBEventTrigger.swift",
+      "line": 11,
+      "symbol": "MBEventTrigger",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBEventTrigger.swift",
+      "line": 12,
+      "symbol": "MBEventTrigger.event",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBEventTrigger.swift",
+      "line": 13,
+      "symbol": "MBEventTrigger.times",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBEventTrigger.swift",
+      "line": 14,
+      "symbol": "MBEventTrigger.metadata",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBEventTrigger.swift",
+      "line": 16,
+      "symbol": "MBEventTrigger.completionDate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBEventTrigger.swift",
+      "line": 17,
+      "symbol": "MBEventTrigger.numberOfTimes",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBInactiveUserTrigger.swift",
+      "line": 12,
+      "symbol": "MBInactiveUserTrigger",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBInactiveUserTrigger.swift",
+      "line": 13,
+      "symbol": "MBInactiveUserTrigger.days",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBLocationTrigger.swift",
+      "line": 11,
+      "symbol": "LocationTriggerAction",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBLocationTrigger.swift",
+      "line": 12,
+      "symbol": "LocationTriggerAction.enter",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBLocationTrigger.swift",
+      "line": 13,
+      "symbol": "LocationTriggerAction.exit",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBLocationTrigger.swift",
+      "line": 25,
+      "symbol": "MBLocationTrigger",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBLocationTrigger.swift",
+      "line": 26,
+      "symbol": "MBLocationTrigger.address",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBLocationTrigger.swift",
+      "line": 27,
+      "symbol": "MBLocationTrigger.latitude",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBLocationTrigger.swift",
+      "line": 28,
+      "symbol": "MBLocationTrigger.longitude",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBLocationTrigger.swift",
+      "line": 32,
+      "symbol": "MBLocationTrigger.after",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBLocationTrigger.swift",
+      "line": 34,
+      "symbol": "MBLocationTrigger.action",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTagChangeTrigger.swift",
+      "line": 11,
+      "symbol": "MBTagChangeOperator",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTagChangeTrigger.swift",
+      "line": 12,
+      "symbol": "MBTagChangeOperator.equal",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTagChangeTrigger.swift",
+      "line": 13,
+      "symbol": "MBTagChangeOperator.notEqual",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTagChangeTrigger.swift",
+      "line": 16,
+      "symbol": "MBTagChangeTrigger",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTagChangeTrigger.swift",
+      "line": 17,
+      "symbol": "MBTagChangeTrigger.tag",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTagChangeTrigger.swift",
+      "line": 18,
+      "symbol": "MBTagChangeTrigger.value",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTagChangeTrigger.swift",
+      "line": 20,
+      "symbol": "MBTagChangeTrigger.tagChangeOperator",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTagChangeTrigger.swift",
+      "line": 22,
+      "symbol": "MBTagChangeTrigger.completionDate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTrigger.swift",
+      "line": 11,
+      "symbol": "MBTriggerType",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTrigger.swift",
+      "line": 12,
+      "symbol": "MBTriggerType.location",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTrigger.swift",
+      "line": 13,
+      "symbol": "MBTriggerType.appOpening",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTrigger.swift",
+      "line": 14,
+      "symbol": "MBTriggerType.view",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTrigger.swift",
+      "line": 15,
+      "symbol": "MBTriggerType.inactiveUser",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTrigger.swift",
+      "line": 16,
+      "symbol": "MBTriggerType.event",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTrigger.swift",
+      "line": 17,
+      "symbol": "MBTriggerType.tagChange",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBTrigger.swift",
+      "line": 18,
+      "symbol": "MBTriggerType.unknown",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBViewTrigger.swift",
+      "line": 11,
+      "symbol": "MBViewTrigger",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBViewTrigger.swift",
+      "line": 12,
+      "symbol": "MBViewTrigger.view",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBViewTrigger.swift",
+      "line": 14,
+      "symbol": "MBViewTrigger.times",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBViewTrigger.swift",
+      "line": 15,
+      "symbol": "MBViewTrigger.secondsOnView",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBViewTrigger.swift",
+      "line": 17,
+      "symbol": "MBViewTrigger.completionDate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift/MBAutomationSwift/Triggers/MBViewTrigger.swift",
+      "line": 18,
+      "symbol": "MBViewTrigger.numberOfTimes",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/lorenzooliveto/iOS/MBurger/MBAutomationSwift"
+}
