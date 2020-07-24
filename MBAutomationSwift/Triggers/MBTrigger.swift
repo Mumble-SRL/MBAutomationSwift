@@ -8,13 +8,21 @@
 
 import UIKit
 
+/// The possible types for the trigger
 public enum MBTriggerType: Int {
+    /// Location trigger
     case location
+    /// App opening trigger
     case appOpening
+    /// View trigger
     case view
+    /// Inactive user trigger
     case inactiveUser
+    /// An event trigger
     case event
+    /// A tag change trigger
     case tagChange
+    /// An unknown trigger, used when the type is not recognized
     case unknown
 }
 
@@ -27,27 +35,42 @@ public class MBTrigger: NSObject {
     /// The type of trigger
     let type: MBTriggerType
         
+    /// Initializes a `MBTrigger` with the parameters passed
+    /// - Parameters:
+    ///  - id: The id of the trigger
+    ///  - type:  The trigger type
     init(id: String, type: MBTriggerType) {
         self.id = id
         self.type = type
     }
     
+    /// Initializes a `MBTrigger` with the dictionary returned by the api
+    /// - Parameters:
+    ///   - dictionary: the dictionary returned by the api
     convenience init(dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
         self.init(id: id, type: .unknown)
     }
     
+    /// If the trigger is valid
+    /// - Parameters:
+    ///   - fromAppStartup: if this function is called from startup
+    /// - Returns: If this trigger is valid
     func isValid(fromAppStartup: Bool) -> Bool {
         return false
     }
     
     // MARK: - Save & retrieve
     
+    /// Initializes a `MBTrigger` with the dictionary saved previously
+    /// - Parameters:
+    ///  - dictionary: The dictionary saved
     func toJsonDictionary() -> [String: Any] {
         return ["id": id,
                 "type": type.rawValue]
     }
 
+    /// Converts this trigger to a JSON dictionary to be saved
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
         let type = dictionary["type"] as? Int ?? MBTriggerType.unknown.rawValue

@@ -8,10 +8,18 @@
 
 import CoreLocation
 
+/// The trigger action that needs to happen
 public enum LocationTriggerAction: Int {
+    /// The user enters the region
     case enter
+    
+    /// The user exits the region
     case exit
     
+    /// Converts the string coming from the api to a `LocationTriggerAction`, defaults to `.exit` if no match is found
+    /// - Parameters:
+    ///   - actionString: The string that is converted
+    /// - Returns: The location trigger action.
     static func tirgger(forActionString actionString: String) -> LocationTriggerAction {
         if actionString == "enter" {
             return .enter
@@ -22,19 +30,37 @@ public enum LocationTriggerAction: Int {
     }
 }
 
+/// A location trigger, fires if the user enters/exits a region
 public class MBLocationTrigger: MBTrigger {
+    
+    /// The address of the trigger
     public let address: String
+    /// The latitude of the trigger
     public let latitude: Float
+    /// The longitude of the trigger
     public let longitude: Float
     
-    /// Radius in meters
+    /// The radius of the region in meters
     public let radius: Float
+    
+    /// A delay for this trigger
     public let after: TimeInterval
     
+    /// If the user needs to enter/exit the region in order for this trigger to become valid
     public let action: LocationTriggerAction
 
+    /// The date this trigger becomes true
     var completionDate: Date?
     
+    /// Initializes a `MBLocationTrigger` with the parameters passed
+    /// - Parameters:
+    ///  - id: The id of the trigger
+    ///  - address:  The address of the trigger
+    ///  - latitude: Latitude for this trigger
+    ///  - longitude: Longitude for this trigger
+    ///  - radius: The radius of the region that will be checked
+    ///  - after: An optional delay for this trigger
+    ///  - action: If the user needs to enter/exit the region in order for this trigger to become valid
     init(id: String,
          address: String,
          latitude: Float,
@@ -51,6 +77,9 @@ public class MBLocationTrigger: MBTrigger {
         super.init(id: id, type: .location)
     }
     
+    /// Initializes a `MBLocationTrigger` with the dictionary returned by the api
+    /// - Parameters:
+    ///   - dictionary: the dictionary returned by the api
     convenience init(dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
         let address = dictionary["address"] as? String ?? ""
@@ -71,6 +100,11 @@ public class MBLocationTrigger: MBTrigger {
                   action: action)
     }
     
+    /// Function called when new location is available in MBAudience
+    /// - Parameters:
+    ///   - location: the new location
+    ///   - lastLocation: the last location saved
+    /// - Returns: Returns `true` if the trigger has changed
     func locationDataUpdated(location: CLLocationCoordinate2D,
                              lastLocation: CLLocationCoordinate2D?) -> Bool {
         guard completionDate == nil else {
@@ -106,6 +140,8 @@ public class MBLocationTrigger: MBTrigger {
         return false
     }
     
+    /// The region for this trigger, with center (`latitude`, `longitude`) and `radius`
+    /// - Returns: The region for this trigger
     func region() -> CLCircularRegion {
         let regionIdentifier = "com.mumble.mburger.automation.trigger.region" + String(self.id)
         let lat = CLLocationDegrees(latitude)
@@ -115,12 +151,19 @@ public class MBLocationTrigger: MBTrigger {
         return region
     }
     
+    /// If the trigger is valid
+    /// - Parameters:
+    ///   - fromAppStartup: if this function is called from startup
+    /// - Returns: If this trigger is valid
     override func isValid(fromAppStartup: Bool) -> Bool {
         return completionDate == nil
     }
     
     // MARK: - Save & retrieve
 
+    /// Initializes a `MBLocationTrigger` with the dictionary saved previously
+    /// - Parameters:
+    ///  - dictionary: The dictionary saved
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
         let address = dictionary["address"] as? String ?? ""
@@ -142,6 +185,7 @@ public class MBLocationTrigger: MBTrigger {
         }
     }
 
+    /// Converts this trigger to a JSON dictionary to be saved
     override func toJsonDictionary() -> [String: Any] {
         var dictionary = super.toJsonDictionary()
         dictionary["address"] = address

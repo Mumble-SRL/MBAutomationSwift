@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MBAutomationSwift  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="MBAutomationSwift  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          MBAutomationSwift 0.1.3 Docs
+        </a>
+         (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/Mumble-SRL/MBAutomationSwift">
+            <img class="header-icon" src="img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">MBAutomationSwift Reference</a>
+      <img class="carat" src="img/carat.png" />
+      MBAutomationSwift  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MBAppOpeningTrigger.html">MBAppOpeningTrigger</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MBAutomation.html">MBAutomation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MBEventTrigger.html">MBEventTrigger</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MBInactiveUserTrigger.html">MBInactiveUserTrigger</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MBLocationTrigger.html">MBLocationTrigger</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MBTagChangeTrigger.html">MBTagChangeTrigger</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes.html#/c:@M@MBAutomationSwift@objc(cs)MBTrigger">MBTrigger</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MBViewTrigger.html">MBViewTrigger</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/LocationTriggerAction.html">LocationTriggerAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/MBTagChangeOperator.html">MBTagChangeOperator</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/MBTriggerType.html">MBTriggerType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/UIViewController.html">UIViewController</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            
+            <p><a href="https://github.com/Mumble-SRL/MBAutomationSwift/tree/master/docs"><img src="https://img.shields.io/badge/documentation-100%25-brightgreen.svg" alt="Documentation"></a>
+<a href="https://swift.org/package-manager/"><img src="https://img.shields.io/badge/SPM-supported-DE5C43.svg?style=flat" alt=""></a>
+<a href="https://cocoapods.org"><img src="https://img.shields.io/badge/pod-v0.1.3-blue.svg" alt="CocoaPods"></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage Compatible"></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-yellow.svg" alt="License"></a></p>
+<h1 id='mbautomationswift' class='heading'>MBAutomationSwift</h1>
+
+<p><code>MBAutomationSwift</code> is a plugin libary for <a href="https://mburger.cloud">MBurger</a>, that lets you send automatic push notifications and in-app messages crated from the MBurger platform. It has as dependencies <a href="https://github.com/Mumble-SRL/MBMessagesSwift">MBMessagesSwift</a> and <a href="https://github.com/Mumble-SRL/MBAudienceSwift">MBAudienceSwift</a>. With this library you can also track user events and views.</p>
+
+<p>Using <code>MBAutomationSwift</code> you can setup triggers for in-app messages and push notifications, in the MBurger dashboard and the SDK will show the coontent automatically when triggers are satisfied. </p>
+
+<p>It depends on <code>MBAudienceSwift</code> because messages can be triggered by location changes or tag changes, coming from this SDK.</p>
+
+<p>It depends on <code>MBMessagesSwift</code> because it contains all the views for the in-app messages and the checks if a message has been already displayed or not.</p>
+
+<p>The data fflow from all the SDKs is manage entirely by MBurger, yuo don&rsquo;t have to worry about it.</p>
+<h1 id='installation' class='heading'>Installation</h1>
+<h2 id='swift-package-manager' class='heading'>Swift Package Manager</h2>
+
+<p>With Xcode 11 you can start using <a href="https://swift.org/package-manager/">Swift Package Manager</a> to add <strong>MBAutomationSwift</strong> to your project. Follow those simple steps:</p>
+
+<ul>
+<li>In Xcode go to File &gt; Swift Packages &gt; Add Package Dependency.</li>
+<li>Enter <code>https://github.com/Mumble-SRL/MBAutomationSwift.git</code> in the &ldquo;Choose Package Repository&rdquo; dialog and press Next.</li>
+<li>Specify the version using rule &ldquo;Up to Next Major&rdquo; with &ldquo;1.0.1&rdquo; as its earliest version and press Next.</li>
+<li>Xcode will try to resolving the version, after this, you can choose the <code>MBAutomationSwift</code> library and add it to your app target.</li>
+</ul>
+<h1 id='cocoapods' class='heading'>CocoaPods</h1>
+
+<p>CocoaPods is a dependency manager for iOS, which automates and simplifies the process of using 3rd-party libraries in your projects. You can install CocoaPods with the following command:</p>
+<pre class="highlight ruby"><code><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">cocoapods</span>
+</code></pre>
+
+<p>To integrate the MBurgerSwift into your Xcode project using CocoaPods, specify it in your Podfile:</p>
+<pre class="highlight ruby"><code><span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">'12.0'</span>
+
+<span class="n">target</span> <span class="s1">'TargetName'</span> <span class="k">do</span>
+    <span class="n">pod</span> <span class="s1">'MBAutomationSwift'</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>If you use Swift rememember to add <code>use_frameworks!</code> before the pod declaration.</p>
+
+<p>Then, run the following command:</p>
+<pre class="highlight plaintext"><code>$ pod install
+</code></pre>
+
+<p>CocoaPods is the preferred methot to install the library.</p>
+<h2 id='chartage' class='heading'>Chartage</h2>
+
+<p><a href="https://github.com/Carthage/Carthage">Carthage</a> is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate MBudienceSwift into your Xcode project using Carthage, specify it in your Cartfile:</p>
+<pre class="highlight plaintext"><code>github "Mumble-SRL/MBAutomationSwift"
+</code></pre>
+<h1 id='manual-installation' class='heading'>Manual installation</h1>
+
+<p>To install the library manually drag and drop the folder <code>MBAutomationSwift</code> to your project structure in XCode. </p>
+
+<p>Note that <code>MBAutomationSwift</code> has <code>MBurgerSwift</code>, <code>MBMessagesSwift</code> and <code>MBAudienceSwift</code> as dependencies, so you have to install also those libraries manually.</p>
+<h1 id='initialization' class='heading'>Initialization</h1>
+
+<p>To initialize automation you need to insert <code><a href="Classes/MBAutomation.html">MBAutomation</a></code> as a <code>MBurger</code> plugins, tipically automation is used in conjunction with the <code>MBMessagesSwift</code> and <code>MBAudienceSwift</code> plugins.</p>
+<pre class="highlight swift"><code><span class="kt">MBManager</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="n">plugins</span> <span class="o">=</span> <span class="p">[</span><span class="kt">MBAutomation</span><span class="p">(),</span> <span class="o">...</span> <span class="n">other</span> <span class="n">plugins</span><span class="p">]</span>
+</code></pre>
+
+<p>MBAutomation can bbe initialized with 3 optional parameters:</p>
+
+<ul>
+<li><code>trackingEnabled</code>: If the tracking is enabled or not, setting this to false all the tracking will be disabled</li>
+<li><code>trackViewsAutomatically</code>: If the automatic track of views is enabled or not</li>
+<li><code>eventsTimerTime</code>: The frequency used to send events and view to MBurger</li>
+</ul>
+<h1 id='triggers' class='heading'>Triggers</h1>
+
+<p>Every in-appmessage or push notification coming from MBurger can have an array of triggers, those are managed entirely by the MBAutomation SDK that evaluates them and show the mssage only when the conditioon defined by the triggers are matched. </p>
+
+<p>If thre are more than one trigger, they can be evaluated with 2 methods:</p>
+
+<ul>
+<li><code>any</code>: once one of triggers becomes true the message is displayed to the user</li>
+<li><code>all</code>: all triggers needs to be true in order to show the message.</li>
+</ul>
+
+<p>Here&rsquo;s the list of triggers managed by automation SDK:</p>
+<h4 id='app-opening' class='heading'>App opening</h4>
+
+<p><code><a href="Classes/MBAppOpeningTrigger.html">MBAppOpeningTrigger</a></code>: Becoomes true when the app has been opened n times (<code>times</code> property), it&rsquo;s checked at the app startup.</p>
+<h4 id='event' class='heading'>Event</h4>
+
+<p><code><a href="Classes/MBEventTrigger.html">MBEventTrigger</a></code>: Becomes true when an event happens n times (<code>times</code> property)</p>
+<h4 id='inactive-user' class='heading'>Inactive user</h4>
+
+<p><code><a href="Classes/MBInactiveUserTrigger.html">MBInactiveUserTrigger</a></code>: Becomes true if a user has not opened the app for n days (<code>days</code> parameter)</p>
+<h4 id='location' class='heading'>Location</h4>
+
+<p><code><a href="Classes/MBLocationTrigger.html">MBLocationTrigger</a></code>: If a user enters a location, specified by <code>latitude</code>, <code>longitude</code> and <code>radius</code>. This trigger can be activated with a ttime delay defined as the <code>after</code> property. The location data comes from the <a href="https://github.com/Mumble-SRL/MBAudienceSwift">MBAudienceSwift</a> SDK.</p>
+<h4 id='tag-change' class='heading'>Tag change</h4>
+
+<p><code><a href="Classes/MBTagChangeTrigger.html">MBTagChangeTrigger</a></code>: If a tag of the <a href="https://github.com/Mumble-SRL/MBAudienceSwift">MBAudienceSwift</a> SDK changes and become equals or not to a value. It has a <code>tag</code> property (the tag that needs to be checked) and a <code>value</code> property (the value that needs to be equal or different in order to activate the trigger)</p>
+<h4 id='view' class='heading'>View</h4>
+
+<p><code><a href="Classes/MBViewTrigger.html">MBViewTrigger</a></code>: it&rsquo;s activated when a user enters a view n times (<code>times</code> property). If the <code>secondsOnView</code> the user needs to stay the seconds defined in order to activate the trigger.</p>
+<h1 id='send-events' class='heading'>Send events</h1>
+
+<p>You can send events with the <code>MBAutomationSwift</code> liike this:</p>
+<pre class="highlight swift"><code><span class="kt">MBAutomation</span><span class="o">.</span><span class="nf">sendEvent</span><span class="p">(</span><span class="s">"event"</span><span class="p">)</span>
+</code></pre>
+
+<p>You can specify 2 more parameters, both optional: <code>name</code> a name that will be displayed in the MBurger dashboard and a dictionary of additional <code>metadata</code> to specifymore fields of the event</p>
+<pre class="highlight swift"><code><span class="kt">MBAutomation</span><span class="o">.</span><span class="nf">sendEvent</span><span class="p">(</span><span class="s">"purchase"</span><span class="p">,</span>
+                       <span class="nv">name</span><span class="p">:</span> <span class="s">"Purchase"</span><span class="p">,</span>
+                       <span class="nv">metadata</span><span class="p">:</span> <span class="p">[</span><span class="s">"quantity"</span><span class="p">:</span> <span class="mi">1</span><span class="p">])</span>
+</code></pre>
+
+<p>Events are saved in a local database and sent to the server every 10 seconds, you can change the frequency setting the <code>eventsTimerTime</code> property.</p>
+<h1 id='view-tracking' class='heading'>View Tracking</h1>
+
+<p>In MBAutomation the tracking of the views is automatic, you can disable it initializing <code><a href="Classes/MBAutomation.html">MBAutomation</a></code> with <code>trackViewsAutomatically</code> to <code>false</code>. <code><a href="Classes/MBAutomation.html">MBAutomation</a></code> uses <a href="https://nshipster.com/method-swizzling/">method swizzling</a> to track view automatically on <code>viewDidAppear</code>. </p>
+
+<p>The default name for all the ViewControllers is the class name (e.g. if your ViewController is called HomeViewController you will see HomeViewController as the view). If you want to change the name for a ViewController you can setup the <code>mbaTrackingName</code> of the ViewController.</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">MBAutomationSwift</span>
+
+<span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+     <span class="o">...</span>
+
+    <span class="n">mbaTrackingName</span> <span class="o">=</span> <span class="s">"Home"</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+
+</code></pre>
+
+<p>You can send additional data with the view event setting the <code>mbaTrackingMetadata</code> property of the ViewController, those will be displayed in the metadata field of the dashboard.</p>
+
+<p>If you have diisabled the automatic tracking and you still want to track the views you can use this function, passing a <code>UIViewController</code>.</p>
+<pre class="highlight swift"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidAppear</span><span class="p">(</span><span class="n">animated</span><span class="p">)</span>
+    <span class="kt">MBAutomation</span><span class="o">.</span><span class="nf">trackScreenView</span><span class="p">(</span><span class="k">self</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>As the events, views are saved in a local database and sent to the server every 10 seconds and you can change the frequency setting the <code>eventsTimerTime</code> property.</p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2020 <a class="link" href="https://mumbleideas.it/" target="_blank" rel="external">Mumble</a>. All rights reserved. (Last updated: 2020-07-24)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

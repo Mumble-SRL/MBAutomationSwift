@@ -8,14 +8,29 @@
 
 import UIKit
 
+/// An event trigger, this trigger becomes valid when an event happens n times
 public class MBEventTrigger: MBTrigger {
+    
+    /// The event
     public let event: String
+    
+    /// The times the event needs to happen
     public let times: Int
+    
+    /// The metadata of the event
     public let metadata: [String: Any]?
     
-    public var completionDate: Date? // The date this trigger becomes true
-    public var numberOfTimes: Int? // The number of times this event happens
+    /// The date this trigger becomes true
+    public var completionDate: Date?
+    /// The number of times this event has happened
+    public var numberOfTimes: Int?
         
+    /// Initializes a `MBEventTrigger` with the parameters passed
+    /// - Parameters:
+    ///  - id: The id of the trigger
+    ///  - event: The event
+    ///  - times: Number of times the event needs to happen
+    ///  - metadata: The metadata for this event
     init(id: String,
          event: String,
          times: Int,
@@ -26,6 +41,9 @@ public class MBEventTrigger: MBTrigger {
         super.init(id: id, type: .event)
     }
 
+    /// Initializes a `MBEventTrigger` with the dictionary returned by the api
+    /// - Parameters:
+    ///   - dictionary: the dictionary returned by the api
     convenience init(dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
         let event = dictionary["event_name"] as? String ?? ""
@@ -38,7 +56,8 @@ public class MBEventTrigger: MBTrigger {
                   metadata: metadata)
     }
 
-    // Called when an evens happen, returns if the ttag has changed
+    /// Function called when an event happen
+    /// - Returns: If the trigger has changed
     func eventHappened(event: MBAutomationEvent) -> Bool {
         var isTriggerEvent = false
         if event.event == self.event {
@@ -67,12 +86,19 @@ public class MBEventTrigger: MBTrigger {
         return false
     }
     
+    /// If the trigger is valid
+    /// - Parameters:
+    ///   - fromAppStartup: if this function is called from startup
+    /// - Returns: If this trigger is valid
     override func isValid(fromAppStartup: Bool) -> Bool {
         return completionDate != nil
     }
 
     // MARK: - Save & retrieve
 
+    /// Initializes a `MBAppOpeningTrigger` with the dictionary saved previously
+    /// - Parameters:
+    ///  - dictionary: The dictionary saved
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
         let event = dictionary["event"] as? String ?? ""
@@ -87,6 +113,7 @@ public class MBEventTrigger: MBTrigger {
         self.numberOfTimes = dictionary["numberOfTimes"] as? Int
     }
 
+    /// Converts this trigger to a JSON dictionary to be saved
     override func toJsonDictionary() -> [String: Any] {
         var dictionary = super.toJsonDictionary()
         dictionary["event"] = event

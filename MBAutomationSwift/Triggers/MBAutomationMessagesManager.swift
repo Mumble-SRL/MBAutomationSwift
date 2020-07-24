@@ -75,12 +75,24 @@ class MBAutomationMessagesManager {
     
     // MARK: - Check triggers timer
         
+    /// Starts the message check
     static func startMessagesTimer(time: TimeInterval) {
         timer = Timer.scheduledTimer(withTimeInterval: time, repeats: true, block: { _ in
             checkMessages(fromStartup: false)
         })
     }
     
+    /// Called when the time changes in MBAutomation calss
+    static func messageTimerTimeChanged(time: TimeInterval) {
+        if let timer = timer {
+            timer.invalidate()
+            self.timer = nil
+        }
+        timer = Timer.scheduledTimer(withTimeInterval: time, repeats: true, block: { _ in
+            checkMessages(fromStartup: false)
+        })
+    }
+
     // MARK: - Events
     
     static func eventHappened(event: MBAutomationEvent) {
