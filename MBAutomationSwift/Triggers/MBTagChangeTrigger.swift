@@ -8,19 +8,35 @@
 
 import UIKit
 
+/// The tag change operator
 public enum MBTagChangeOperator: Int {
+    /// The tag needs to be equal to the value of the trigger
     case equal
+    /// The tag needs to be different to the value of the trigger
     case notEqual
 }
 
+/// A tag change trigger, fires when the specified tag changes and become equal/different from the value, based on `tagChangeOperator`
 public class MBTagChangeTrigger: MBTrigger {
+    
+    /// The tag that needs to change
     public let tag: String
+    
+    /// The value of the tag
     public let value: String
     
+    /// If the tag needs to be equal/different for this trigger to be activated
     public let tagChangeOperator: MBTagChangeOperator
     
-    public var completionDate: Date? // The date this trigger becomes true
+    /// The date this trigger becomes true
+    public var completionDate: Date?
 
+    /// Initializes a `MBTagChangeTrigger` with the parameters passed
+    /// - Parameters:
+    ///  - id: The id of the trigger
+    ///  - tag:  The tag that needs to change
+    ///  - value: The value of the tag
+    ///  - tagChangeOperator: If the tag needs to be equal/different for this trigger to be activated
     init(id: String,
          tag: String,
          value: String,
@@ -31,6 +47,9 @@ public class MBTagChangeTrigger: MBTrigger {
         super.init(id: id, type: .tagChange)
     }
 
+    /// Initializes a `MBTagChangeTrigger` with the dictionary returned by the api
+    /// - Parameters:
+    ///   - dictionary: the dictionary returned by the api
     convenience init(dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
         let tag = dictionary["tag"] as? String ?? ""
@@ -43,6 +62,11 @@ public class MBTagChangeTrigger: MBTrigger {
                   tagChangeOperator: tagChangeOperator)
     }
 
+    /// Function called when a tag changes in MBAudience
+    /// - Parameters:
+    ///   - tag: The tag that has changed
+    ///   - value: The new value, nil if the tag has been deleted
+    /// - Returns: Returns `true` if the tag has changed
     func tagChanged(tag: String, value: String?) -> Bool {
         guard tag == self.tag else {
             return false
@@ -64,12 +88,19 @@ public class MBTagChangeTrigger: MBTrigger {
         return false
     }
     
+    /// If the trigger is valid
+    /// - Parameters:
+    ///   - fromAppStartup: if this function is called from startup
+    /// - Returns: If this trigger is valid
     override func isValid(fromAppStartup: Bool) -> Bool {
         return completionDate != nil
     }
 
     // MARK: - Save & retrieve
 
+    /// Initializes a `MBTagChangeTrigger` with the dictionary saved previously
+    /// - Parameters:
+    ///  - dictionary: The dictionary saved
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
         let tag = dictionary["tag"] as? String ?? ""
@@ -86,6 +117,7 @@ public class MBTagChangeTrigger: MBTrigger {
         }
     }
 
+    /// Converts this trigger to a JSON dictionary to be saved
     override func toJsonDictionary() -> [String: Any] {
         var dictionary = super.toJsonDictionary()
         dictionary["tag"] = tag

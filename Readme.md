@@ -77,10 +77,11 @@ To initialize automation you need to insert `MBAutomation` as a `MBurger` plugin
 MBManager.shared.plugins = [MBAutomation(), ... other plugins]
 ```
 
-MBAutomation can bbe initialized with 2 parameters:
+MBAutomation can bbe initialized with 3 optional parameters:
 
-* `trackingEnabled` if the tracking is enabled or not, setting this to false all the tracking will be disabled
-* `trackViewsAutomatically` if the automatic track of views is enabled or not
+* `trackingEnabled`: If the tracking is enabled or not, setting this to false all the tracking will be disabled
+* `trackViewsAutomatically`: If the automatic track of views is enabled or not
+* `eventsTimerTime`: The frequency used to send events and view to MBurger
 
 # Triggers
 
@@ -135,7 +136,7 @@ MBAutomation.sendEvent("purchase",
                        metadata: ["quantity": 1])
 ```
 
-Events are saved in a local database and sent to the server every 30 seconds.
+Events are saved in a local database and sent to the server every 10 seconds, you can change the frequency setting the `eventsTimerTime` property.
 
 # View Tracking
 
@@ -168,4 +169,5 @@ override func viewDidAppear(_ animated: Bool) {
 }
 ```
 
-As the events, views are saved in a local database and sent to the server every 30 seconds.
+As the events, views are saved in a local database and sent to the server every 10 seconds and you can change the frequency setting the `eventsTimerTime` property.
+

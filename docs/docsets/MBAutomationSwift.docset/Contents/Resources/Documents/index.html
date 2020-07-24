@@ -22,7 +22,7 @@
         <a class="header-link" href="index.html">
           MBAutomationSwift 0.1.3 Docs
         </a>
-         (20% documented)
+         (100% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -107,9 +107,11 @@
         <section class="section">
           <div class="section-content top-matter">
             
-            <p><img src="https://img.shields.io/badge/documentation-100%25-brightgreen.svg" alt="Test Status">
-<img src="https://img.shields.io/badge/pod-v1.0.2-blue.svg" alt="License: MIT">
-<a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-yellow.svg" alt="CocoaPods"></a></p>
+            <p><a href="https://github.com/Mumble-SRL/MBAutomationSwift/tree/master/docs"><img src="https://img.shields.io/badge/documentation-100%25-brightgreen.svg" alt="Documentation"></a>
+<a href="https://swift.org/package-manager/"><img src="https://img.shields.io/badge/SPM-supported-DE5C43.svg?style=flat" alt=""></a>
+<a href="https://cocoapods.org"><img src="https://img.shields.io/badge/pod-v0.1.3-blue.svg" alt="CocoaPods"></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage Compatible"></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-yellow.svg" alt="License"></a></p>
 <h1 id='mbautomationswift' class='heading'>MBAutomationSwift</h1>
 
 <p><code>MBAutomationSwift</code> is a plugin libary for <a href="https://mburger.cloud">MBurger</a>, that lets you send automatic push notifications and in-app messages crated from the MBurger platform. It has as dependencies <a href="https://github.com/Mumble-SRL/MBMessagesSwift">MBMessagesSwift</a> and <a href="https://github.com/Mumble-SRL/MBAudienceSwift">MBAudienceSwift</a>. With this library you can also track user events and views.</p>
@@ -169,11 +171,12 @@
 <pre class="highlight swift"><code><span class="kt">MBManager</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="n">plugins</span> <span class="o">=</span> <span class="p">[</span><span class="kt">MBAutomation</span><span class="p">(),</span> <span class="o">...</span> <span class="n">other</span> <span class="n">plugins</span><span class="p">]</span>
 </code></pre>
 
-<p>MBAutomation can bbe initialized with 2 parameters:</p>
+<p>MBAutomation can bbe initialized with 3 optional parameters:</p>
 
 <ul>
-<li><code>trackingEnabled</code> if the tracking is enabled or not, setting this to false all the tracking will be disabled</li>
-<li><code>trackViewsAutomatically</code> if the automatic track of views is enabled or not</li>
+<li><code>trackingEnabled</code>: If the tracking is enabled or not, setting this to false all the tracking will be disabled</li>
+<li><code>trackViewsAutomatically</code>: If the automatic track of views is enabled or not</li>
+<li><code>eventsTimerTime</code>: The frequency used to send events and view to MBurger</li>
 </ul>
 <h1 id='triggers' class='heading'>Triggers</h1>
 
@@ -217,7 +220,7 @@
                        <span class="nv">metadata</span><span class="p">:</span> <span class="p">[</span><span class="s">"quantity"</span><span class="p">:</span> <span class="mi">1</span><span class="p">])</span>
 </code></pre>
 
-<p>Events are saved in a local database and sent to the server every 30 seconds.</p>
+<p>Events are saved in a local database and sent to the server every 10 seconds, you can change the frequency setting the <code>eventsTimerTime</code> property.</p>
 <h1 id='view-tracking' class='heading'>View Tracking</h1>
 
 <p>In MBAutomation the tracking of the views is automatic, you can disable it initializing <code><a href="Classes/MBAutomation.html">MBAutomation</a></code> with <code>trackViewsAutomatically</code> to <code>false</code>. <code><a href="Classes/MBAutomation.html">MBAutomation</a></code> uses <a href="https://nshipster.com/method-swizzling/">method swizzling</a> to track view automatically on <code>viewDidAppear</code>. </p>
@@ -244,7 +247,7 @@
 <span class="p">}</span>
 </code></pre>
 
-<p>As the events, views are saved in a local database and sent to the server every 30 seconds.</p>
+<p>As the events, views are saved in a local database and sent to the server every 10 seconds and you can change the frequency setting the <code>eventsTimerTime</code> property.</p>
 
           </div>
         </section>

@@ -12,7 +12,15 @@ import MBurgerSwift
 class MBAutomationTrackingManager: NSObject {
     static let shared = MBAutomationTrackingManager()
     
-    let timerTime = TimeInterval(10)
+    var timerTime = TimeInterval(10) {
+        didSet {
+            if checkQueueTimer != nil {
+                //The invalidation is done in startTimer()
+                startTimer()
+            }
+        }
+    }
+    
     var checkQueueTimer: Timer?
     
     var sendingData: Bool = false

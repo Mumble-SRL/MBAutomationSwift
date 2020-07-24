@@ -8,23 +8,31 @@
 
 import UIKit
 
+/// The triggers method
 enum MBMessageTriggersMethod: Int {
+    /// The trigger becomes valid if one of the triggers is valid
     case any
+    /// The trigger becomes valid when all the triggers are valid
     case all
 }
 
+/// The triggers associated with a message
 class MBMessageTriggers: NSObject {
 
+    /// The method of the triggers
     let method: MBMessageTriggersMethod
     
+    /// The triggers
     let triggers: [MBTrigger]
         
+    /// Initializes a `MBMessageTriggers` object with a method and triggers
     init(method: MBMessageTriggersMethod,
          triggers: [MBTrigger]) {
         self.method = method
         self.triggers = triggers
     }
     
+    /// Initializes a `MBMessageTriggers` object with the dictionary returned by the api
     convenience init(dictionary: [String: Any]) {
         let methodString = dictionary["method"] as? String
         var method: MBMessageTriggersMethod = .all
@@ -44,6 +52,8 @@ class MBMessageTriggers: NSObject {
                   triggers: triggers)
     }
     
+    /// If this trigger is valid, as defined by the trigger method
+    /// - Returns: If this trigger is valid
     func isValid(fromAppStartup: Bool) -> Bool {
         for trigger in triggers {
             switch method {
@@ -62,6 +72,9 @@ class MBMessageTriggers: NSObject {
         
     // MARK: - Save & retrieve
 
+    /// Initializes a `MBMessageTriggers` with the dictionary saved previously
+    /// - Parameters:
+    ///  - dictionary: The dictionary saved
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let methodInt = dictionary["method"] as? Int ?? 0
         let method = MBMessageTriggersMethod(rawValue: methodInt) ?? MBMessageTriggersMethod.all
@@ -71,6 +84,7 @@ class MBMessageTriggers: NSObject {
         self.init(method: method, triggers: triggers)
     }
 
+    /// Converts this trigger to a JSON dictionary to be saved
     func toJsonDictionary() -> [String: Any] {
         var dictionary: [String: Any] = ["method": method.rawValue]
         dictionary["triggers"] = triggers.map({$0.toJsonDictionary()})
