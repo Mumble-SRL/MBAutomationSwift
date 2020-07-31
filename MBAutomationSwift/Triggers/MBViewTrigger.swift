@@ -79,7 +79,10 @@ public class MBViewTrigger: MBTrigger {
     ///   - fromAppStartup: if this function is called from startup
     /// - Returns: If this trigger is valid
     override func isValid(fromAppStartup: Bool) -> Bool {
-        return completionDate != nil
+        guard let completionDate = completionDate else {
+            return false
+        }
+        return completionDate >= Date()
     }
     
     // MARK: - Save & retrieve

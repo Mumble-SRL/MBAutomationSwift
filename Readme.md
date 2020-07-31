@@ -14,7 +14,7 @@ It depends on `MBAudienceSwift` because messages can be triggered by location ch
 
 It depends on `MBMessagesSwift` because it contains all the views for the in-app messages and the checks if a message has been already displayed or not.
 
-The data fflow from all the SDKs is manage entirely by MBurger, yuo don't have to worry about it.
+The data flow from all the SDKs is manage entirely by MBurger, yuo don't have to worry about it.
 
 # Installation
 
