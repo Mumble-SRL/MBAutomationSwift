@@ -16,3 +16,19 @@ xcodebuild_arguments:
     - "MBAutomationSwift"
 
 theme: fullwidth
+
+custom_categories:
+  - name: MBAutomation
+    children:
+    - MBAutomation
+  - name: Triggers
+    children:
+    - MBTrigger
+    - MBTriggerType
+    - MBAppOpeningTrigger
+    - MBEventTrigger
+    - MBInactiveUserTrigger
+    - MBLocationTrigger
+    - MBTagChangeTrigger
+    - MBTagChangeOperator
+    - MBViewTrigger

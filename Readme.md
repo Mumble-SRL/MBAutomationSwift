@@ -110,7 +110,7 @@ Here's the list of triggers managed by automation SDK:
 
 #### Location
 
-`MBLocationTrigger`: If a user enters a location, specified by `latitude`, `longitude` and `radius`. This trigger can be activated with a ttime delay defined as the `after` property. The location data comes from the [MBAudienceSwift](https://github.com/Mumble-SRL/MBAudienceSwift) SDK.
+`MBLocationTrigger`: If a user enters a location, specified by `latitude`, `longitude` and `radius`. This trigger can be activated with a day delay defined as the `afterDays` property. The location data comes from the [MBAudienceSwift](https://github.com/Mumble-SRL/MBAudienceSwift) SDK.
 
 #### Tag change
 

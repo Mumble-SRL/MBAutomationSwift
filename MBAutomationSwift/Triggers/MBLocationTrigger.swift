@@ -8,29 +8,7 @@
 
 import CoreLocation
 
-/// The trigger action that needs to happen
-public enum LocationTriggerAction: Int {
-    /// The user enters the region
-    case enter
-    
-    /// The user exits the region
-    case exit
-    
-    /// Converts the string coming from the api to a `LocationTriggerAction`, defaults to `.exit` if no match is found
-    /// - Parameters:
-    ///   - actionString: The string that is converted
-    /// - Returns: The location trigger action.
-    static func tirgger(forActionString actionString: String) -> LocationTriggerAction {
-        if actionString == "enter" {
-            return .enter
-        } else if actionString == "exit" {
-            return .exit
-        }
-        return .enter
-    }
-}
-
-/// A location trigger, fires if the user enters/exits a region
+/// A location trigger, fires if the user enters a region
 public class MBLocationTrigger: MBTrigger {
     
     /// The address of the trigger
@@ -43,12 +21,9 @@ public class MBLocationTrigger: MBTrigger {
     /// The radius of the region in meters
     public let radius: Float
     
-    /// A delay for this trigger
-    public let after: TimeInterval
+    /// A delay in days for this trigger
+    public let afterDays: Int
     
-    /// If the user needs to enter/exit the region in order for this trigger to become valid
-    public let action: LocationTriggerAction
-
     /// The date this trigger becomes true
     var completionDate: Date?
     
@@ -66,14 +41,12 @@ public class MBLocationTrigger: MBTrigger {
          latitude: Float,
          longitude: Float,
          radius: Float,
-         after: TimeInterval,
-         action: LocationTriggerAction) {
+         afterDays: Int) {
         self.address = address
         self.latitude = latitude
         self.longitude = longitude
         self.radius = radius
-        self.after = after
-        self.action = action
+        self.afterDays = afterDays
         super.init(id: id, type: .location)
     }
     
@@ -86,18 +59,14 @@ public class MBLocationTrigger: MBTrigger {
         let latitudeNumber = dictionary["latitude"] as? NSNumber
         let longitudeNumber = dictionary["longitude"] as? NSNumber
         let radius = dictionary["radius"] as? Float ?? 0
-        let after = dictionary["after"] as? TimeInterval ?? 0
-
-        let actionString = dictionary["action"] as? String ?? "enter"
-        let action = LocationTriggerAction.tirgger(forActionString: actionString)
+        let afterDays = dictionary["after"] as? Int ?? 0
         
         self.init(id: id,
                   address: address,
                   latitude: latitudeNumber?.floatValue ?? 0,
                   longitude: longitudeNumber?.floatValue ?? 0,
                   radius: radius,
-                  after: after,
-                  action: action)
+                  afterDays: afterDays)
     }
     
     /// Function called when new location is available in MBAudience
@@ -115,25 +84,25 @@ public class MBLocationTrigger: MBTrigger {
         let isInside = triggerRegion.contains(location)
         
         var locationTriggerSatisfied = false
-        if let lastLocation = lastLocation {
-            if action == .enter && isInside {
-                let lastLocationIsInside = triggerRegion.contains(lastLocation)
-                locationTriggerSatisfied = lastLocationIsInside
-            } else if action == .exit && !isInside {
+        if isInside {
+            if let lastLocation = lastLocation {
                 let lastLocationIsInside = triggerRegion.contains(lastLocation)
                 locationTriggerSatisfied = !lastLocationIsInside
-            }
-        } else {
-            if action == .enter && isInside {
+            } else {
                 locationTriggerSatisfied = true
             }
         }
         if locationTriggerSatisfied {
-            if after == 0 {
+            if afterDays == 0 {
                 completionDate = Date()
                 return true
             } else {
-                completionDate = Date().addingTimeInterval(after)
+                let calendar = Calendar.current
+                if let dateByAddingDays = calendar.date(byAdding: .day, value: afterDays, to: Date()) {
+                    completionDate = dateByAddingDays
+                } else {
+                    completionDate = Date()
+                }
                 return false
             }
         }
@@ -170,16 +139,13 @@ public class MBLocationTrigger: MBTrigger {
         let latitude = dictionary["latitude"] as? Float ?? 0
         let longitude = dictionary["longitude"] as? Float ?? 0
         let radius = dictionary["radius"] as? Float ?? 0
-        let after = dictionary["after"] as? TimeInterval ?? 0
-        let actionInt = dictionary["action"] as? Int ?? 0
-        let action = LocationTriggerAction(rawValue: actionInt) ?? .enter
+        let afterDays = dictionary["afterDays"] as? Int ?? 0
         self.init(id: id,
                   address: address,
                   latitude: latitude,
                   longitude: longitude,
                   radius: radius,
-                  after: after,
-                  action: action)
+                  afterDays: afterDays)
         if let completionDate = dictionary["completionDate"] as? TimeInterval {
             self.completionDate = Date(timeIntervalSince1970: completionDate)
         }
@@ -192,8 +158,7 @@ public class MBLocationTrigger: MBTrigger {
         dictionary["latitude"] = latitude
         dictionary["longitude"] = longitude
         dictionary["radius"] = radius
-        dictionary["after"] = after
-        dictionary["action"] = action.rawValue
+        dictionary["afterDays"] = afterDays
 
         if let completionDate = completionDate {
             dictionary["completionDate"] = completionDate.timeIntervalSince1970
