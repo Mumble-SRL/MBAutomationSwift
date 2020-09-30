@@ -14,7 +14,7 @@ It depends on `MBAudienceSwift` because messages can be triggered by location ch
 
 It depends on `MBMessagesSwift` because it contains all the views for the in-app messages and the checks if a message has been already displayed or not.
 
-The data fflow from all the SDKs is manage entirely by MBurger, yuo don't have to worry about it.
+The data flow from all the SDKs is manage entirely by MBurger, yuo don't have to worry about it.
 
 # Installation
 
@@ -110,7 +110,7 @@ Here's the list of triggers managed by automation SDK:
 
 #### Location
 
-`MBLocationTrigger`: If a user enters a location, specified by `latitude`, `longitude` and `radius`. This trigger can be activated with a ttime delay defined as the `after` property. The location data comes from the [MBAudienceSwift](https://github.com/Mumble-SRL/MBAudienceSwift) SDK.
+`MBLocationTrigger`: If a user enters a location, specified by `latitude`, `longitude` and `radius`. This trigger can be activated with a day delay defined as the `afterDays` property. The location data comes from the [MBAudienceSwift](https://github.com/Mumble-SRL/MBAudienceSwift) SDK.
 
 #### Tag change
 

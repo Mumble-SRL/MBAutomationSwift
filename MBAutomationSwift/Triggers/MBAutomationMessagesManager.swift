@@ -171,8 +171,8 @@ class MBAutomationMessagesManager {
                     if triggerChanged {
                         somethingChanged = true
                     }
-                    if locationTrigger.after != 0 {
-                        self.checkMessagesAfterDelay(locationTrigger.after)
+                    if locationTrigger.afterDays != 0 {
+                        self.checkMessagesAfterDelay(locationTrigger.afterDays)
                     }
                 }
             }
@@ -202,10 +202,16 @@ class MBAutomationMessagesManager {
         UserDefaults.standard.set(location.longitude, forKey: lastLocationLngKey)
     }
 
-    internal static func checkMessagesAfterDelay(_ delay: TimeInterval) {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay) {
-            self.checkMessages(fromStartup: false)
+    internal static func checkMessagesAfterDelay(_ afterDays: Int) {
+        guard let date = Calendar.current.date(byAdding: .day, value: afterDays, to: Date()) else {
+            return
         }
+        let timer = Timer(fireAt: date, interval: 0, target: self, selector: #selector(checkTimerFired), userInfo: nil, repeats: false)
+        RunLoop.main.add(timer, forMode: .common)
+    }
+    
+    @objc internal static func checkTimerFired() {
+        checkMessages(fromStartup: false)
     }
     
     // MARK: - Messages check
@@ -318,7 +324,7 @@ class MBAutomationMessagesViewManager: NSObject {
                             let data: [String: Any] = ["message": message.id,
                                                         "index": index]
                             if viewTrigger.secondsOnView != 0 {
-                                perform(#selector(setViewTriggerCompleted(data:)), with: data, afterDelay: 5/*viewTrigger.secondsOnView*/)
+                                perform(#selector(setViewTriggerCompleted(data:)), with: data, afterDelay: viewTrigger.secondsOnView)
                             } else {
                                 setViewTriggerCompleted(data: data)
                             }

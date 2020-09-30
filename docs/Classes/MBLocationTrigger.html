@@ -51,13 +51,24 @@
       <nav class="navigation">
         <ul class="nav-groups">
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Classes.html">Classes</a>
+            <a class="nav-group-name-link" href="../MBAutomation.html">MBAutomation</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/MBAppOpeningTrigger.html">MBAppOpeningTrigger</a>
+                <a class="nav-group-task-link" href="../Classes/MBAutomation.html">MBAutomation</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Triggers.html">Triggers</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Triggers.html#/c:@M@MBAutomationSwift@objc(cs)MBTrigger">MBTrigger</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/MBAutomation.html">MBAutomation</a>
+                <a class="nav-group-task-link" href="../Enums/MBTriggerType.html">MBTriggerType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/MBAppOpeningTrigger.html">MBAppOpeningTrigger</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/MBEventTrigger.html">MBEventTrigger</a>
@@ -72,7 +83,7 @@
                 <a class="nav-group-task-link" href="../Classes/MBTagChangeTrigger.html">MBTagChangeTrigger</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes.html#/c:@M@MBAutomationSwift@objc(cs)MBTrigger">MBTrigger</a>
+                <a class="nav-group-task-link" href="../Enums/MBTagChangeOperator.html">MBTagChangeOperator</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/MBViewTrigger.html">MBViewTrigger</a>
@@ -80,21 +91,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/LocationTriggerAction.html">LocationTriggerAction</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/MBTagChangeOperator.html">MBTagChangeOperator</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/MBTriggerType.html">MBTriggerType</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
+            <a class="nav-group-name-link" href="../Other%20Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Extensions/UIViewController.html">UIViewController</a>
@@ -111,11 +108,11 @@
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">MBLocationTrigger</span> <span class="p">:</span> <span class="kt"><a href="../Classes.html#/c:@M@MBAutomationSwift@objc(cs)MBTrigger">MBTrigger</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">MBLocationTrigger</span> <span class="p">:</span> <span class="kt"><a href="../Triggers.html#/c:@M@MBAutomationSwift@objc(cs)MBTrigger">MBTrigger</a></span></code></pre>
 
                 </div>
               </div>
-            <p>A location trigger, fires if the user enters/exits a region</p>
+            <p>A location trigger, fires if the user enters a region</p>
 
           </div>
         </section>
@@ -235,9 +232,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:17MBAutomationSwift17MBLocationTriggerC5afterSdvp"></a>
-                    <a name="//apple_ref/swift/Property/after" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17MBAutomationSwift17MBLocationTriggerC5afterSdvp">after</a>
+                    <a name="/s:17MBAutomationSwift17MBLocationTriggerC9afterDaysSivp"></a>
+                    <a name="//apple_ref/swift/Property/afterDays" class="dashAnchor"></a>
+                    <a class="token" href="#/s:17MBAutomationSwift17MBLocationTriggerC9afterDaysSivp">afterDays</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -245,41 +242,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A delay for this trigger</p>
+                        <p>A delay in days for this trigger</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">after</span><span class="p">:</span> <span class="kt">TimeInterval</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:17MBAutomationSwift17MBLocationTriggerC6actionAA08LocationD6ActionOvp"></a>
-                    <a name="//apple_ref/swift/Property/action" class="dashAnchor"></a>
-                    <a class="token" href="#/s:17MBAutomationSwift17MBLocationTriggerC6actionAA08LocationD6ActionOvp">action</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>If the user needs to enter/exit the region in order for this trigger to become valid</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">action</span><span class="p">:</span> <span class="kt"><a href="../Enums/LocationTriggerAction.html">LocationTriggerAction</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">afterDays</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>
@@ -294,7 +264,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="https://mumbleideas.it/" target="_blank" rel="external">Mumble</a>. All rights reserved. (Last updated: 2020-07-24)</p>
+      <p>&copy; 2020 <a class="link" href="https://mumbleideas.it/" target="_blank" rel="external">Mumble</a>. All rights reserved. (Last updated: 2020-07-31)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

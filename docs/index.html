@@ -50,13 +50,24 @@
       <nav class="navigation">
         <ul class="nav-groups">
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <a class="nav-group-name-link" href="MBAutomation.html">MBAutomation</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/MBAppOpeningTrigger.html">MBAppOpeningTrigger</a>
+                <a class="nav-group-task-link" href="Classes/MBAutomation.html">MBAutomation</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Triggers.html">Triggers</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Triggers.html#/c:@M@MBAutomationSwift@objc(cs)MBTrigger">MBTrigger</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/MBAutomation.html">MBAutomation</a>
+                <a class="nav-group-task-link" href="Enums/MBTriggerType.html">MBTriggerType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/MBAppOpeningTrigger.html">MBAppOpeningTrigger</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Classes/MBEventTrigger.html">MBEventTrigger</a>
@@ -71,7 +82,7 @@
                 <a class="nav-group-task-link" href="Classes/MBTagChangeTrigger.html">MBTagChangeTrigger</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes.html#/c:@M@MBAutomationSwift@objc(cs)MBTrigger">MBTrigger</a>
+                <a class="nav-group-task-link" href="Enums/MBTagChangeOperator.html">MBTagChangeOperator</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Classes/MBViewTrigger.html">MBViewTrigger</a>
@@ -79,21 +90,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/LocationTriggerAction.html">LocationTriggerAction</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/MBTagChangeOperator.html">MBTagChangeOperator</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/MBTriggerType.html">MBTriggerType</a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Extensions.html">Extensions</a>
+            <a class="nav-group-name-link" href="Other%20Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/UIViewController.html">UIViewController</a>
@@ -201,7 +198,7 @@
 <p><code><a href="Classes/MBInactiveUserTrigger.html">MBInactiveUserTrigger</a></code>: Becomes true if a user has not opened the app for n days (<code>days</code> parameter)</p>
 <h4 id='location' class='heading'>Location</h4>
 
-<p><code><a href="Classes/MBLocationTrigger.html">MBLocationTrigger</a></code>: If a user enters a location, specified by <code>latitude</code>, <code>longitude</code> and <code>radius</code>. This trigger can be activated with a ttime delay defined as the <code>after</code> property. The location data comes from the <a href="https://github.com/Mumble-SRL/MBAudienceSwift">MBAudienceSwift</a> SDK.</p>
+<p><code><a href="Classes/MBLocationTrigger.html">MBLocationTrigger</a></code>: If a user enters a location, specified by <code>latitude</code>, <code>longitude</code> and <code>radius</code>. This trigger can be activated with a day delay defined as the <code>afterDays</code> property. The location data comes from the <a href="https://github.com/Mumble-SRL/MBAudienceSwift">MBAudienceSwift</a> SDK.</p>
 <h4 id='tag-change' class='heading'>Tag change</h4>
 
 <p><code><a href="Classes/MBTagChangeTrigger.html">MBTagChangeTrigger</a></code>: If a tag of the <a href="https://github.com/Mumble-SRL/MBAudienceSwift">MBAudienceSwift</a> SDK changes and become equals or not to a value. It has a <code>tag</code> property (the tag that needs to be checked) and a <code>value</code> property (the value that needs to be equal or different in order to activate the trigger)</p>
@@ -256,7 +253,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="https://mumbleideas.it/" target="_blank" rel="external">Mumble</a>. All rights reserved. (Last updated: 2020-07-24)</p>
+      <p>&copy; 2020 <a class="link" href="https://mumbleideas.it/" target="_blank" rel="external">Mumble</a>. All rights reserved. (Last updated: 2020-07-31)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
