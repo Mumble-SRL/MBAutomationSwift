@@ -324,7 +324,7 @@ class MBAutomationMessagesViewManager: NSObject {
                             let data: [String: Any] = ["message": message.id,
                                                         "index": index]
                             if viewTrigger.secondsOnView != 0 {
-                                perform(#selector(setViewTriggerCompleted(data:)), with: data, afterDelay: 5/*viewTrigger.secondsOnView*/)
+                                perform(#selector(setViewTriggerCompleted(data:)), with: data, afterDelay: viewTrigger.secondsOnView)
                             } else {
                                 setViewTriggerCompleted(data: data)
                             }
