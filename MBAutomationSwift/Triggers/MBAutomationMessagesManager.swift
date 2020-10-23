@@ -138,9 +138,16 @@ class MBAutomationMessagesManager {
             if let trigger = message.triggers as? MBMessageTriggers,
                 let tagTriggers = trigger.triggers.filter({ $0 is MBTagChangeTrigger }) as? [MBTagChangeTrigger] {
                 for tagTrigger in tagTriggers {
-                    let triggerChanged = tagTrigger.tagChanged(tag: tag, value: value)
-                    if triggerChanged {
+                    let triggerChangeStatus = tagTrigger.tagChanged(tag: tag, value: value)
+                    if triggerChangeStatus != .unchanged  {
                         somethingChanged = true
+                    }
+                    // If the tag has been invalidated cancel future pushes
+                    // Can be used to manage abandoned cart
+                    if triggerChangeStatus == .invalid {
+                        if message.type == .push && message.sendAfterDays != 0 {
+                            MBAutomationPushNotificationsManager.cancelPushNotification(forMessage: message)
+                        }
                     }
                 }
             }

@@ -94,7 +94,7 @@ public class MBViewTrigger: MBTrigger {
         guard let completionDate = completionDate else {
             return false
         }
-        return completionDate >= Date()
+        return completionDate.timeIntervalSince1970 <= Date().timeIntervalSince1970
     }
     
     // MARK: - Save & retrieve
