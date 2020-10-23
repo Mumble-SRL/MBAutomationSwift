@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBMessagesSwift
 
 /// An event trigger, this trigger becomes valid when an event happens n times
 public class MBEventTrigger: MBTrigger {
@@ -88,9 +89,10 @@ public class MBEventTrigger: MBTrigger {
     
     /// If the trigger is valid
     /// - Parameters:
+    ///   - message: the message that requested if this trigger is valid
     ///   - fromAppStartup: if this function is called from startup
     /// - Returns: If this trigger is valid
-    override func isValid(fromAppStartup: Bool) -> Bool {
+    override func isValid(message: MBMessage, fromAppStartup: Bool) -> Bool {
         guard let completionDate = completionDate else {
             return false
         }
@@ -130,5 +132,17 @@ public class MBEventTrigger: MBTrigger {
             dictionary["numberOfTimes"] = numberOfTimes
         }
         return dictionary
+    }
+    
+    // MARK: - Trigger Update
+        
+    override internal func updatedTrigger(newTrigger: MBTrigger) -> MBTrigger {
+        guard let newEventTrigger = newTrigger as? MBEventTrigger else {
+            return newTrigger
+        }
+        
+        newEventTrigger.numberOfTimes = numberOfTimes
+        newEventTrigger.completionDate = completionDate
+        return newEventTrigger
     }
 }

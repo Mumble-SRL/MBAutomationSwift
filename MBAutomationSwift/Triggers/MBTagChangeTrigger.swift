@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBMessagesSwift
 
 /// The tag change operator
 public enum MBTagChangeOperator: Int {
@@ -90,9 +91,10 @@ public class MBTagChangeTrigger: MBTrigger {
     
     /// If the trigger is valid
     /// - Parameters:
+    ///   - message: the message that requested if this trigger is valid
     ///   - fromAppStartup: if this function is called from startup
     /// - Returns: If this trigger is valid
-    override func isValid(fromAppStartup: Bool) -> Bool {
+    override func isValid(message: MBMessage, fromAppStartup: Bool) -> Bool {
         guard let completionDate = completionDate else {
             return false
         }
@@ -131,6 +133,17 @@ public class MBTagChangeTrigger: MBTrigger {
         }
 
         return dictionary
+    }
+
+    // MARK: - Trigger Update
+        
+    override internal func updatedTrigger(newTrigger: MBTrigger) -> MBTrigger {
+        guard let newTagChangeTrigger = newTrigger as? MBTagChangeTrigger else {
+            return newTrigger
+        }
+        
+        newTagChangeTrigger.completionDate = completionDate
+        return newTagChangeTrigger
     }
 
 }

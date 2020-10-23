@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBMessagesSwift
 
 /// The possible types for the trigger
 public enum MBTriggerType: Int {
@@ -54,9 +55,10 @@ public class MBTrigger: NSObject {
     
     /// If the trigger is valid
     /// - Parameters:
+    ///   - message: the message that requested if this trigger is valid
     ///   - fromAppStartup: if this function is called from startup
     /// - Returns: If this trigger is valid
-    func isValid(fromAppStartup: Bool) -> Bool {
+    func isValid(message: MBMessage, fromAppStartup: Bool) -> Bool {
         return false
     }
     
@@ -75,5 +77,11 @@ public class MBTrigger: NSObject {
         let id = dictionary["id"] as? String ?? ""
         let type = dictionary["type"] as? Int ?? MBTriggerType.unknown.rawValue
         self.init(id: id, type: MBTriggerType(rawValue: type) ?? .unknown)
+    }
+    
+    /// Updates the trigger with the new infos
+    /// By defaults no action is done
+    internal func updatedTrigger(newTrigger: MBTrigger) -> MBTrigger {
+        return newTrigger
     }
 }

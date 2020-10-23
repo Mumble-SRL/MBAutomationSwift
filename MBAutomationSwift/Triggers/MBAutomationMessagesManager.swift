@@ -17,12 +17,12 @@ class MBAutomationMessagesManager {
     // MARK: - Set triggers
     
     static func setTriggers(toMessages messages: inout [AnyObject]) {
-        for message in messages where message is MBMessage {
+        for message in messages {
             guard let message = message as? MBMessage else {
                 continue
             }
             guard message.automationIsOn else {
-                return
+                continue
             }
             if let triggers = message.triggers as? [String: Any] {
                 message.triggers = MBMessageTriggers(dictionary: triggers)
@@ -226,7 +226,8 @@ class MBAutomationMessagesManager {
             guard let triggers = message.triggers as? MBMessageTriggers else {
                 continue
             }
-            if triggers.isValid(fromAppStartup: true) {
+            if triggers.isValid(message: message,
+                                fromAppStartup: true) {
                 messagesToShow.append(message)
             }
         }
@@ -259,6 +260,10 @@ class MBAutomationMessagesManager {
         if fromFetch {
             for message in messages {
                 if let savedMessage = savedMessages.first(where: { $0.id == message.id }) {
+                    if let triggers = savedMessage.triggers as? MBMessageTriggers,
+                       let newTriggers = message.triggers as? MBMessageTriggers {
+                        triggers.updateTriggers(newTriggers: newTriggers)
+                    }
                     messagesToSave.append(savedMessage)
                 } else {
                     messagesToSave.append(message)
