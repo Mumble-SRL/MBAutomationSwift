@@ -231,6 +231,7 @@ class MBAutomationMessagesManager {
                 messagesToShow.append(message)
             }
         }
+        
         if messagesToShow.count != 0 {
             let inAppMessages = messagesToShow.filter({ $0.type == .inAppMessage && $0.inAppMessage != nil })
             if inAppMessages.count != 0 && UIApplication.shared.applicationState == .background {
@@ -241,7 +242,9 @@ class MBAutomationMessagesManager {
                                                           ignoreShowedMessages: plugin.debug)
                 }
             }
+            
             let pushNotifications = messagesToShow.filter({ $0.type == .push && $0.push != nil })
+            
             if pushNotifications.count != 0 {
                 MBAutomationPushNotificationsManager.showPushNotifications(messages: pushNotifications)
             }
@@ -262,7 +265,8 @@ class MBAutomationMessagesManager {
                 if let savedMessage = savedMessages.first(where: { $0.id == message.id }) {
                     if let triggers = savedMessage.triggers as? MBMessageTriggers,
                        let newTriggers = message.triggers as? MBMessageTriggers {
-                        triggers.updateTriggers(newTriggers: newTriggers)
+                        let updatedTriggers = triggers.updateTriggers(newTriggers: newTriggers)
+                        savedMessage.triggers = updatedTriggers
                     }
                     messagesToSave.append(savedMessage)
                 } else {

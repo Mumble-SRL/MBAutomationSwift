@@ -76,12 +76,13 @@ public class MBTagChangeTrigger: MBTrigger {
         let newValue = value ?? ""
         if tagChangeOperator == .equal {
             if newValue == self.value {
-                completionDate = Date()
+                print(self)
+                self.completionDate = Date()
                 return true
             }
         } else if tagChangeOperator == .notEqual {
             if newValue != self.value {
-                completionDate = Date()
+                self.completionDate = Date()
                 return true
             }
         }

@@ -73,7 +73,7 @@ class MBMessageTriggers: NSObject {
                 }
             }
         }
-        return true
+        return method == .any ? false : true
     }
         
     // MARK: - Save & retrieve
@@ -99,7 +99,7 @@ class MBMessageTriggers: NSObject {
     
     // MARK: - Update Triggers
     
-    func updateTriggers(newTriggers: MBMessageTriggers) {
+    func updateTriggers(newTriggers: MBMessageTriggers) -> MBMessageTriggers {
         var updatedTriggers = [MBTrigger]()
         for newTrigger in newTriggers.triggers {
             if let trigger = triggers.first(where: { $0.id == newTrigger.id }) {
@@ -110,5 +110,6 @@ class MBMessageTriggers: NSObject {
             }
         }
         self.triggers = updatedTriggers
+        return self
     }
 }
