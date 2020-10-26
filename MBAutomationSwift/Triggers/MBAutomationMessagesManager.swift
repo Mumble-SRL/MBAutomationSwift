@@ -241,7 +241,7 @@ class MBAutomationMessagesManager {
         
         if messagesToShow.count != 0 {
             let inAppMessages = messagesToShow.filter({ $0.type == .inAppMessage && $0.inAppMessage != nil })
-            if inAppMessages.count != 0 && UIApplication.shared.applicationState == .background {
+            if inAppMessages.count != 0 && UIApplication.shared.applicationState != .background {
                 if let plugin = MBManager.shared.plugins.first(where: { $0 is MBMessages }) as? MBMessages {
                     MBInAppMessageManager.presentMessages(inAppMessages,
                                                           delegate: plugin.viewDelegate,
