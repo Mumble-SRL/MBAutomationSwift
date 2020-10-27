@@ -363,7 +363,7 @@ class MBAutomationMessagesViewManager: NSObject {
         guard let triggers = message.triggers as? [MBTrigger] else {
             return
         }
-        guard triggers.count < triggerIndex else {
+        guard triggerIndex < triggers.count else {
             return
         }
         guard let trigger = triggers[triggerIndex] as? MBViewTrigger else {
