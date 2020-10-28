@@ -193,7 +193,7 @@ class MBAutomationMessagesManager {
     
     internal static func lastLocation() -> CLLocationCoordinate2D? {
         let lastLocationLatKey = "com.mumble.mburger.automation.lastLocation.lat"
-        let lastLocationLngKey = "com.mumble.mburger.automation.lastLocation.lat"
+        let lastLocationLngKey = "com.mumble.mburger.automation.lastLocation.lng"
         let lastLat = UserDefaults.standard.double(forKey: lastLocationLatKey)
         let lastLng = UserDefaults.standard.double(forKey: lastLocationLngKey)
         guard lastLat != 0 && lastLng != 0 else {
@@ -204,7 +204,7 @@ class MBAutomationMessagesManager {
     
     internal static func saveLocationAsLast(location: CLLocationCoordinate2D) {
         let lastLocationLatKey = "com.mumble.mburger.automation.lastLocation.lat"
-        let lastLocationLngKey = "com.mumble.mburger.automation.lastLocation.lat"
+        let lastLocationLngKey = "com.mumble.mburger.automation.lastLocation.lng"
         UserDefaults.standard.set(location.latitude, forKey: lastLocationLatKey)
         UserDefaults.standard.set(location.longitude, forKey: lastLocationLngKey)
     }
