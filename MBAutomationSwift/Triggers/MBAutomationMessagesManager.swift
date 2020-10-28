@@ -234,7 +234,7 @@ class MBAutomationMessagesManager {
                 continue
             }
             if triggers.isValid(message: message,
-                                fromAppStartup: true) {
+                                fromAppStartup: fromStartup) {
                 messagesToShow.append(message)
             }
         }
