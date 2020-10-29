@@ -370,6 +370,7 @@ class MBAutomationMessagesViewManager: NSObject {
             return
         }
         trigger.setCompleted()
+        MBAutomationMessagesManager.saveMessages(savedMessages, fromFetch: false)
         MBAutomationMessagesManager.checkMessages(fromStartup: false)
     }
 
