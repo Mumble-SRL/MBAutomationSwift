@@ -329,12 +329,15 @@ class MBAutomationMessagesViewManager: NSObject {
         guard savedMessages.count != 0 else {
             return
         }
+        
+        var somethingChanged = false
         for message in savedMessages {
             if let trigger = message.triggers as? MBMessageTriggers,
                 let viewTriggers = trigger.triggers.filter({ $0 is MBViewTrigger }) as? [MBViewTrigger] {
                 for viewTrigger in viewTriggers {
                     let result = viewTrigger.screenViewed(view: view)
                     if result {
+                        somethingChanged = true
                         if (viewTrigger.numberOfTimes ?? 0) >= viewTrigger.times {
                             let index = trigger.triggers.firstIndex(of: viewTrigger) ?? 0
                             let data: [String: Any] = ["message": message.id,
@@ -348,6 +351,10 @@ class MBAutomationMessagesViewManager: NSObject {
                     }
                 }
             }
+        }
+        
+        if somethingChanged {
+            MBAutomationMessagesManager.saveMessages(savedMessages, fromFetch: false)
         }
     }
     
