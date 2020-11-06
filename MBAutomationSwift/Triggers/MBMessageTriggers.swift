@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBMessagesSwift
 
 /// The triggers method
 enum MBMessageTriggersMethod: Int {
@@ -23,7 +24,7 @@ class MBMessageTriggers: NSObject {
     let method: MBMessageTriggersMethod
     
     /// The triggers
-    let triggers: [MBTrigger]
+    var triggers: [MBTrigger]
         
     /// Initializes a `MBMessageTriggers` object with a method and triggers
     init(method: MBMessageTriggersMethod,
@@ -53,21 +54,26 @@ class MBMessageTriggers: NSObject {
     }
     
     /// If this trigger is valid, as defined by the trigger method
+    /// - Parameters:
+    ///   - message: the message that requested if this trigger is valid
+    ///   - fromAppStartup: if this function is called from startup
     /// - Returns: If this trigger is valid
-    func isValid(fromAppStartup: Bool) -> Bool {
+    func isValid(message: MBMessage, fromAppStartup: Bool) -> Bool {
         for trigger in triggers {
             switch method {
             case .any:
-                if trigger.isValid(fromAppStartup: fromAppStartup) {
+                if trigger.isValid(message: message,
+                                   fromAppStartup: fromAppStartup) {
                     return true
                 }
             case .all:
-                if !trigger.isValid(fromAppStartup: fromAppStartup) {
+                if !trigger.isValid(message: message,
+                                    fromAppStartup: fromAppStartup) {
                     return false
                 }
             }
         }
-        return true
+        return method == .any ? false : true
     }
         
     // MARK: - Save & retrieve
@@ -89,5 +95,21 @@ class MBMessageTriggers: NSObject {
         var dictionary: [String: Any] = ["method": method.rawValue]
         dictionary["triggers"] = triggers.map({$0.toJsonDictionary()})
         return dictionary
+    }
+    
+    // MARK: - Update Triggers
+    
+    func updateTriggers(newTriggers: MBMessageTriggers) -> MBMessageTriggers {
+        var updatedTriggers = [MBTrigger]()
+        for newTrigger in newTriggers.triggers {
+            if let trigger = triggers.first(where: { $0.id == newTrigger.id }) {
+                let updatedTrigger = trigger.updatedTrigger(newTrigger: newTrigger)
+                updatedTriggers.append(updatedTrigger)
+            } else {
+                updatedTriggers.append(newTrigger)
+            }
+        }
+        self.triggers = updatedTriggers
+        return self
     }
 }

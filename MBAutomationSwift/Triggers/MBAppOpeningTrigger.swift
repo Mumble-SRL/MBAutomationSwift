@@ -8,6 +8,7 @@
 
 import UIKit
 import MBAudienceSwift
+import MBMessagesSwift
 
 /// A trigger that becomes true if the app is opened n times
 public class MBAppOpeningTrigger: MBTrigger {
@@ -38,9 +39,10 @@ public class MBAppOpeningTrigger: MBTrigger {
 
     /// If the trigger is valid
     /// - Parameters:
+    ///   - message: the message that requested if this trigger is valid
     ///   - fromAppStartup: if this function is called from startup
     /// - Returns: If this trigger is valid
-    override func isValid(fromAppStartup: Bool) -> Bool {
+    override func isValid(message: MBMessage, fromAppStartup: Bool) -> Bool {
         guard fromAppStartup else {
             return false
         }

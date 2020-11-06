@@ -7,6 +7,14 @@
 //
 
 import UIKit
+import MBMessagesSwift
+
+/// When a tag changes tells if this trigger has changed or has become invalid
+internal enum MBTriggerChangedStatus {
+    case unchanged
+    case valid
+    case invalid
+}
 
 /// The tag change operator
 public enum MBTagChangeOperator: Int {
@@ -66,37 +74,45 @@ public class MBTagChangeTrigger: MBTrigger {
     /// - Parameters:
     ///   - tag: The tag that has changed
     ///   - value: The new value, nil if the tag has been deleted
-    /// - Returns: Returns `true` if the tag has changed
-    func tagChanged(tag: String, value: String?) -> Bool {
+    /// - Returns: Returns the new status of the tag as `MBTriggerChangedStatus`
+    func tagChanged(tag: String, value: String?) -> MBTriggerChangedStatus {
         guard tag == self.tag else {
-            return false
+            return .unchanged
         }
         
         let newValue = value ?? ""
         if tagChangeOperator == .equal {
             if newValue == self.value {
-                completionDate = Date()
-                return true
+                self.completionDate = Date()
+                return .valid
+            } else {
+                self.completionDate = nil
+                return .invalid
             }
         } else if tagChangeOperator == .notEqual {
             if newValue != self.value {
-                completionDate = Date()
-                return true
+                self.completionDate = Date()
+                return .valid
+            } else {
+                self.completionDate = nil
+                return .invalid
             }
         }
         
-        return false
+        return .unchanged
     }
     
     /// If the trigger is valid
     /// - Parameters:
+    ///   - message: the message that requested if this trigger is valid
     ///   - fromAppStartup: if this function is called from startup
     /// - Returns: If this trigger is valid
-    override func isValid(fromAppStartup: Bool) -> Bool {
+    override func isValid(message: MBMessage, fromAppStartup: Bool) -> Bool {
         guard let completionDate = completionDate else {
             return false
         }
-        return completionDate >= Date()
+        
+        return completionDate.timeIntervalSince1970 <= Date().timeIntervalSince1970
     }
 
     // MARK: - Save & retrieve
@@ -131,6 +147,17 @@ public class MBTagChangeTrigger: MBTrigger {
         }
 
         return dictionary
+    }
+
+    // MARK: - Trigger Update
+        
+    override internal func updatedTrigger(newTrigger: MBTrigger) -> MBTrigger {
+        guard let newTagChangeTrigger = newTrigger as? MBTagChangeTrigger else {
+            return newTrigger
+        }
+        
+        newTagChangeTrigger.completionDate = completionDate
+        return newTagChangeTrigger
     }
 
 }

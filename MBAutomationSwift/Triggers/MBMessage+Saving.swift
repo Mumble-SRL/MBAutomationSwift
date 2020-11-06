@@ -17,6 +17,7 @@ extension MBMessage {
                                          "type": type.rawValue,
                                          "startDate": startDate.timeIntervalSince1970,
                                          "endDate": endDate.timeIntervalSince1970,
+                                         "sendAfterDays": sendAfterDays,
                                          "automationIsOn": automationIsOn]
         if let inAppMessage = inAppMessage {
             dictionary["inAppMessage"] = inAppMessage.toJsonDictionary()
@@ -40,6 +41,7 @@ extension MBMessage {
         let typeInt = dictionary["type"] as? Int ?? 0
         let startDate = dictionary["startDate"] as? TimeInterval ?? 0
         let endDate = dictionary["endDate"] as? TimeInterval ?? 0
+        let sendAfterDays = dictionary["sendAfterDays"] as? Int ?? 0
         let automationIsOn = dictionary["automationIsOn"] as? Bool ?? false
 
         var inAppMessage: MBInAppMessage?
@@ -67,6 +69,7 @@ extension MBMessage {
                   startDate: Date(timeIntervalSince1970: startDate),
                   endDate: Date(timeIntervalSince1970: endDate),
                   automationIsOn: automationIsOn,
+                  sendAfterDays: sendAfterDays,
                   triggers: triggers)
     }
 }

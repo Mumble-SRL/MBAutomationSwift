@@ -7,6 +7,7 @@
 //
 
 import CoreLocation
+import MBMessagesSwift
 
 /// A location trigger, fires if the user enters a region
 public class MBLocationTrigger: MBTrigger {
@@ -122,13 +123,18 @@ public class MBLocationTrigger: MBTrigger {
     
     /// If the trigger is valid
     /// - Parameters:
+    ///   - message: the message that requested if this trigger is valid
     ///   - fromAppStartup: if this function is called from startup
     /// - Returns: If this trigger is valid
-    override func isValid(fromAppStartup: Bool) -> Bool {
+    override func isValid(message: MBMessage, fromAppStartup: Bool) -> Bool {
+        // Push notification are handled by the server of MBurger
+        guard message.type != .push else {
+            return false
+        }
         guard let completionDate = completionDate else {
             return false
         }
-        return completionDate >= Date()
+        return completionDate.timeIntervalSince1970 <= Date().timeIntervalSince1970
     }
     
     // MARK: - Save & retrieve
@@ -167,6 +173,17 @@ public class MBLocationTrigger: MBTrigger {
             dictionary["completionDate"] = completionDate.timeIntervalSince1970
         }
         return dictionary
+    }
+    
+    // MARK: - Trigger Update
+        
+    override internal func updatedTrigger(newTrigger: MBTrigger) -> MBTrigger {
+        guard let newLocationTrigger = newTrigger as? MBLocationTrigger else {
+            return newTrigger
+        }
+        
+        newLocationTrigger.completionDate = completionDate
+        return newLocationTrigger
     }
 
 }

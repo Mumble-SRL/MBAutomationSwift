@@ -17,12 +17,12 @@ class MBAutomationMessagesManager {
     // MARK: - Set triggers
     
     static func setTriggers(toMessages messages: inout [AnyObject]) {
-        for message in messages where message is MBMessage {
+        for message in messages {
             guard let message = message as? MBMessage else {
                 continue
             }
             guard message.automationIsOn else {
-                return
+                continue
             }
             if let triggers = message.triggers as? [String: Any] {
                 message.triggers = MBMessageTriggers(dictionary: triggers)
@@ -138,9 +138,16 @@ class MBAutomationMessagesManager {
             if let trigger = message.triggers as? MBMessageTriggers,
                 let tagTriggers = trigger.triggers.filter({ $0 is MBTagChangeTrigger }) as? [MBTagChangeTrigger] {
                 for tagTrigger in tagTriggers {
-                    let triggerChanged = tagTrigger.tagChanged(tag: tag, value: value)
-                    if triggerChanged {
+                    let triggerChangeStatus = tagTrigger.tagChanged(tag: tag, value: value)
+                    if triggerChangeStatus != .unchanged  {
                         somethingChanged = true
+                    }
+                    // If the tag has been invalidated cancel future pushes
+                    // Can be used to manage abandoned cart
+                    if triggerChangeStatus == .invalid {
+                        if message.type == .push && message.sendAfterDays != 0 {
+                            MBAutomationPushNotificationsManager.cancelPushNotification(forMessage: message)
+                        }
                     }
                 }
             }
@@ -186,7 +193,7 @@ class MBAutomationMessagesManager {
     
     internal static func lastLocation() -> CLLocationCoordinate2D? {
         let lastLocationLatKey = "com.mumble.mburger.automation.lastLocation.lat"
-        let lastLocationLngKey = "com.mumble.mburger.automation.lastLocation.lat"
+        let lastLocationLngKey = "com.mumble.mburger.automation.lastLocation.lng"
         let lastLat = UserDefaults.standard.double(forKey: lastLocationLatKey)
         let lastLng = UserDefaults.standard.double(forKey: lastLocationLngKey)
         guard lastLat != 0 && lastLng != 0 else {
@@ -197,7 +204,7 @@ class MBAutomationMessagesManager {
     
     internal static func saveLocationAsLast(location: CLLocationCoordinate2D) {
         let lastLocationLatKey = "com.mumble.mburger.automation.lastLocation.lat"
-        let lastLocationLngKey = "com.mumble.mburger.automation.lastLocation.lat"
+        let lastLocationLngKey = "com.mumble.mburger.automation.lastLocation.lng"
         UserDefaults.standard.set(location.latitude, forKey: lastLocationLatKey)
         UserDefaults.standard.set(location.longitude, forKey: lastLocationLngKey)
     }
@@ -226,13 +233,15 @@ class MBAutomationMessagesManager {
             guard let triggers = message.triggers as? MBMessageTriggers else {
                 continue
             }
-            if triggers.isValid(fromAppStartup: true) {
+            if triggers.isValid(message: message,
+                                fromAppStartup: fromStartup) {
                 messagesToShow.append(message)
             }
         }
+        
         if messagesToShow.count != 0 {
             let inAppMessages = messagesToShow.filter({ $0.type == .inAppMessage && $0.inAppMessage != nil })
-            if inAppMessages.count != 0 && UIApplication.shared.applicationState == .background {
+            if inAppMessages.count != 0 && UIApplication.shared.applicationState != .background {
                 if let plugin = MBManager.shared.plugins.first(where: { $0 is MBMessages }) as? MBMessages {
                     MBInAppMessageManager.presentMessages(inAppMessages,
                                                           delegate: plugin.viewDelegate,
@@ -240,7 +249,9 @@ class MBAutomationMessagesManager {
                                                           ignoreShowedMessages: plugin.debug)
                 }
             }
+            
             let pushNotifications = messagesToShow.filter({ $0.type == .push && $0.push != nil })
+            
             if pushNotifications.count != 0 {
                 MBAutomationPushNotificationsManager.showPushNotifications(messages: pushNotifications)
             }
@@ -259,6 +270,11 @@ class MBAutomationMessagesManager {
         if fromFetch {
             for message in messages {
                 if let savedMessage = savedMessages.first(where: { $0.id == message.id }) {
+                    if let triggers = savedMessage.triggers as? MBMessageTriggers,
+                       let newTriggers = message.triggers as? MBMessageTriggers {
+                        let updatedTriggers = triggers.updateTriggers(newTriggers: newTriggers)
+                        savedMessage.triggers = updatedTriggers
+                    }
                     messagesToSave.append(savedMessage)
                 } else {
                     messagesToSave.append(message)
@@ -313,12 +329,15 @@ class MBAutomationMessagesViewManager: NSObject {
         guard savedMessages.count != 0 else {
             return
         }
+        
+        var somethingChanged = false
         for message in savedMessages {
             if let trigger = message.triggers as? MBMessageTriggers,
                 let viewTriggers = trigger.triggers.filter({ $0 is MBViewTrigger }) as? [MBViewTrigger] {
                 for viewTrigger in viewTriggers {
                     let result = viewTrigger.screenViewed(view: view)
                     if result {
+                        somethingChanged = true
                         if (viewTrigger.numberOfTimes ?? 0) >= viewTrigger.times {
                             let index = trigger.triggers.firstIndex(of: viewTrigger) ?? 0
                             let data: [String: Any] = ["message": message.id,
@@ -333,6 +352,10 @@ class MBAutomationMessagesViewManager: NSObject {
                 }
             }
         }
+        
+        if somethingChanged {
+            MBAutomationMessagesManager.saveMessages(savedMessages, fromFetch: false)
+        }
     }
     
     @objc private func setViewTriggerCompleted(data: [String: Any]) {
@@ -344,16 +367,19 @@ class MBAutomationMessagesViewManager: NSObject {
         guard let message = savedMessages.first(where: { $0.id == id }) else {
             return
         }
-        guard let triggers = message.triggers as? [MBTrigger] else {
+        guard let messageTriggers = message.triggers as? MBMessageTriggers else {
             return
         }
-        guard triggers.count < triggerIndex else {
+        
+        let triggers = messageTriggers.triggers
+        guard triggerIndex < triggers.count else {
             return
         }
         guard let trigger = triggers[triggerIndex] as? MBViewTrigger else {
             return
         }
         trigger.setCompleted()
+        MBAutomationMessagesManager.saveMessages(savedMessages, fromFetch: false)
         MBAutomationMessagesManager.checkMessages(fromStartup: false)
     }
 

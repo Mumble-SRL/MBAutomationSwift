@@ -71,7 +71,7 @@ Note that `MBAutomationSwift` has `MBurgerSwift`, `MBMessagesSwift` and `MBAudie
 
 # Initialization
 
-To initialize automation you need to insert `MBAutomation` as a `MBurger` plugins, tipically automation is used in conjunction with the `MBMessagesSwift` and `MBAudienceSwift` plugins.
+To initialize automation you need to insert `MBAutomation` as an `MBurger` plugin, tipically automation is used in conjunction with the `MBMessagesSwift` and `MBAudienceSwift` plugins.
 
 ``` swift
 MBManager.shared.plugins = [MBAutomation(), ... other plugins]

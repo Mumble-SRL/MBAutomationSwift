@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBMessagesSwift
 
 /// A view trigger, becomes true when the user opens a view n times
 public class MBViewTrigger: MBTrigger {
@@ -46,9 +47,19 @@ public class MBViewTrigger: MBTrigger {
     ///   - dictionary: the dictionary returned by the api
     convenience init(dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
-        let view = dictionary["view_name"] as? String ?? ""
-        let times = dictionary["times"] as? Int ?? 0
-        let secondsOnView = dictionary["seconds_on_view"] as? TimeInterval ?? 0
+        let view = dictionary["view"] as? String ?? ""
+        var times: Int = 0
+        if dictionary["times"] is Int {
+            times = dictionary["times"] as? Int ?? 0
+        } else if dictionary["times"] is String {
+            times = Int(dictionary["times"] as? String ?? "") ?? 0
+        }
+        var secondsOnView: TimeInterval = 0
+        if dictionary["seconds_on_view"] is TimeInterval {
+            secondsOnView = dictionary["seconds_on_view"] as? TimeInterval ?? 0.0
+        } else if dictionary["seconds_on_view"] is String {
+            secondsOnView = TimeInterval(dictionary["seconds_on_view"] as? String ?? "") ?? 0.0
+        }
 
         self.init(id: id,
                   view: view,
@@ -76,13 +87,14 @@ public class MBViewTrigger: MBTrigger {
     
     /// If the trigger is valid
     /// - Parameters:
+    ///   - message: the message that requested if this trigger is valid
     ///   - fromAppStartup: if this function is called from startup
     /// - Returns: If this trigger is valid
-    override func isValid(fromAppStartup: Bool) -> Bool {
+    override func isValid(message: MBMessage, fromAppStartup: Bool) -> Bool {
         guard let completionDate = completionDate else {
             return false
         }
-        return completionDate >= Date()
+        return completionDate.timeIntervalSince1970 <= Date().timeIntervalSince1970
     }
     
     // MARK: - Save & retrieve
@@ -121,6 +133,18 @@ public class MBViewTrigger: MBTrigger {
         }
 
         return dictionary
+    }
+
+    // MARK: - Trigger Update
+        
+    override internal func updatedTrigger(newTrigger: MBTrigger) -> MBTrigger {
+        guard let newViewTrigger = newTrigger as? MBViewTrigger else {
+            return newTrigger
+        }
+        
+        newViewTrigger.completionDate = completionDate
+        newViewTrigger.numberOfTimes = numberOfTimes
+        return newViewTrigger
     }
 
 }

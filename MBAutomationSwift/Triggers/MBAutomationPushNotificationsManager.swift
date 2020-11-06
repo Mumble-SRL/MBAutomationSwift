@@ -17,9 +17,18 @@ class MBAutomationPushNotificationsManager: NSObject {
         guard messagesToShow.count != 0 else {
             return
         }
-        showPushNotifications(messages: messagesToShow)
+        for message in messages {
+            showPushNotification(message: message)
+        }
     }
 
+    static internal func cancelPushNotification(forMessage message: MBMessage) {
+        let identifier = self.notificationIdentifier(forMessage: message)
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
+        unsetMessageShowed(message: message)
+    }
+    
     private static func showPushNotification(message: MBMessage) {
         guard let push = message.push else {
             return
@@ -52,26 +61,47 @@ class MBAutomationPushNotificationsManager: NSObject {
                     needsToDownloadMedia = true
                     let type = userInfo["media_type"] as? String
                     self.downloadMedia(fileUrl: fileUrl, type: type, content: content, completion: {
-                        self.sendPushNow(id: notificationIdentifier(forMessage: message), content: content)
+                        self.sendPush(id: notificationIdentifier(forMessage: message),
+                                      message: message,
+                                      content: content)
                     })
                 }
             }
             if !needsToDownloadMedia {
-                sendPushNow(id: notificationIdentifier(forMessage: message), content: content)
+                sendPush(id: notificationIdentifier(forMessage: message),
+                         message: message,
+                         content: content)
             }
         }
     }
     
-    private static func sendPushNow(id: String, content: UNNotificationContent) {
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
-        let request = UNNotificationRequest(identifier: id,
-                                            content: content,
-                                            trigger: trigger)
-
+    private static func sendPush(id: String,
+                                 message: MBMessage,
+                                 content: UNNotificationContent) {
         let notificationCenter = UNUserNotificationCenter.current()
-        notificationCenter.add(request) { (error) in
-            if let error = error {
-                print("Error \(error.localizedDescription)")
+        notificationCenter.getPendingNotificationRequests { requests in
+            let existingRequest = requests.first(where: { $0.identifier == id })
+            guard existingRequest == nil else { // If I have already a request don't schedule another
+                return
+            }
+            
+            var trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1,
+                                                            repeats: false)
+            if message.sendAfterDays != 0 {
+                let calendar = Calendar.current
+                if let date = calendar.date(byAdding: .day, value: message.sendAfterDays, to: Date()) {
+                    trigger = UNTimeIntervalNotificationTrigger(timeInterval: date.timeIntervalSinceNow, repeats: false)
+                }
+            }
+            let request = UNNotificationRequest(identifier: id,
+                                                content: content,
+                                                trigger: trigger)
+
+            notificationCenter.add(request) { (error) in
+                self.setMessageShowed(message: message)
+                if let error = error {
+                    print("Error \(error.localizedDescription)")
+                }
             }
         }
     }
@@ -83,26 +113,38 @@ class MBAutomationPushNotificationsManager: NSObject {
     // MARK: - Saved messages
     
     private static func messageHasBeenShowed(message: MBMessage) -> Bool {
-        guard let messageId = message.inAppMessage?.id else {
+        guard let messageId = message.push?.id else {
             return false
         }
         let userDefaults = UserDefaults.standard
-        let showedMessages = userDefaults.object(forKey: showedMessagesKey) as? [Int] ?? []
+        let showedMessages = userDefaults.object(forKey: showedMessagesKey) as? [String] ?? []
         return showedMessages.contains(messageId)
     }
     
     private static func setMessageShowed(message: MBMessage) {
-        guard let messageId = message.inAppMessage?.id else {
+        guard let messageId = message.push?.id else {
             return
         }
         let userDefaults = UserDefaults.standard
-        var showedMessages = userDefaults.object(forKey: showedMessagesKey) as? [Int] ?? []
+        var showedMessages = userDefaults.object(forKey: showedMessagesKey) as? [String] ?? []
         if !showedMessages.contains(messageId) {
             showedMessages.append(messageId)
             UserDefaults.standard.set(showedMessages, forKey: showedMessagesKey)
         }
     }
     
+    private static func unsetMessageShowed(message: MBMessage) {
+        guard let messageId = message.push?.id else {
+            return
+        }
+        let userDefaults = UserDefaults.standard
+        var showedMessages = userDefaults.object(forKey: showedMessagesKey) as? [String] ?? []
+        if let index = showedMessages.index(of: messageId) {
+            showedMessages.remove(at: index)
+            UserDefaults.standard.set(showedMessages, forKey: showedMessagesKey)
+        }
+    }
+
     private static var showedMessagesKey: String {
         return "com.mumble.mburger.automation.pushMessages.showedMessages"
     }
