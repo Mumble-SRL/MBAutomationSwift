@@ -77,10 +77,10 @@ public class MBAutomation: NSObject, MBPlugin {
         }
     }
     
-    /// Invoked by the MBurger plugins manager when a new message is received by the `MBMessages` plugin
+    /// Invoked by the MBurger plugins manager when new messages are received by the `MBMessages` plugin
     /// - Parameters:
     ///   - messages: The messages received, the triggers property will be populated with a `MBTrigger` object.
-    ///   - fromStartup: if messages has been retrieved at app startup
+    ///   - fromStartup: If messages has been retrieved at app startup
     public func messagesReceived(messages: inout [AnyObject], fromStartup: Bool) {
         MBAutomationMessagesManager.setTriggers(toMessages: &messages)
         
