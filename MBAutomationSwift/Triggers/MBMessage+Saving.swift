@@ -151,8 +151,10 @@ extension MBInAppMessage {
 extension MBInAppMessageButton {
     func toJsonDictionary() -> [String: Any] {
         var dictionary: [String: Any] = ["title": title ?? "",
-                                         "link": link ?? "",
                                          "linkType": (linkType ?? .link).rawValue]
+        if let link = link {
+            dictionary["link"] = link
+        }
         if let titleColor = titleColor {
             dictionary["titleColor"] = titleColor.toHexString()
         }
@@ -173,7 +175,7 @@ extension MBInAppMessageButton {
     
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let title = dictionary["title"] as? String ?? ""
-        let link = dictionary["link"] as? String ?? ""
+        let link = dictionary["link"] as? String
         let linkTypeInt = dictionary["linkType"] as? Int ?? 0
         var titleColor: UIColor?
         if let titleColorString = dictionary["titleColor"] as? String {
