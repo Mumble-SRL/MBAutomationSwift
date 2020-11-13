@@ -160,6 +160,14 @@ extension MBInAppMessageButton {
             dictionary["backgroundColor"] = backgroundColor.toHexString()
         }
 
+        if let sectionId = sectionId {
+            dictionary["sectionId"] = sectionId
+        }
+        
+        if let blockId = blockId {
+            dictionary["blockId"] = blockId
+        }
+
         return dictionary
     }
     
@@ -177,11 +185,16 @@ extension MBInAppMessageButton {
             backgroundColor = UIColor(hexString: backgroundColorString)
         }
 
+        let sectionId = dictionary["sectionId"] as? Int
+        let blockId = dictionary["blockId"] as? Int
+
         self.init(title: title,
                   titleColor: titleColor,
                   backgroundColor: backgroundColor,
                   link: link,
-                  linkType: MBInAppMessageButtonLinkType(rawValue: linkTypeInt) ?? .link)
+                  linkType: MBInAppMessageButtonLinkType(rawValue: linkTypeInt) ?? .link,
+                  sectionId: sectionId,
+                  blockId: blockId)
     }
 }
 

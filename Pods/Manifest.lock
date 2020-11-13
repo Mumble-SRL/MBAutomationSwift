@@ -1,13 +1,13 @@
 PODS:
-  - MBAudienceSwift (0.1.2):
+  - MBAudienceSwift (0.1.3):
     - MBurgerSwift
-  - MBMessagesSwift (0.1.4):
+  - MBMessagesSwift (0.2.2):
     - MBurgerSwift
     - MPushSwift
   - MBNetworkingSwift (1.0.14)
-  - MBurgerSwift (1.0.8):
+  - MBurgerSwift (1.0.9):
     - MBNetworkingSwift
-  - MPushSwift (0.2.13):
+  - MPushSwift (0.4.2):
     - MBNetworkingSwift
 
 DEPENDENCIES:
@@ -24,12 +24,12 @@ SPEC REPOS:
     - MPushSwift
 
 SPEC CHECKSUMS:
-  MBAudienceSwift: fd06cdc979d523f0fdc2c0eec58351484eb2656f
-  MBMessagesSwift: 0ba8f473d126db64d5f5fcee4c599ceeaff6e2f7
+  MBAudienceSwift: b3ae1455db2859194a590b48d05083908010b8a0
+  MBMessagesSwift: b17ac28060b9bf24d7c1d553adbbd15c280e9a88
   MBNetworkingSwift: e24b93be41ce4fb9247fb902bf5db2877e73a446
-  MBurgerSwift: 106e3302460301b99777ca134698e28f95f932c5
-  MPushSwift: 5ed13b7d640f69f7652b65d82ce0caf91ed068b4
+  MBurgerSwift: 04c403b2c0df61358c32fe1df95a04be56a7a381
+  MPushSwift: e77d91765f6e97987f3ae791f5a69d22f27d3334
 
 PODFILE CHECKSUM: 9157386895fc851c4e345f1f0a0507df1ff5ba0b
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

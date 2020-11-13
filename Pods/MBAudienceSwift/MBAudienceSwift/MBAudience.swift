@@ -58,7 +58,7 @@ public class MBAudience: NSObject, MBPlugin {
         MBAudienceManager.shared.setCustomId(customId)
     }
     
-    /// Removes the custom id and sync audience data to the server.
+    /// Removes the custom id saved and sync audience data to the server.
     public static func removeCustomId() {
         MBAudienceManager.shared.setCustomId(nil)
     }

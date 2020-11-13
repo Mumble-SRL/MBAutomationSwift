@@ -12,13 +12,13 @@ import Foundation
 public struct MBProject: Codable, Equatable {
     
     /// The id of the project.
-    let projectId: Int
+    public let projectId: Int
    
     /// The name of the project.
-    let projectName: String
+    public let projectName: String
     
     /// The legal contracts of the project.
-    let contracts: [MBLegalContract]?
+    public let contracts: [MBLegalContract]?
     
     /// Initializes a project with a projectId and the name.
     /// - Parameters:

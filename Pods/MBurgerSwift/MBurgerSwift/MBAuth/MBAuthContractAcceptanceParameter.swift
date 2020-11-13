@@ -22,7 +22,7 @@ public class MBAuthContractAcceptanceParameter: MBParameter {
     /// - Parameters:
     ///   - contractId: The `id` of the contract
     ///   - accepted: If the contract has been accepted or not.
-    init(contractId: Int, accepted: Bool) {
+    public init(contractId: Int, accepted: Bool) {
         self.contractId = contractId
         self.accepted = accepted
     }

@@ -1,6 +1,8 @@
-![Test Status](https://img.shields.io/badge/documentation-100%25-brightgreen.svg)
-![License: MIT](https://img.shields.io/badge/pod-v1.0.2-blue.svg)
-[![CocoaPods](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](LICENSE)
+[![Documentation](https://img.shields.io/badge/documentation-100%25-brightgreen.svg)](https://github.com/Mumble-SRL/MBAudienceSwift/tree/master/docs)
+[![](https://img.shields.io/badge/SPM-supported-DE5C43.svg?style=flat)](https://swift.org/package-manager/)
+![CocoaPods](https://img.shields.io/badge/pod-v0.1.2-blue.svg)
+[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![License](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](LICENSE)
 
 # MBAudienceSwift
 
@@ -50,12 +52,12 @@ CocoaPods is the preferred methot to install the library.
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate MBudienceSwift into your Xcode project using Carthage, specify it in your Cartfile:
 
 ```
-github "Mumble-SRL/MBudienceSwift"
+github "Mumble-SRL/MBAudienceSwift"
 ```
 
 # Manual installation
 
-To install the library manually drag and drop the folder `MBAudience` to your project structure in XCode. 
+To install the library manually drag and drop the folder `MBAudienceSwift` to your project structure in XCode. 
 
 Note that `MBAudienceSwift` has `MBurgerSwift (1.0.5)` and `MPushSwift (0.2.12)` as dependencies, so you have to install also those libraries.
 

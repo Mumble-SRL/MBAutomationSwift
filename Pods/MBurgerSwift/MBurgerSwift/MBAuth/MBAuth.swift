@@ -96,7 +96,7 @@ public struct MBAuth {
         }
         
         if let contracts = contracts {
-            apiParameters["contracts"] = contracts.JSONtoString()
+            apiParameters["contracts"] = contracts.map({ $0.parameterRepresentation() }).JSONtoString()
         }
         
         if let unwrappedData = data {
@@ -155,7 +155,7 @@ public struct MBAuth {
         var apiParameters = Parameters()
         
         if let contracts = contracts, contracts.count > 0 {
-            apiParameters["contracts"] = contracts.JSONtoString()
+            apiParameters["contracts"] = contracts.map({ $0.parameterRepresentation() }).JSONtoString()
         }
         
         if tokenType == .facebook {
@@ -323,7 +323,7 @@ public struct MBAuth {
         }
         
         if let contracts = contracts {
-            parameters["contracts"] = contracts.JSONtoString()
+            parameters["contracts"] = contracts.map({ $0.parameterRepresentation() }).JSONtoString()
         }
         
         if let unwrappedData = data {

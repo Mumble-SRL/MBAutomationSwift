@@ -136,10 +136,10 @@ internal class MBAudienceManager: NSObject {
                 }
                 
                 if let tags = strongSelf.getTagsAsDictionaries() {
-                    if let jsonData = try? JSONSerialization.data(withJSONObject: tags, options: []) {
-                        parameters["tags"] = String(data: jsonData, encoding: .utf8)
-                    }
+                    parameters["tags"] = tags
                 }
+                
+                parameters["platform"] = "ios"
                 
                 MBApiManager.request(withToken: MBManager.shared.apiToken,
                                      locale: MBManager.shared.localeString,
@@ -229,16 +229,23 @@ extension MBAudienceManager {
     
     func setTag(_ tag: String, value: String) {
         var newTags = getTags() ?? []
+        var tagChanged = false
         if let indexFound = newTags.firstIndex(where: {$0.tag == tag}) {
             let tag = newTags[indexFound]
-            tag.value = value
-            newTags[indexFound] = tag
+            if tag.value != value {
+                tagChanged = true
+                tag.value = value
+                newTags[indexFound] = tag
+            }
         } else {
+            tagChanged = true
             newTags.append(MBAudienceTag(tag: tag, value: value))
         }
-        saveNewTags(tags: newTags)
-        updateMetadata()
-        MBPluginsManager.tagChanged(tag: tag, value: value)
+        if tagChanged {
+            saveNewTags(tags: newTags)
+            updateMetadata()
+            MBPluginsManager.tagChanged(tag: tag, value: value)
+        }
     }
     
     func removeTag(_ tag: String) {

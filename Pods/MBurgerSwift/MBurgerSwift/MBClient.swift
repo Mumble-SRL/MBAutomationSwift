@@ -151,7 +151,7 @@ public final class MBClient {
     ///   - error: The error describing the error that occurred.
     
     public static func getSections(ofBlock blockId: Int,
-                                   parameters: [MBParameter]?,
+                                   parameters: [MBParameter]? = nil,
                                    elements: Bool = false,
                                    success: @escaping (_ sections: [MBSection], _ paginationInfo: MBPaginationInfo) -> Void,
                                    failure: @escaping (_ error: Error) -> Void) {
@@ -198,6 +198,7 @@ public final class MBClient {
     ///   - error: The error describing the error that occurred.
     
     public static func getSection(withId sectionId: Int,
+                                  parameters: [MBParameter]? = nil,
                                   elements: Bool = false,
                                   success: @escaping (_ section: MBSection) -> Void,
                                   failure: @escaping (_ error: Error) -> Void) {
@@ -207,6 +208,12 @@ public final class MBClient {
             apiParameters["include"] = "elements"
         }
         
+        if let parameters = parameters {
+            for parameter in parameters {
+                apiParameters.merge(parameter.parameterRepresentation(), uniquingKeysWith: {$1})
+            }
+        }
+
         let apiName = String(format: "sections/%d", sectionId)
         MBApiManager.request(withToken: MBManager.shared.apiToken,
                              locale: MBManager.shared.localeString,

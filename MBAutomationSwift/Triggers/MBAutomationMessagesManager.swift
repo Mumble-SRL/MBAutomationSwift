@@ -139,7 +139,7 @@ class MBAutomationMessagesManager {
                 let tagTriggers = trigger.triggers.filter({ $0 is MBTagChangeTrigger }) as? [MBTagChangeTrigger] {
                 for tagTrigger in tagTriggers {
                     let triggerChangeStatus = tagTrigger.tagChanged(tag: tag, value: value)
-                    if triggerChangeStatus != .unchanged  {
+                    if triggerChangeStatus != .unchanged {
                         somethingChanged = true
                     }
                     // If the tag has been invalidated cancel future pushes

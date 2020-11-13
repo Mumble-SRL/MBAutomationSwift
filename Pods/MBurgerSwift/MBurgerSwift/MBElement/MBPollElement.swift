@@ -57,7 +57,14 @@ public class MBPollElement: MBElement {
     required init(dictionary: [String: Any]) {
         let valueDictionary = dictionary["value"] as? [String: Any] ?? [:]
         
-        let answersFromApi = valueDictionary["answers"] as? [String] ?? [String]()
+        var answersFromApi = [String]()
+        if valueDictionary["answers"] is [NSObject] {
+            if let objects = valueDictionary["answers"] as? [NSObject] {
+                answersFromApi = objects.compactMap({ $0 as? String })
+            }
+        } else if valueDictionary["answers"] is [String] {
+            answersFromApi = valueDictionary["answers"] as? [String] ?? []
+        }
         
         var resultsFromApi = valueDictionary["results"] as? [Int] ?? [Int]()
         while resultsFromApi.count != answersFromApi.count {

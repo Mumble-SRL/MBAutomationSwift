@@ -14,7 +14,7 @@ public class MBColorElement: MBElement {
     public let colorHex: String
     
     /// Returns the color of this element
-    var color: UIColor? {
+    public var color: UIColor? {
         return colorWithHexString(hexString: colorHex)
     }
     

@@ -139,7 +139,7 @@ class MBAutomationPushNotificationsManager: NSObject {
         }
         let userDefaults = UserDefaults.standard
         var showedMessages = userDefaults.object(forKey: showedMessagesKey) as? [String] ?? []
-        if let index = showedMessages.index(of: messageId) {
+        if let index = showedMessages.firstIndex(of: messageId) {
             showedMessages.remove(at: index)
             UserDefaults.standard.set(showedMessages, forKey: showedMessagesKey)
         }
