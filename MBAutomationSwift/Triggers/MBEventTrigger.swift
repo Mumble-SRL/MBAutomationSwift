@@ -66,7 +66,7 @@ public class MBEventTrigger: MBTrigger {
                 if let triggerMetadata = self.metadata {
                     isTriggerEvent = NSDictionary(dictionary: metadata).isEqual(to: triggerMetadata)
                 } else {
-                    isTriggerEvent = false
+                    isTriggerEvent = metadata.isEmpty
                 }
             } else {
                 isTriggerEvent = true
