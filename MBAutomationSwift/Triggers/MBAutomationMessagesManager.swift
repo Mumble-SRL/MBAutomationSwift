@@ -233,6 +233,16 @@ class MBAutomationMessagesManager {
             guard let triggers = message.triggers as? MBMessageTriggers else {
                 continue
             }
+            if message.repeatTimes > 0 {
+                if let savedTriggers = savedMessageTriggerDictionary(message: message) {
+                    let triggersDictionary = NSDictionary(dictionary: triggers.toJsonDictionary())
+                    let savedTriggersDictionary = NSDictionary(dictionary: savedTriggers)
+                    if savedTriggersDictionary.isEqual(to: triggersDictionary as! [AnyHashable : Any]) {
+                        continue
+                    }
+                }
+                MBAutomationMessagesManager.saveMessageTrigger(message: message)
+            }
             if triggers.isValid(message: message,
                                 fromAppStartup: fromStartup) {
                 messagesToShow.append(message)
@@ -257,7 +267,44 @@ class MBAutomationMessagesManager {
             }
         }
     }
+    
+    private static func saveMessageTrigger(message: MBMessage) {
+        guard let path = triggersPath(message: message) else {
+            return
+        }
+        guard let triggers = message.triggers as? MBMessageTriggers else {
+            return
+        }
+        let jsonDictionary = triggers.toJsonDictionary()
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: jsonDictionary, options: JSONSerialization.WritingOptions(rawValue: 0)) else {
+            return
+        }
+        guard let jsonString = String(data: jsonData, encoding: .utf8) else {
+            return
+        }
+        try? jsonString.write(toFile: path, atomically: true, encoding: .utf8)
+    }
 
+    private static func savedMessageTriggerDictionary(message: MBMessage) -> [String: Any]? {
+        guard let path = triggersPath(message: message) else {
+            return nil
+        }
+        let fileManager = FileManager.default
+        guard fileManager.fileExists(atPath: path) else {
+            return nil
+        }
+        guard let data = try? Data(contentsOf: URL.init(fileURLWithPath: path)) else {
+            return nil
+        }
+        guard let objects = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers) else {
+            return nil
+        }
+        guard let dictionary = objects as? [String: Any] else {
+            return nil
+        }
+        return dictionary
+    }
+    
     // MARK: - Message saving
     
     static func saveMessages(_ messages: [MBMessage], fromFetch: Bool) {
@@ -274,6 +321,8 @@ class MBAutomationMessagesManager {
                        let newTriggers = message.triggers as? MBMessageTriggers {
                         let updatedTriggers = triggers.updateTriggers(newTriggers: newTriggers)
                         savedMessage.triggers = updatedTriggers
+                        savedMessage.sendAfterDays = message.sendAfterDays
+                        savedMessage.repeatTimes = message.repeatTimes
                     }
                     messagesToSave.append(savedMessage)
                 } else {
@@ -316,6 +365,13 @@ class MBAutomationMessagesManager {
     static func messagesPath() -> String? {
         let fileURL = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             .appendingPathComponent("mb_automation_messages.json")
+        return fileURL?.path
+    }
+    
+    static func triggersPath(message: MBMessage) -> String? {
+        let fileName = "mb_automation_messages_" + String(message.id) + "_triggers.json"
+        let fileURL = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            .appendingPathComponent(fileName)
         return fileURL?.path
     }
 }

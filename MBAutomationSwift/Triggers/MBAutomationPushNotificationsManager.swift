@@ -13,7 +13,7 @@ import UserNotifications
 class MBAutomationPushNotificationsManager: NSObject {
     static func showPushNotifications(messages: [MBMessage]) {
         var messagesToShow = messages.filter({ $0.type == .push })
-        messagesToShow = messages.filter({ !messageHasBeenShowed(message: $0 ) })
+        messagesToShow = messages.filter({ needsToShowMessage(message: $0 ) })
         guard messagesToShow.count != 0 else {
             return
         }
@@ -112,41 +112,54 @@ class MBAutomationPushNotificationsManager: NSObject {
     
     // MARK: - Saved messages
     
-    private static func messageHasBeenShowed(message: MBMessage) -> Bool {
-        guard let messageId = message.push?.id else {
+    private static func needsToShowMessage(message: MBMessage) -> Bool {
+        guard message.endDate >= Date() else {
             return false
         }
+        guard let messageId = message.inAppMessage?.id else {
+            return false
+        }
+        var showedMessagesCount: [Int: Int] = [:]
         let userDefaults = UserDefaults.standard
-        let showedMessages = userDefaults.object(forKey: showedMessagesKey) as? [String] ?? []
-        return showedMessages.contains(messageId)
+        if let outData = userDefaults.data(forKey: showedMessagesCountKey) {
+            showedMessagesCount = NSKeyedUnarchiver.unarchiveObject(with: outData) as? [Int: Int] ?? [:]
+        }
+        let messageShowCount = showedMessagesCount[messageId] ?? 0
+        return messageShowCount <= message.repeatTimes
     }
     
     private static func setMessageShowed(message: MBMessage) {
-        guard let messageId = message.push?.id else {
+        guard let messageId = message.inAppMessage?.id else {
             return
         }
+        var showedMessagesCount: [Int: Int] = [:]
         let userDefaults = UserDefaults.standard
-        var showedMessages = userDefaults.object(forKey: showedMessagesKey) as? [String] ?? []
-        if !showedMessages.contains(messageId) {
-            showedMessages.append(messageId)
-            UserDefaults.standard.set(showedMessages, forKey: showedMessagesKey)
+        if let outData = userDefaults.data(forKey: showedMessagesCountKey) {
+            showedMessagesCount = NSKeyedUnarchiver.unarchiveObject(with: outData) as? [Int: Int] ?? [:]
         }
+        let messageShowCount = showedMessagesCount[messageId] ?? 0
+        showedMessagesCount[messageId] = messageShowCount + 1
+        let data = NSKeyedArchiver.archivedData(withRootObject: showedMessagesCount)
+        UserDefaults.standard.set(data, forKey: showedMessagesCountKey)
     }
     
     private static func unsetMessageShowed(message: MBMessage) {
-        guard let messageId = message.push?.id else {
+        guard let messageId = message.inAppMessage?.id else {
             return
         }
+        var showedMessagesCount: [Int: Int] = [:]
         let userDefaults = UserDefaults.standard
-        var showedMessages = userDefaults.object(forKey: showedMessagesKey) as? [String] ?? []
-        if let index = showedMessages.firstIndex(of: messageId) {
-            showedMessages.remove(at: index)
-            UserDefaults.standard.set(showedMessages, forKey: showedMessagesKey)
+        if let outData = userDefaults.data(forKey: showedMessagesCountKey) {
+            showedMessagesCount = NSKeyedUnarchiver.unarchiveObject(with: outData) as? [Int: Int] ?? [:]
         }
+        let messageShowCount = showedMessagesCount[messageId] ?? 0
+        showedMessagesCount[messageId] = max(messageShowCount - 1, 0)
+        let data = NSKeyedArchiver.archivedData(withRootObject: showedMessagesCount)
+        UserDefaults.standard.set(data, forKey: showedMessagesCountKey)
     }
 
-    private static var showedMessagesKey: String {
-        return "com.mumble.mburger.automation.pushMessages.showedMessages"
+    private static var showedMessagesCountKey: String {
+        return "com.mumble.mburger.automation.pushMessages.showedMessages.count"
     }
 
     // MARK: - File download
