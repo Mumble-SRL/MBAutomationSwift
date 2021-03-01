@@ -233,7 +233,7 @@ class MBAutomationMessagesManager {
             guard let triggers = message.triggers as? MBMessageTriggers else {
                 continue
             }
-            if message.repeatTimes > 0 {
+            if message.repeatTimes > 0 && !fromStartup {
                 if let savedTriggers = savedMessageTriggerDictionary(message: message) {
                     let triggersDictionary = NSDictionary(dictionary: triggers.toJsonDictionary())
                     let savedTriggersDictionary = NSDictionary(dictionary: savedTriggers)

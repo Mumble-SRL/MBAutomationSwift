@@ -113,8 +113,10 @@ class MBAutomationPushNotificationsManager: NSObject {
     // MARK: - Saved messages
     
     private static func needsToShowMessage(message: MBMessage) -> Bool {
-        guard message.endDate >= Date() else {
-            return false
+        if message.automationIsOn {
+            guard message.endDate >= Date() else {
+                return false
+            }
         }
         guard let messageId = message.inAppMessage?.id else {
             return false
