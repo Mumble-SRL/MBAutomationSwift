@@ -84,6 +84,7 @@ extension MBInAppMessage {
     func toJsonDictionary() -> [String: Any] {
         var dictionary: [String: Any] =  ["id": id ?? "",
                                           "style": (style ?? .bannerTop).rawValue,
+                                          "isBlocking": isBlocking,
                                           "duration": duration ?? 0]
         if let title = title {
             dictionary["title"] = title
@@ -113,6 +114,7 @@ extension MBInAppMessage {
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let id = dictionary["id"] as? Int ?? 0
         let styleInt = dictionary["style"] as? Int ?? 0
+        let isBlocking = dictionary["isBlocking"] as? Bool ?? false
         let duration = dictionary["duration"] as? TimeInterval ?? -1
         
         let title = dictionary["title"] as? String
@@ -143,6 +145,7 @@ extension MBInAppMessage {
         
         self.init(id: id,
                   style: MBInAppMessageStyle(rawValue: styleInt) ?? .bannerTop,
+                  isBlocking: isBlocking,
                   duration: duration,
                   title: title,
                   titleColor: titleColor,
