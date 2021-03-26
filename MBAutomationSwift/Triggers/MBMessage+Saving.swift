@@ -15,6 +15,7 @@ extension MBMessage {
                                          "title": title,
                                          "messageDescription": messageDescription,
                                          "type": type.rawValue,
+                                         "createdAt": createdAt.timeIntervalSince1970,
                                          "startDate": startDate.timeIntervalSince1970,
                                          "endDate": endDate.timeIntervalSince1970,
                                          "sendAfterDays": sendAfterDays,
@@ -40,6 +41,7 @@ extension MBMessage {
         let title = dictionary["title"] as? String ?? ""
         let messageDescription = dictionary["messageDescription"] as? String ?? ""
         let typeInt = dictionary["type"] as? Int ?? 0
+        let creationDate = dictionary["createdAt"] as? TimeInterval ?? 0
         let startDate = dictionary["startDate"] as? TimeInterval ?? 0
         let endDate = dictionary["endDate"] as? TimeInterval ?? 0
         let sendAfterDays = dictionary["sendAfterDays"] as? Int ?? 0
@@ -68,6 +70,7 @@ extension MBMessage {
                   type: MessageType(rawValue: typeInt) ?? .inAppMessage,
                   inAppMessage: inAppMessage,
                   push: push,
+                  createdAt: Date(timeIntervalSince1970: creationDate),
                   startDate: Date(timeIntervalSince1970: startDate),
                   endDate: Date(timeIntervalSince1970: endDate),
                   automationIsOn: automationIsOn,
