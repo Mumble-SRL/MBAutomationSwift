@@ -122,7 +122,7 @@ extension MBDecoder: Decoder {
         throw MBDecodingErrors.wrongType(expecting: type, reality: value)
     }
     
-    func decode(value: MBElement, ofType type: [MBFile].Type) throws -> [MBFile] {
+    func decode(value: MBElement, ofType type: [MBMedia].Type) throws -> [MBMedia] {
         if let imageElement = value as? MBImagesElement {
             return imageElement.images
         }
@@ -133,7 +133,7 @@ extension MBDecoder: Decoder {
         throw MBDecodingErrors.wrongType(expecting: type, reality: value)
     }
     
-    func decode(value: MBElement, ofType type: MBFile.Type) throws -> MBFile? {
+    func decode(value: MBElement, ofType type: MBMedia.Type) throws -> MBMedia? {
         if let imageElement = value as? MBImagesElement {
             return imageElement.firstImage
         }
@@ -270,8 +270,8 @@ extension MBDecoder: Decoder {
         switch type {
         case is String.Type:
             return try self.decode(value: value, ofType: String.self)
-        case is [MBFile].Type:
-            return try self.decode(value: value, ofType: [MBFile].self)
+        case is [MBMedia].Type:
+            return try self.decode(value: value, ofType: [MBMedia].self)
         case is Date.Type:
             return try self.decode(value: value, ofType: Date.self)
         case is Bool.Type:
@@ -302,8 +302,8 @@ extension MBDecoder: Decoder {
             return try self.decode(value: value, ofType: MBMultipleElement.self) as Any
         case is MBRelationElement.Type:
             return try self.decode(value: value, ofType: MBRelationElement.self)
-        case is MBFile.Type:
-            return try self.decode(value: value, ofType: MBFile.self) as Any
+        case is MBMedia.Type:
+            return try self.decode(value: value, ofType: MBMedia.self) as Any
         default:
             throw MBDecodingErrors.typeNotConformingToMBDecodable(type)
         }

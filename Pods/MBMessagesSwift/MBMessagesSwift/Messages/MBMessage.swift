@@ -48,6 +48,9 @@ import UIKit
     /// If the type of the message is push, this is the push message connected to the message
     public let push: MBPushMessage?
     
+    /// The date of creation of the message
+    public let createdAt: Date
+
     /// The start date of the message
     public let startDate: Date
     
@@ -58,11 +61,14 @@ import UIKit
     public let automationIsOn: Bool
 
     /// The number of days to wait to show the message
-    public let sendAfterDays: Int
+    public var sendAfterDays: Int
     
+    /// The number of times this message needs to be repeated
+    public var repeatTimes: Int
+
     /// The triggers for the messages
     public var triggers: Any?
-        
+    
     /// Initializes a message with the parameters passed
     public init(id: Int,
                 title: String,
@@ -70,10 +76,12 @@ import UIKit
                 type: MessageType,
                 inAppMessage: MBInAppMessage? = nil,
                 push: MBPushMessage? = nil,
+                createdAt: Date,
                 startDate: Date,
                 endDate: Date,
                 automationIsOn: Bool,
                 sendAfterDays: Int,
+                repeatTimes: Int,
                 triggers: Any?) {
         self.id = id
         self.title = title
@@ -81,10 +89,12 @@ import UIKit
         self.type = type
         self.inAppMessage = inAppMessage
         self.push = push
+        self.createdAt = createdAt
         self.startDate = startDate
         self.endDate = endDate
         self.automationIsOn = automationIsOn
         self.sendAfterDays = sendAfterDays
+        self.repeatTimes = repeatTimes
         self.triggers = triggers
     }
     
@@ -108,6 +118,9 @@ import UIKit
             }
         }
         
+        let createdDateInt = dictionary["created_at"] as? Int ?? 0
+        let createdDate = Date(timeIntervalSince1970: TimeInterval(createdDateInt))
+
         let startDateInt = dictionary["starts_at"] as? Int ?? 0
         let startDate = Date(timeIntervalSince1970: TimeInterval(startDateInt))
         
@@ -119,16 +132,20 @@ import UIKit
         let triggers = dictionary["triggers"] as? [String: Any]
         
         let sendAfterDays = dictionary["send_after_days"] as? Int ?? 0
+        let repeatTimes = dictionary["repeat"] as? Int ?? 0
+        
         self.init(id: id,
                   title: title,
                   messageDescription: description,
                   type: type,
                   inAppMessage: inAppMessage,
                   push: push,
+                  createdAt: createdDate,
                   startDate: startDate,
                   endDate: endDate,
                   automationIsOn: automationIsOn,
                   sendAfterDays: sendAfterDays,
+                  repeatTimes: repeatTimes,
                   triggers: triggers)
     }
 }

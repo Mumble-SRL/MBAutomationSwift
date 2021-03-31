@@ -222,7 +222,10 @@ public class MBInAppMessageView: UIView {
     weak var viewController: UIViewController?
     
     /// Completion block called by the manager to display next messages if no button is pressed and the message view is dismissed
-    var completionBlock: (() -> Void)?
+    internal var completionBlock: (() -> Void)?
+    
+    /// Block called when a button is pressed, used by the manager to cleanup if a button is pressed
+    internal var buttonPressedBlock: (() -> Void)?
     
     init(message: MBMessage,
          delegate: MBInAppMessageViewDelegate? = nil,
@@ -249,10 +252,17 @@ public class MBInAppMessageView: UIView {
     }
     
     func hideWithDuration(duration: TimeInterval) {
-        performHide(duration: duration, completionBlock: self.completionBlock)
+        let isBlockingMessage = inAppMessage?.isBlocking ?? false
+        if !isBlockingMessage {
+            performHide(duration: duration, completionBlock: self.completionBlock)
+        }
     }
     
     @objc func hide() {
+        let isBlockingMessage = inAppMessage?.isBlocking ?? false
+        if isBlockingMessage {
+            return
+        }
         NSObject.cancelPreviousPerformRequests(withTarget: self)
         if self.superview != nil {
             performHide(duration: 0.3, completionBlock: self.completionBlock)
@@ -261,6 +271,13 @@ public class MBInAppMessageView: UIView {
     
     /// Used when a button is pressed, the completion block of the view is not called, but the one passed yes
     @objc func hideWithoutCallingCompletionBlock(completionBlock: (() -> Void)?) {
+        let isBlockingMessage = inAppMessage?.isBlocking ?? false
+        if isBlockingMessage {
+            if let completionBlock = completionBlock {
+                completionBlock()
+            }
+            return
+        }
         NSObject.cancelPreviousPerformRequests(withTarget: self)
         if self.superview != nil {
             performHide(duration: 0.3, completionBlock: completionBlock)
@@ -274,6 +291,9 @@ public class MBInAppMessageView: UIView {
     
     @objc func buttonPressed(_ sender: UIButton) {
         MBMessageMetrics.createMessageMetricForInAppMessage(metric: .interaction, messageId: message.id)
+        if let buttonPressedBlock = buttonPressedBlock {
+            buttonPressedBlock()
+        }
         hideWithoutCallingCompletionBlock {
             guard let buttons = self.inAppMessage?.buttons else {
                 return
@@ -296,7 +316,10 @@ public class MBInAppMessageView: UIView {
         }
     }
     
-    private func openLink(link: String) {
+    private func openLink(link: String?) {
+        guard let link = link else {
+            return
+        }
         if link.hasPrefix("http") {
             if let viewController = viewController {
                 if let url = URL(string: link) {

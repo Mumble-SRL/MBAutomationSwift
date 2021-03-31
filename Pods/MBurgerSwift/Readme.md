@@ -170,6 +170,31 @@ MBClient.getSections(ofBlock: THE_BLOCK_ID, parameters: nil, elements: true, suc
 })
 ```
 
+# Media
+
+You can retrieve a media stored on MBurger with its id:
+
+```swift
+MBClient.getMedia(withId: MEDIA_ID,
+                  success: { media in
+                        
+                  },
+                  failure: { error in
+                            
+                  })
+```
+
+To retrieve all the media that are saved in MBurger you can use this function:
+
+```swift
+MBClient.getAllMedia(success: { media in
+            
+},
+failure: { error in
+            
+})
+```
+
 # Type Decoding
 
 `MBurgerSwift` has a built in system that can be used to init your custom constructs. You have only to make your construct conform to `MBDecodable` protocol.
@@ -242,7 +267,7 @@ All the object models implement the `Codable` protocol so you can serialize and 
 * `MBBlock`
 * `MBSection`
 * `MBElement`
-* `MBFile`
+* `MBMedia`
 * `MBAddressElement`
 * `MBCheckboxElement`
 * `MBDateElement`

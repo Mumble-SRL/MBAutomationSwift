@@ -14,7 +14,7 @@ public class MBInAppMessageTopBannerView: MBInAppMessageView {
     var topConstraintHidden: NSLayoutConstraint?
     var topConstraintNotHidden: NSLayoutConstraint?
 
-    var gestureHandle: UIView!
+    var gestureHandle: UIView?
     var content: MBInAppMessageBannerContent!
     
     override func configure() {
@@ -94,33 +94,39 @@ public class MBInAppMessageTopBannerView: MBInAppMessageView {
             contentView.topAnchor.constraint(equalTo: targetView.topAnchor, constant: 0)
         ])
 
-        let handleHeight: CGFloat = 5
-        let gestureHandle = UIView(frame: .zero)
-        gestureHandle.translatesAutoresizingMaskIntoConstraints = false
-        gestureHandle.layer.cornerRadius = handleHeight / 2
-        if #available(iOS 13.0, *) {
-            if traitCollection.userInterfaceStyle == .dark {
-                gestureHandle.backgroundColor = UIColor.white.withAlphaComponent(0.2)
+        if !inAppMessage.isBlocking {
+            let handleHeight: CGFloat = 5
+            let gestureHandle = UIView(frame: .zero)
+            gestureHandle.translatesAutoresizingMaskIntoConstraints = false
+            gestureHandle.layer.cornerRadius = handleHeight / 2
+            if #available(iOS 13.0, *) {
+                if traitCollection.userInterfaceStyle == .dark {
+                    gestureHandle.backgroundColor = UIColor.white.withAlphaComponent(0.2)
+                } else {
+                    gestureHandle.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+                }
             } else {
                 gestureHandle.backgroundColor = UIColor.black.withAlphaComponent(0.2)
             }
+            targetView.addSubview(gestureHandle)
+            
+            NSLayoutConstraint.activate([
+                gestureHandle.centerXAnchor.constraint(equalTo: targetView.centerXAnchor),
+                gestureHandle.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10),
+                gestureHandle.widthAnchor.constraint(equalToConstant: 80),
+                gestureHandle.heightAnchor.constraint(equalToConstant: handleHeight),
+                gestureHandle.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            ])
+            self.gestureHandle = gestureHandle
+    
+            let panGesture = UIPanGestureRecognizer.init(target: self, action: #selector(handleDismiss(_:)))
+            panGesture.delegate = self
+            addGestureRecognizer(panGesture)
         } else {
-            gestureHandle.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+            NSLayoutConstraint.activate([
+                contentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            ])
         }
-        targetView.addSubview(gestureHandle)
-        
-        NSLayoutConstraint.activate([
-            gestureHandle.centerXAnchor.constraint(equalTo: targetView.centerXAnchor),
-            gestureHandle.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10),
-            gestureHandle.widthAnchor.constraint(equalToConstant: 80),
-            gestureHandle.heightAnchor.constraint(equalToConstant: handleHeight),
-            gestureHandle.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
-        ])
-        self.gestureHandle = gestureHandle
-        
-        let panGesture = UIPanGestureRecognizer.init(target: self, action: #selector(handleDismiss(_:)))
-        panGesture.delegate = self
-        addGestureRecognizer(panGesture)
     }
     
     override func present() {
@@ -160,7 +166,7 @@ public class MBInAppMessageTopBannerView: MBInAppMessageView {
         })
         
         if let inAppMessage = message.inAppMessage {
-            if inAppMessage.duration != -1 {
+            if inAppMessage.duration != -1 && !inAppMessage.isBlocking {
                 self.perform(#selector(hide), with: nil, afterDelay: inAppMessage.duration)
             }
         }

@@ -16,7 +16,7 @@ public class MBInAppMessageFullscreenImageView: MBInAppMessageView {
     var bottomConstraintHidden: NSLayoutConstraint?
     var centerConstraintNotHidden: NSLayoutConstraint?
     
-    var closeButton: UIButton!
+    var closeButton: UIButton?
 
     override func configure() {
         layer.cornerRadius = 10
@@ -68,33 +68,35 @@ public class MBInAppMessageFullscreenImageView: MBInAppMessageView {
             self.imageView = imageView
         }
 
-        let closeButton = UIButton(type: .system)
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(closeButton)
-        closeButton.tintColor = styleDelegate?.closeButtonColor(forMessage: inAppMessage) ?? MBInAppMessageViewStyle.closeButtonColor(forMessage: inAppMessage)
-        closeButton.backgroundColor = styleDelegate?.closeButtonBackgroundColor(forMessage: inAppMessage) ?? MBInAppMessageViewStyle.closeButtonBackgroundColor(forMessage: inAppMessage)
-        closeButton.layoutIfNeeded()
-        closeButton.layer.cornerRadius = 15
-        closeButton.imageView?.contentMode = .scaleAspectFit
-        let closeButtonPadding: CGFloat = 8
-        closeButton.imageEdgeInsets = UIEdgeInsets(top: closeButtonPadding, left: closeButtonPadding, bottom: closeButtonPadding, right: closeButtonPadding)
-
-        UIView.performWithoutAnimation {
-            if #available(iOS 13.0, *) {
-                closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
-            } else {
-                closeButton.setTitle("X", for: .normal)
-            }
+        if !inAppMessage.isBlocking {
+            let closeButton = UIButton(type: .system)
+            closeButton.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview(closeButton)
+            closeButton.tintColor = styleDelegate?.closeButtonColor(forMessage: inAppMessage) ?? MBInAppMessageViewStyle.closeButtonColor(forMessage: inAppMessage)
+            closeButton.backgroundColor = styleDelegate?.closeButtonBackgroundColor(forMessage: inAppMessage) ?? MBInAppMessageViewStyle.closeButtonBackgroundColor(forMessage: inAppMessage)
             closeButton.layoutIfNeeded()
+            closeButton.layer.cornerRadius = 15
+            closeButton.imageView?.contentMode = .scaleAspectFit
+            let closeButtonPadding: CGFloat = 8
+            closeButton.imageEdgeInsets = UIEdgeInsets(top: closeButtonPadding, left: closeButtonPadding, bottom: closeButtonPadding, right: closeButtonPadding)
+
+            UIView.performWithoutAnimation {
+                if #available(iOS 13.0, *) {
+                    closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+                } else {
+                    closeButton.setTitle("X", for: .normal)
+                }
+                closeButton.layoutIfNeeded()
+            }
+            NSLayoutConstraint.activate([
+                closeButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+                closeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+                closeButton.widthAnchor.constraint(equalToConstant: 30),
+                closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor)
+            ])
+            closeButton.addTarget(self, action: #selector(closePressed), for: .touchUpInside)
+            self.closeButton = closeButton
         }
-        NSLayoutConstraint.activate([
-            closeButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            closeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            closeButton.widthAnchor.constraint(equalToConstant: 30),
-            closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor)
-        ])
-        closeButton.addTarget(self, action: #selector(closePressed), for: .touchUpInside)
-        self.closeButton = closeButton
         
         if let buttons = inAppMessage.buttons {
             if buttons.count > 2 {
@@ -191,7 +193,7 @@ public class MBInAppMessageFullscreenImageView: MBInAppMessageView {
         backgroundView.addGestureRecognizer(tap)
         
         if let inAppMessage = message.inAppMessage {
-            if inAppMessage.duration != -1 {
+            if inAppMessage.duration != -1 && !inAppMessage.isBlocking {
                 self.perform(#selector(hide), with: nil, afterDelay: inAppMessage.duration)
             }
         }
@@ -218,7 +220,10 @@ public class MBInAppMessageFullscreenImageView: MBInAppMessageView {
     }
     
     @objc func backgroundViewPressed() {
-        hide()
+        let isBlockingMessage = inAppMessage?.isBlocking ?? false
+        if !isBlockingMessage {
+            hide()
+        }
     }
 
     @objc func closePressed() {

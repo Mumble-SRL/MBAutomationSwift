@@ -162,10 +162,10 @@ public final class MBApiManager {
             var failureError = error
             if let error = error as? MBError {
                 switch error {
-                case .validationFailure(_, let data):
+                case .validationFailure(let statusCode, let data):
                     if let data = data,
                         let dictionary = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        let statusCode = dictionary["status_code"] as? Int ?? 0
+                        let statusCode = dictionary["status_code"] as? Int ?? statusCode
                         let message = dictionary["message"] as? String
                         failureError = MBurgerError(statusCode: statusCode, message: message)
                     }

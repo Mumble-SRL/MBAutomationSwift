@@ -12,6 +12,9 @@ import SafariServices
 /// Main class that manages the displaying of in-app messages, and keeps references of what messages have already been displayed
 public class MBInAppMessageManager: NSObject {
     
+    /// If the manager is showing messages, this var has the messages showed.
+    private static var showingMessages: [MBMessage]? = nil
+    
     /// Present an array of in-app messages, if they're not been already presented
     /// - Parameters:
     ///   - messages: The messages that needs to be presented
@@ -22,12 +25,27 @@ public class MBInAppMessageManager: NSObject {
                                        delegate: MBInAppMessageViewDelegate? = nil,
                                        styleDelegate: MBInAppMessageViewStyleDelegate? = nil,
                                        ignoreShowedMessages: Bool = false) {
+        guard showingMessages == nil else {
+            let showingMessagesIds: [Int] = (showingMessages ?? []).map({ $0.id })
+            var messagesWithoutShowedMessages = messages
+            messagesWithoutShowedMessages.removeAll(where: {showingMessagesIds.contains($0.id)})
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.presentMessages(messagesWithoutShowedMessages,
+                                     delegate: delegate,
+                                     styleDelegate: styleDelegate,
+                                     ignoreShowedMessages: ignoreShowedMessages)
+            }
+            return
+        }
         var messagesToShow = messages.filter({ $0.type == .inAppMessage })
         if !ignoreShowedMessages {
-            messagesToShow = messages.filter({ !messageHasBeenShowed(message: $0 ) })
+            messagesToShow = messages.filter({ needsToShowMessage(message: $0 ) })
         }
         guard messagesToShow.count != 0 else {
             return
+        }
+        messagesToShow.sort { (m1, m2) -> Bool in
+            m1.createdAt.compare(m2.createdAt) == .orderedDescending
         }
         guard let topMostViewController = topMostViewController() else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -37,6 +55,7 @@ public class MBInAppMessageManager: NSObject {
             }
             return
         }
+        showingMessages = messagesToShow
         presentMessage(atIndex: 0,
                        messages: messagesToShow,
                        delegate: delegate,
@@ -50,10 +69,12 @@ public class MBInAppMessageManager: NSObject {
                                        styleDelegate: MBInAppMessageViewStyleDelegate? = nil,
                                        overViewController viewController: UIViewController?) {
         guard index < messages.count else {
+            showingMessages = nil
             return
         }
         let message = messages[index]
         guard let inAppMessage = message.inAppMessage else {
+            showingMessages = nil
             return
         }
         var messageView: MBInAppMessageView?
@@ -87,6 +108,13 @@ public class MBInAppMessageManager: NSObject {
                                                          styleDelegate: styleDelegate,
                                                          overViewController: topMostViewController())
                 }
+            } else {
+                messageView.completionBlock = {
+                    showingMessages = nil
+                }
+            }
+            messageView.buttonPressedBlock = {
+                showingMessages = nil
             }
             setMessageShowed(message: message)
             MBMessageMetrics.createMessageMetricForInAppMessage(metric: .view, messageId: message.id)
@@ -119,28 +147,43 @@ public class MBInAppMessageManager: NSObject {
     
     // MARK: - Showed message handling
     
-    private static func messageHasBeenShowed(message: MBMessage) -> Bool {
+    private static func needsToShowMessage(message: MBMessage) -> Bool {
+        if message.automationIsOn {
+            guard message.endDate >= Date() else {
+                return false
+            }
+        }
         guard let messageId = message.inAppMessage?.id else {
             return false
         }
+        if message.inAppMessage?.isBlocking ?? false {
+            return true
+        }
+        var showedMessagesCount: [Int: Int] = [:]
         let userDefaults = UserDefaults.standard
-        let showedMessages = userDefaults.object(forKey: showedMessagesKey) as? [Int] ?? []
-        return showedMessages.contains(messageId)
+        if let outData = userDefaults.data(forKey: showedMessagesCountKey) {
+            showedMessagesCount = NSKeyedUnarchiver.unarchiveObject(with: outData) as? [Int: Int] ?? [:]
+        }
+        let messageShowCount = showedMessagesCount[messageId] ?? 0
+        return messageShowCount <= message.repeatTimes
     }
     
     private static func setMessageShowed(message: MBMessage) {
         guard let messageId = message.inAppMessage?.id else {
             return
         }
+        var showedMessagesCount: [Int: Int] = [:]
         let userDefaults = UserDefaults.standard
-        var showedMessages = userDefaults.object(forKey: showedMessagesKey) as? [Int] ?? []
-        if !showedMessages.contains(messageId) {
-            showedMessages.append(messageId)
-            UserDefaults.standard.set(showedMessages, forKey: showedMessagesKey)
+        if let outData = userDefaults.data(forKey: showedMessagesCountKey) {
+            showedMessagesCount = NSKeyedUnarchiver.unarchiveObject(with: outData) as? [Int: Int] ?? [:]
         }
+        let messageShowCount = showedMessagesCount[messageId] ?? 0
+        showedMessagesCount[messageId] = messageShowCount + 1
+        let data = NSKeyedArchiver.archivedData(withRootObject: showedMessagesCount)
+        UserDefaults.standard.set(data, forKey: showedMessagesCountKey)
     }
     
-    private static var showedMessagesKey: String {
-        return "com.mumble.mburger.messages.showedMessages"
+    private static var showedMessagesCountKey: String {
+        return "com.mumble.mburger.messages.showedMessages.count"
     }
 }

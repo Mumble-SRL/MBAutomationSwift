@@ -2,10 +2,11 @@
 <img src="https://raw.githubusercontent.com/Mumble-SRL/MBNetworkingSwift/master/Images/mumble-logo.gif" alt="MBurger Logo" title="Mumble Logo">
 </p>
 
-[![Test Status](https://img.shields.io/badge/documentation-100%25-brightgreen.svg)](https://github.com/Mumble-SRL/MBNetworkingSwift/tree/master/docs)
-[![License: MIT](https://img.shields.io/badge/pod-v1.0.7-blue.svg)](https://cocoapods.org)
+[![Documentation](https://img.shields.io/badge/documentation-100%25-brightgreen.svg)](https://github.com/Mumble-SRL/MBNetworkingSwift/tree/master/docs)
 [![](https://img.shields.io/badge/SPM-supported-DE5C43.svg?style=flat)](https://swift.org/package-manager/)
-[![CocoaPods](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](LICENSE)
+[![CocoaPods](https://img.shields.io/badge/pod-v1.0.16-blue.svg)](https://cocoapods.org)
+[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![License](https://img.shields.io/badge/License-Apache%202.0-yellow.svg)](LICENSE)
 
 # MBNetworking
 
@@ -14,6 +15,7 @@ Networking library written in Swift used in MBurger and other Mumble projects.
 # Installation 
 
 ## Swift Package Manager
+
 With Xcode 11 you can start using [Swift Package Manager](https://swift.org/package-manager/) to add **MBNetworkingSwift** to your project. Follow those simple steps:
 
 * In Xcode go to File > Swift Packages > Add Package Dependency.
