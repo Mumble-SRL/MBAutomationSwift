@@ -52,11 +52,13 @@ public class MBMessages: NSObject, MBPlugin {
     ///   - viewDelegate: The `MBInAppMessageViewDelegate` of the plugin. Use this to receive callbacks when `MBMessageView` instances are showed or when a button is pressed
     ///   - styleDelegate: The `MBInAppMessageViewStyleDelegate` of the plugin. Use this to customize colors and fonts of `MBMessageView` instances.
     ///   - messagesDelay: The delay applied before a `MBMessageView` is showed. Defaults to 1 second
-    ///   - debug: If this is true the plugin will show all the messages, even if they've already been shoowed
+    ///   - debug: If this is true the plugin will show all the messages, even if they've already been showed
+    ///   - automaticallyCheckMessagesAtStartup: If messages should be automatically checked at startup
     public init(delegate: MBMessagesDelegate? = nil,
                 viewDelegate: MBInAppMessageViewDelegate? = nil,
                 styleDelegate: MBInAppMessageViewStyleDelegate? = nil,
                 messagesDelay: TimeInterval = 1,
+                automaticallyCheckMessagesAtStartup: Bool = true,
                 debug: Bool = false) {
         super.init()
         self.delegate = delegate
@@ -64,7 +66,9 @@ public class MBMessages: NSObject, MBPlugin {
         self.styleDelegate = styleDelegate
         self.messagesDelay = messagesDelay
         self.debug = debug
-        performCheckMessages(fromStartup: true)
+        if automaticallyCheckMessagesAtStartup {
+            performCheckMessages(fromStartup: true)
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(checkMessages), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
@@ -137,14 +141,18 @@ public class MBMessages: NSObject, MBPlugin {
     public static var userDidInteractWithNotificationBlock: ((_ notificationDictionary: [String: AnyHashable]) -> Void)?
     
     /// A push topic that represents all devices, used to send a push to all apps
-    public static var projectPushTopic: String {
-        return "project.all"
+    public static var projectPushTopic: MBPTopic {
+        return MBPTopic("project.all",
+                        title: "All users",
+                        single: false)
     }
     
     /// A push topic that represents this device, used to send a push to only this device
-    public static var devicePushTopic: String {
+    public static var devicePushTopic: MBPTopic {
         let uuidString = UIDevice.current.identifierForVendor?.uuidString ?? ""
-        return uuidString
+        return MBPTopic(uuidString,
+                        title: "Device: \(uuidString)",
+                        single: true)
     }
 
     /// Register a device token to receive push notifications.
@@ -166,7 +174,7 @@ public class MBMessages: NSObject, MBPlugin {
     ///   - topic: The topic you will register to
     ///   - success: A block object to be executed when the task finishes successfully. This block has no return value and no arguments.
     ///   - failure: A block object to be executed when the task finishes unsuccessfully, or that finishes successfully, but the server encountered an error. This block has no return value and takes one argument: the error describing the error that occurred.
-    public static func registerPushMessages(toTopic topic: String,
+    public static func registerPushMessages(toTopic topic: MBPTopic,
                                             success: (() -> Void)? = nil,
                                             failure: ((_ error: Error?) -> Void)? = nil) {
         MBPush.register(toTopic: topic, success: success, failure: failure)
@@ -179,7 +187,7 @@ public class MBMessages: NSObject, MBPlugin {
     ///   - topics: The topics you will register to
     ///   - success: A block object to be executed when the task finishes successfully. This block has no return value and no arguments.
     ///   - failure: A block object to be executed when the task finishes unsuccessfully, or that finishes successfully, but the server encountered an error. This block has no return value and takes one argument: the error describing the error that occurred.
-    public static func registerPushMessages(toTopics topics: [String],
+    public static func registerPushMessages(toTopics topics: [MBPTopic],
                                             success: (() -> Void)? = nil,
                                             failure: ((_ error: Error?) -> Void)? = nil) {
         MBPush.register(toTopics: topics, success: success, failure: failure)

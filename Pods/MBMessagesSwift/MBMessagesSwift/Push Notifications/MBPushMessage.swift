@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// A push message
 public class MBPushMessage: NSObject {
     /// The id of the push message
     public let id: String

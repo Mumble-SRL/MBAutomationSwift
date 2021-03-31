@@ -8,10 +8,10 @@
 
 import UIKit
 import MPushSwift
+import UserNotifications
 
 /// Wrapper around MPush to access it from the messages plugin
-
-class MBPush: NSObject {
+public class MBPush: NSObject {
     static var pushToken: String {
         set {
             MPush.token = newValue
@@ -27,13 +27,13 @@ class MBPush: NSObject {
         MPush.registerDevice(deviceToken: deviceToken, success: success, failure: failure)
     }
     
-    static func register(toTopic topic: String,
+    static func register(toTopic topic: MBPTopic,
                          success: (() -> Void)? = nil,
                          failure: ((_ error: Error?) -> Void)? = nil) {
         MPush.register(toTopic: topic, success: success, failure: failure)
     }
     
-    static func register(toTopics topics: [String],
+    static func register(toTopics topics: [MBPTopic],
                          success: (() -> Void)? = nil,
                          failure: ((_ error: Error?) -> Void)? = nil) {
         MPush.register(toTopics: topics, success: success, failure: failure)
@@ -55,6 +55,7 @@ class MBPush: NSObject {
                                         failure: ((_ error: Error?) -> Void)? = nil) {
         MPush.unregisterFromAllTopics(success: success, failure: failure)
     }
-    
-    // TODO: messages analytics: handle api push arrives and push tap
 }
+
+/// A topic for MPush, refers to the MPush documentation
+public typealias MBPTopic = MPTopic

@@ -9,7 +9,15 @@
 import UIKit
 import SafariServices
 
+/// Main class that manages the displaying of in-app messages, and keeps references of what messages have already been displayed
 public class MBInAppMessageManager: NSObject {
+    
+    /// Present an array of in-app messages, if they're not been already presented
+    /// - Parameters:
+    ///   - messages: The messages that needs to be presented
+    ///   - delegate: The `MBInAppMessageViewDelegate` that will receive callbacks when messages are showed/hidden
+    ///   - styleDelegate: The style delegate
+    ///   - ignoreShowedMessages: if this is true a message will be displayed even if it has already been displayed
     public static func presentMessages(_ messages: [MBMessage],
                                        delegate: MBInAppMessageViewDelegate? = nil,
                                        styleDelegate: MBInAppMessageViewStyleDelegate? = nil,

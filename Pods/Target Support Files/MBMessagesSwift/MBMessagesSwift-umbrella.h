@@ -10,7 +10,7 @@
 #endif
 #endif
 
-#import "MBMessages.h"
+#import "MBMessagesSwift.h"
 
 FOUNDATION_EXPORT double MBMessagesSwiftVersionNumber;
 FOUNDATION_EXPORT const unsigned char MBMessagesSwiftVersionString[];

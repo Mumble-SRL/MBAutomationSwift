@@ -85,4 +85,3 @@ public class MBTrigger: NSObject {
         return newTrigger
     }
 }
-

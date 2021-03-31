@@ -15,9 +15,11 @@ extension MBMessage {
                                          "title": title,
                                          "messageDescription": messageDescription,
                                          "type": type.rawValue,
+                                         "createdAt": createdAt.timeIntervalSince1970,
                                          "startDate": startDate.timeIntervalSince1970,
                                          "endDate": endDate.timeIntervalSince1970,
                                          "sendAfterDays": sendAfterDays,
+                                         "repeatTimes": repeatTimes,
                                          "automationIsOn": automationIsOn]
         if let inAppMessage = inAppMessage {
             dictionary["inAppMessage"] = inAppMessage.toJsonDictionary()
@@ -39,9 +41,11 @@ extension MBMessage {
         let title = dictionary["title"] as? String ?? ""
         let messageDescription = dictionary["messageDescription"] as? String ?? ""
         let typeInt = dictionary["type"] as? Int ?? 0
+        let creationDate = dictionary["createdAt"] as? TimeInterval ?? 0
         let startDate = dictionary["startDate"] as? TimeInterval ?? 0
         let endDate = dictionary["endDate"] as? TimeInterval ?? 0
         let sendAfterDays = dictionary["sendAfterDays"] as? Int ?? 0
+        let repeatTimes = dictionary["repeatTimes"] as? Int ?? 0
         let automationIsOn = dictionary["automationIsOn"] as? Bool ?? false
 
         var inAppMessage: MBInAppMessage?
@@ -59,17 +63,19 @@ extension MBMessage {
         if let triggersDictionary = dictionary["triggers"] as? [String: Any] {
             triggers = MBMessageTriggers(fromJsonDictionary: triggersDictionary)
         }
-
+        
         self.init(id: id,
                   title: title,
                   messageDescription: messageDescription,
                   type: MessageType(rawValue: typeInt) ?? .inAppMessage,
                   inAppMessage: inAppMessage,
                   push: push,
+                  createdAt: Date(timeIntervalSince1970: creationDate),
                   startDate: Date(timeIntervalSince1970: startDate),
                   endDate: Date(timeIntervalSince1970: endDate),
                   automationIsOn: automationIsOn,
                   sendAfterDays: sendAfterDays,
+                  repeatTimes: repeatTimes,
                   triggers: triggers)
     }
 }
@@ -78,6 +84,7 @@ extension MBInAppMessage {
     func toJsonDictionary() -> [String: Any] {
         var dictionary: [String: Any] =  ["id": id ?? "",
                                           "style": (style ?? .bannerTop).rawValue,
+                                          "isBlocking": isBlocking,
                                           "duration": duration ?? 0]
         if let title = title {
             dictionary["title"] = title
@@ -107,6 +114,7 @@ extension MBInAppMessage {
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let id = dictionary["id"] as? Int ?? 0
         let styleInt = dictionary["style"] as? Int ?? 0
+        let isBlocking = dictionary["isBlocking"] as? Bool ?? false
         let duration = dictionary["duration"] as? TimeInterval ?? -1
         
         let title = dictionary["title"] as? String
@@ -137,6 +145,7 @@ extension MBInAppMessage {
         
         self.init(id: id,
                   style: MBInAppMessageStyle(rawValue: styleInt) ?? .bannerTop,
+                  isBlocking: isBlocking,
                   duration: duration,
                   title: title,
                   titleColor: titleColor,
@@ -151,8 +160,10 @@ extension MBInAppMessage {
 extension MBInAppMessageButton {
     func toJsonDictionary() -> [String: Any] {
         var dictionary: [String: Any] = ["title": title ?? "",
-                                         "link": link ?? "",
                                          "linkType": (linkType ?? .link).rawValue]
+        if let link = link {
+            dictionary["link"] = link
+        }
         if let titleColor = titleColor {
             dictionary["titleColor"] = titleColor.toHexString()
         }
@@ -160,12 +171,20 @@ extension MBInAppMessageButton {
             dictionary["backgroundColor"] = backgroundColor.toHexString()
         }
 
+        if let sectionId = sectionId {
+            dictionary["sectionId"] = sectionId
+        }
+        
+        if let blockId = blockId {
+            dictionary["blockId"] = blockId
+        }
+
         return dictionary
     }
     
     convenience init(fromJsonDictionary dictionary: [String: Any]) {
         let title = dictionary["title"] as? String ?? ""
-        let link = dictionary["link"] as? String ?? ""
+        let link = dictionary["link"] as? String
         let linkTypeInt = dictionary["linkType"] as? Int ?? 0
         var titleColor: UIColor?
         if let titleColorString = dictionary["titleColor"] as? String {
@@ -177,11 +196,16 @@ extension MBInAppMessageButton {
             backgroundColor = UIColor(hexString: backgroundColorString)
         }
 
+        let sectionId = dictionary["sectionId"] as? Int
+        let blockId = dictionary["blockId"] as? Int
+
         self.init(title: title,
                   titleColor: titleColor,
                   backgroundColor: backgroundColor,
                   link: link,
-                  linkType: MBInAppMessageButtonLinkType(rawValue: linkTypeInt) ?? .link)
+                  linkType: MBInAppMessageButtonLinkType(rawValue: linkTypeInt) ?? .link,
+                  sectionId: sectionId,
+                  blockId: blockId)
     }
 }
 

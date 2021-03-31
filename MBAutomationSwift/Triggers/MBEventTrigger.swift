@@ -47,7 +47,7 @@ public class MBEventTrigger: MBTrigger {
     ///   - dictionary: the dictionary returned by the api
     convenience init(dictionary: [String: Any]) {
         let id = dictionary["id"] as? String ?? ""
-        let event = dictionary["event_name"] as? String ?? ""
+        let event = dictionary["event"] as? String ?? ""
         let times = dictionary["times"] as? Int ?? 1
         let metadata = dictionary["metadata"] as? [String: Any]
 
@@ -66,7 +66,7 @@ public class MBEventTrigger: MBTrigger {
                 if let triggerMetadata = self.metadata {
                     isTriggerEvent = NSDictionary(dictionary: metadata).isEqual(to: triggerMetadata)
                 } else {
-                    isTriggerEvent = false
+                    isTriggerEvent = metadata.isEmpty
                 }
             } else {
                 isTriggerEvent = true

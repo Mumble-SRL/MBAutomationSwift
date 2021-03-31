@@ -12,25 +12,25 @@ import Foundation
 public struct MBLegalContract: Codable, Equatable {
     
     /// The id of the contract.
-    let contractId: Int
+    public let contractId: Int
 
     /// The name of the contract.
-    let contractName: String
+    public let contractName: String
     
     /// The link of the contract, if setted.
-    var link: String?
+    public var link: String?
     
     /// The text of the contract.
-    var text: String?
+    public var text: String?
     
     /// If the contract is active or not.
-    let isActive: Bool
+    public let isActive: Bool
     
     /// The creation date of the contract.
-    let creationDate: Date
+    public let creationDate: Date
     
     /// The update date of the contract.
-    let updateDate: Date
+    public let updateDate: Date
     
     /// Initializes a project with a projectId and the name.
     /// - Parameters:
