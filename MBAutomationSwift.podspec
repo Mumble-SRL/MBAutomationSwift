@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MBAutomationSwift"
-  s.version      = "0.1.5"
+  s.version      = "0.1.6"
   s.summary      = "MBurger automation plugin."
   s.swift_version = '4.2'
 
@@ -78,7 +78,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { git: 'https://github.com/Mumble-SRL/MBAutomationSwift.git', tag: '0.1.5' }
+  s.source       = { git: 'https://github.com/Mumble-SRL/MBAutomationSwift.git', tag: '0.1.6' }
   s.source_files = "MBAutomationSwift/*.{h,m,swift}", "MBAutomationSwift/**/*.{h,m,swift}"
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
