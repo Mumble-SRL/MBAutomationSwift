@@ -16,11 +16,17 @@ extension MBMessage {
                                          "messageDescription": messageDescription,
                                          "type": type.rawValue,
                                          "createdAt": createdAt.timeIntervalSince1970,
-                                         "startDate": startDate.timeIntervalSince1970,
-                                         "endDate": endDate.timeIntervalSince1970,
                                          "sendAfterDays": sendAfterDays,
                                          "repeatTimes": repeatTimes,
                                          "automationIsOn": automationIsOn]
+        if let startDate = startDate {
+            dictionary["startDate"] = startDate.timeIntervalSince1970
+        }
+        
+        if let endDate = endDate {
+            dictionary["endDate"] = endDate.timeIntervalSince1970
+        }
+        
         if let inAppMessage = inAppMessage {
             dictionary["inAppMessage"] = inAppMessage.toJsonDictionary()
         }
@@ -42,16 +48,26 @@ extension MBMessage {
         let messageDescription = dictionary["messageDescription"] as? String ?? ""
         let typeInt = dictionary["type"] as? Int ?? 0
         let creationDate = dictionary["createdAt"] as? TimeInterval ?? 0
-        let startDate = dictionary["startDate"] as? TimeInterval ?? 0
-        let endDate = dictionary["endDate"] as? TimeInterval ?? 0
+        let startDateInterval = dictionary["startDate"] as? TimeInterval
+        let endDateInterval = dictionary["endDate"] as? TimeInterval
         let sendAfterDays = dictionary["sendAfterDays"] as? Int ?? 0
         let repeatTimes = dictionary["repeatTimes"] as? Int ?? 0
         let automationIsOn = dictionary["automationIsOn"] as? Bool ?? false
 
+        var startDate: Date?
+        var endDate: Date?
         var inAppMessage: MBInAppMessage?
         var push: MBPushMessage?
         var triggers: MBMessageTriggers?
         
+        if let startDateInterval = startDateInterval {
+            startDate = Date(timeIntervalSince1970: startDateInterval)
+        }
+        
+        if let endDateInterval = endDateInterval {
+            endDate = Date(timeIntervalSince1970: endDateInterval)
+        }
+
         if let inAppMessageDictionary = dictionary["inAppMessage"] as? [String: Any] {
             inAppMessage = MBInAppMessage(fromJsonDictionary: inAppMessageDictionary)
         }
@@ -71,8 +87,8 @@ extension MBMessage {
                   inAppMessage: inAppMessage,
                   push: push,
                   createdAt: Date(timeIntervalSince1970: creationDate),
-                  startDate: Date(timeIntervalSince1970: startDate),
-                  endDate: Date(timeIntervalSince1970: endDate),
+                  startDate: startDate,
+                  endDate: endDate,
                   automationIsOn: automationIsOn,
                   sendAfterDays: sendAfterDays,
                   repeatTimes: repeatTimes,
