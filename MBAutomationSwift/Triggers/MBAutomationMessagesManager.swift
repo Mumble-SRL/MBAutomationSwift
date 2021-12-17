@@ -234,12 +234,12 @@ class MBAutomationMessagesManager {
                 continue
             }
             if message.repeatTimes > 0 {
-                let hasAppOpeningTrigger = triggers.triggers.contains(where:{ $0 is MBAppOpeningTrigger })
+                let hasAppOpeningTrigger = triggers.triggers.contains(where: { $0 is MBAppOpeningTrigger })
                 if !(hasAppOpeningTrigger && fromStartup) { // If is app onening and from startup skip the check
                     if let savedTriggers = savedMessageTriggerDictionary(message: message) {
                         let triggersDictionary = NSDictionary(dictionary: triggers.toJsonDictionary())
                         let savedTriggersDictionary = NSDictionary(dictionary: savedTriggers)
-                        if savedTriggersDictionary.isEqual(to: triggersDictionary as! [AnyHashable : Any]) {
+                        if savedTriggersDictionary.isEqual(to: triggersDictionary as? [AnyHashable: Any] ?? [:]) {
                             continue
                         }
                     }

@@ -9,7 +9,7 @@
 import Foundation
 
 /// A convenience name for MBImages.
-public typealias MBImage = MBFile
+public typealias MBImage = MBMedia
 
 /// This class represents a MBurger images element.
 public class MBImagesElement: MBElement {

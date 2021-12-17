@@ -26,7 +26,7 @@ public enum MBMultipartResponse {
     /// The result was successful:
     /// - Parameters:
     ///   - StatusCode: the status code returned
-    case success(Int)
+    case success(Int, Data?)
     /// The result had some errors:
     /// - Parameters:
     ///   - Error: the error returned

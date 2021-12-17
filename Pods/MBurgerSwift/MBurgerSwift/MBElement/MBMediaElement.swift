@@ -40,21 +40,21 @@ public class MBMediaElement: MBElement {
     public let mediaType: MBMediaType
     
     /// The medias of the element.
-    public let medias: [MBFile]
+    public let medias: [MBMedia]
     
     /// The first media of the element if exists.
-    public var firstMedia: MBFile? {
+    public var firstMedia: MBMedia? {
         return medias.first
     }
     
-    /// Initializes an image element with an id, name, order, the type of the media and an array of MBFile.
+    /// Initializes an image element with an id, name, order, the type of the media and an array of MBMedia.
     /// - Parameters:
     ///   - elementId: The `id` of the element.
     ///   - elementName: The `name` of the element.
     ///   - order: The `id order` of the element.
     ///   - type: The `MBMediaType` of the media.
     ///   - media: The medias.
-    init(elementId: Int, elementName: String, order: Int, type: MBMediaType, media: [MBFile]) {
+    init(elementId: Int, elementName: String, order: Int, type: MBMediaType, media: [MBMedia]) {
         self.mediaType = type
         self.medias = media
         super.init(elementId: elementId, elementName: elementName, type: .media, order: order)
@@ -67,11 +67,11 @@ public class MBMediaElement: MBElement {
         let stringType = dictionary["type"] as? String ?? ""
         self.mediaType = MBMediaType(string: stringType)
         
-        var dictionaryFiles: [MBFile] = []
-        if let files = dictionary["value"] as? [[String: Any]] {
-            dictionaryFiles = files.map { MBFile(dictionary: $0) }
+        var dictionaryMedias: [MBMedia] = []
+        if let medias = dictionary["value"] as? [[String: Any]] {
+            dictionaryMedias = medias.map { MBMedia(dictionary: $0) }
         }
-        self.medias = dictionaryFiles
+        self.medias = dictionaryMedias
         
         super.init(dictionary: dictionary)
     }
@@ -84,7 +84,7 @@ public class MBMediaElement: MBElement {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeysElement.self)
         
-        medias = try container.decode([MBFile].self, forKey: .medias)
+        medias = try container.decode([MBMedia].self, forKey: .medias)
         mediaType = try container.decode(MBMediaType.self, forKey: .mediaType)
         
         try super.init(from: decoder)

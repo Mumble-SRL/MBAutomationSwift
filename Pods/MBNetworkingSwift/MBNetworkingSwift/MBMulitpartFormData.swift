@@ -8,7 +8,7 @@
 //
 
 import Foundation
-import MobileCoreServices
+import CoreServices
 
 /// All classes that will be sended as multipart requests must implement this protocol
 public protocol MBMultipartFormProtocol {

@@ -78,27 +78,31 @@ public class MBInAppMessageBottomBannerView: MBInAppMessageView {
             targetView = contentView.contentView
         }
         
-        let handleHeight: CGFloat = 5
-        let gestureHandle = UIView(frame: .zero)
-        gestureHandle.translatesAutoresizingMaskIntoConstraints = false
-        gestureHandle.layer.cornerRadius = handleHeight / 2
-        if #available(iOS 13.0, *) {
-            if traitCollection.userInterfaceStyle == .dark {
-                gestureHandle.backgroundColor = UIColor.white.withAlphaComponent(0.2)
+        var gestureHandleView: UIView?
+        if !inAppMessage.isBlocking {
+            let handleHeight: CGFloat = 5
+            let gestureHandle = UIView(frame: .zero)
+            gestureHandle.translatesAutoresizingMaskIntoConstraints = false
+            gestureHandle.layer.cornerRadius = handleHeight / 2
+            if #available(iOS 13.0, *) {
+                if traitCollection.userInterfaceStyle == .dark {
+                    gestureHandle.backgroundColor = UIColor.white.withAlphaComponent(0.2)
+                } else {
+                    gestureHandle.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+                }
             } else {
                 gestureHandle.backgroundColor = UIColor.black.withAlphaComponent(0.2)
             }
-        } else {
-            gestureHandle.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+            targetView.addSubview(gestureHandle)
+            
+            NSLayoutConstraint.activate([
+                gestureHandle.centerXAnchor.constraint(equalTo: targetView.centerXAnchor),
+                gestureHandle.topAnchor.constraint(equalTo: targetView.topAnchor, constant: 10),
+                gestureHandle.widthAnchor.constraint(equalToConstant: 80),
+                gestureHandle.heightAnchor.constraint(equalToConstant: handleHeight)
+            ])
+            gestureHandleView = gestureHandle
         }
-        targetView.addSubview(gestureHandle)
-        
-        NSLayoutConstraint.activate([
-            gestureHandle.centerXAnchor.constraint(equalTo: targetView.centerXAnchor),
-            gestureHandle.topAnchor.constraint(equalTo: targetView.topAnchor, constant: 10),
-            gestureHandle.widthAnchor.constraint(equalToConstant: 80),
-            gestureHandle.heightAnchor.constraint(equalToConstant: handleHeight)
-        ])
         
         let contentView = MBInAppMessageBannerContent(message: inAppMessage, styleDelegate: styleDelegate)
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +111,8 @@ public class MBInAppMessageBottomBannerView: MBInAppMessageView {
         NSLayoutConstraint.activate([
             contentView.leadingAnchor.constraint(equalTo: targetView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: targetView.trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: gestureHandle.bottomAnchor, constant: 10),
+            contentView.topAnchor.constraint(equalTo: gestureHandleView?.bottomAnchor ?? targetView.topAnchor,
+                                             constant: 10),
             contentView.bottomAnchor.constraint(equalTo: targetView.bottomAnchor, constant: -padding)
         ])
         
@@ -120,9 +125,11 @@ public class MBInAppMessageBottomBannerView: MBInAppMessageView {
         button1?.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
         button2?.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
         
-        let panGesture = UIPanGestureRecognizer.init(target: self, action: #selector(handleDismiss(_:)))
-        panGesture.delegate = self
-        addGestureRecognizer(panGesture)
+        if !inAppMessage.isBlocking {
+            let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleDismiss(_:)))
+            panGesture.delegate = self
+            addGestureRecognizer(panGesture)
+        }
     }
     
     override func present() {
@@ -162,7 +169,7 @@ public class MBInAppMessageBottomBannerView: MBInAppMessageView {
         })
         
         if let inAppMessage = message.inAppMessage {
-            if inAppMessage.duration != -1 {
+            if inAppMessage.duration != -1 && !inAppMessage.isBlocking {
                 self.perform(#selector(hide), with: nil, afterDelay: inAppMessage.duration)
             }
         }

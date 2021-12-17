@@ -15,7 +15,7 @@ class MBAutomationTrackingManager: NSObject {
     var timerTime = TimeInterval(10) {
         didSet {
             if checkQueueTimer != nil {
-                //The invalidation is done in startTimer()
+                // The invalidation is done in startTimer()
                 startTimer()
             }
         }

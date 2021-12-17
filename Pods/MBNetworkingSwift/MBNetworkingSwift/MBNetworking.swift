@@ -7,7 +7,7 @@
 //  All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 /// The header of an HTTP request.
 public struct HTTPHeader {
@@ -207,7 +207,7 @@ public struct MBNetworking {
             return .error(MBError.responseFailure)
         }
         
-        return .success(httpResponse.statusCode)
+        return .success(httpResponse.statusCode, data)
     }
     
     fileprivate static func removeFile(at url: URL) {
